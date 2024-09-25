@@ -1,0 +1,15 @@
+<head>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'tinymce/css/prism.css' %}">
+</head>
+
+<body>
+    {% for m in Mov_financeira %}
+    <p>{{m.aPagar}}</p>
+    <p>{{m.descricao}}</p>
+    <p>{{m.valor}}</p>
+    <p>{{m.date}}</p>
+    {% endfor %}
+</body>
+
+<script src="{%static 'tinymce/js/prism.js' %}"></script>
