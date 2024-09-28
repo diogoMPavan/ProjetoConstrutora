@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tela de Login - LuCasa Incorporadora</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #28A394;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .login-container {
+            background-color: #04403a;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            position: absolute;  
+        }
+        .login-container h1 {
+            color: #ffffff;
+            text-align: center;
+        }
+        .form-group label {
+            color: #ffffff;
+        }
+        .btn-login {
+            background-color: #69e4b5;
+            color: white;
+            width: 100%;
+        }
+        .btn-login:hover {
+            background-color: #53b892;
+        }
+        .forgot-password {
+            display: block;
+            text-align: center;
+            margin-top: 10px;
+            color: #ffffff;
+        }
+        .forgot-password:hover {
+            text-decoration: underline;
+        }
+        .logo {
+            margin-bottom: 600px;
+        }
+        .logo img {
+            width: 720px; 
+        }
+    </style>
+</head>
+<body>
+    <div class="logo">
+        <img src="logo.png" class="rounded float-start" alt="LuCasa Incorporadora Logo">
+    </div>
+    <div class="login-container">
+        
+        <h1>Login</h1>
+        <form>
+            <div class="form-group">
+                <label for="usuario">Usuário</label>
+                <input type="text" class="form-control" id="usuario" placeholder="Digite seu usuário">
+            </div>
+            <div class="form-group">
+                <label for="senha">Senha</label>
+                <input type="password" class="form-control" id="senha" placeholder="Digite sua senha">
+            </div>
+            <button type="submit" class="btn btn-login">Entrar</button>
+            <a href="#" class="forgot-password">Esqueci a senha</a>
+        </form>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

@@ -8,3 +8,7 @@ def home(request):
     return render(request=request, 
                   template_name='appteste/home.html',
                   context={"Mov_financeira": Mov_Financeira.objects.all}) 
+
+def login(request):
+    return render(request=request,
+                  template_name='appteste/login.html')
