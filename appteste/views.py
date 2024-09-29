@@ -12,3 +12,15 @@ def home(request):
 def login(request):
     return render(request=request,
                   template_name='appteste/login.html')
+
+def cadUsuario(request):
+    return render(request=request,
+                  template_name='appteste/manutencaoUsuario.html')
+
+def listaUsuario(request):
+    return render(request=request,
+                  template_name='appteste/listaUsuario.html')
+
+def listaEmpreendimento(request):
+    return render(request=request,
+                  template_name='appteste/listaEmpreendimento.html')

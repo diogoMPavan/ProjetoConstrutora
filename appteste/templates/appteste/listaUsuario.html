@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Usuários - LuCasa Incorporadora</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">LuCASA Incorporadora</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Início</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Empreendimentos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Financeiro</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Relatórios</a>
+                    </li>
+                </ul>
+            </div>
+            <button class="btn btn-outline-light" type="button">R</button>
+        </div>
+    </nav>
+
+    <div class="container mt-5">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h2>Lista de Usuários</h2>
+            <button class="btn btn-success">Novo Usuário</button>
+        </div>
+
+        <table class="table table-bordered table-hover">
+            <thead class="table-dark">
+                <tr>
+                    <th>Nome</th>
+                    <th>Email</th>
+                    <th>Usuário</th>
+                    <th>Editar / Remover</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Renan Sartori</td>
+                    <td>atendimento@lucasaconstrutora.com.br</td>
+                    <td>rsartori</td>
+                    <td>
+                        <button class="btn btn-warning btn-sm">
+                            <i class="bi bi-pencil"></i>
+                        </button>
+                        <button class="btn btn-danger btn-sm">
+                            <i class="bi bi-trash"></i>
+                        </button>
+                    </td>
+                </tr>
+                <!-- Mais linhas de usuários podem ser adicionadas aqui -->
+            </tbody>
+        </table>
+
+        <div class="d-flex justify-content-center">
+            <nav aria-label="Navegação de página">
+                <ul class="pagination">
+                    <li class="page-item"><a class="page-link" href="#">1</a></li>
+                    <li class="page-item"><a class="page-link" href="#">2</a></li>
+                    <li class="page-item"><a class="page-link" href="#">3</a></li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

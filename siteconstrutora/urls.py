@@ -23,4 +23,7 @@ urlpatterns = [
     path("", include("appteste.urls")),
     path('tinymce/', include('tinymce.urls')),
     path("login/", include("appteste.urls")),
+    path("cadUsuario/", include('appteste.urls')),
+    path("listaUsuario/", include('appteste.urls')),
+    path("listaEmpreendimento/", include('appteste.urls')),
 ]
