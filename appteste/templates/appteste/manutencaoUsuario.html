@@ -1,101 +1,98 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cadastro de Usuário</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRIRXjv3ItGg5EqE8F5uXzFbr7Nw5lq/5tCpKqC93" crossorigin="anonymous">
-    <style>
-        body {
-            background-color: #f8f9fa;
-        }
-        .navbar {
-            background-color: #035949;
-        }
-        .navbar-brand {
-            color: #fff;
-        }
-        .navbar-nav .nav-link {
-            color: #fff;
-        }
-        .form-container {
-            background-color: #019587;
-            border-radius: 20px;
-            padding: 30px;
-            margin-top: 50px;
-            max-width: 500px;
-            margin-left: auto;
-            margin-right: auto;
-            color: #fff;
-        }
-        .form-control {
-            border-radius: 50px;
-        }
-        .btn-confirm {
-            background-color: #007c75;
-            border-radius: 50px;
-            padding: 10px 40px;
-            font-size: 18px;
-        }
-        .btn-confirm:hover {
-            background-color: #036b68;
-        }
-    </style>
+{% extends "appteste/cabecalho.html" %}
+
+{% block content%}
+<style>
+    body {
+        background-color: #f8f9fa;
+    }
+
+    .form-container {
+        background-color: #019587;
+        border-radius: 20px;
+        padding: 30px;
+        margin-top: 50px;
+        max-width: 500px;
+        margin-left: auto;
+        margin-right: auto;
+        color: #fff;
+    }
+
+    .form-control {
+        border-radius: 50px;
+    }
+
+    .btn-confirm {
+        background-color: #007c75;
+        border-radius: 50px;
+        padding: 10px 40px;
+        font-size: 18px;
+    }
+
+    .btn-confirm:hover {
+        background-color: #036b68;
+    }
+
+    .dropdown {
+        background-color: rgb(255, 255, 255);
+        color: black;
+        border-radius: 50px;
+    }
+</style>
 </head>
+
 <body>
 
-<nav class="navbar navbar-expand-lg">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="#">LuCASA Incorporação</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ms-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Início</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Empreendimentos</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Financeiro</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Relatórios</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#"><span class="badge bg-danger rounded-circle p-2">R</span></a>
-                </li>
-            </ul>
-        </div>
+
+    <div class="form-container">
+        <h2 style="text-align: center;">CADASTRO DE USUÁRIO</h2>
+        <form>
+            <div class="mb-3">
+                <label for="nome" class="form-label">Nome</label>
+                <input type="text" class="form-control" id="nome" placeholder="Nome" required="True">
+            </div>
+            <div class="mb-3">
+                <label for="categoria">Categoria</label>
+                <select class="form-select form-select-md" aria-label="Small select example"
+                    style="background-color: rgb(255, 255, 255); color: black; border-radius: 50px;" id="categoria" required="True">
+                    <option value=""></option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="nome-usuario" class="form-label">Usuário</label>
+                <input type="text" class="form-control" id="nome-usuario" placeholder="Usuário" required="True"> 
+            </div>
+            <div class="mb-3">
+                <label for="senha" class="form-label">Senha</label>
+                <input type="password" class="form-control" id="senha" placeholder="Senha" required="True">
+            </div>
+            <div class="mb-3"></div>
+                <label for="senha" class="form-label">Senha</label>
+                <input type="password" class="form-control" id="senha" placeholder="Senha" required="True">
+            </div>
+            <div style="text-align: center;">
+                <button type="submit" class="btn btn-confirm" onclick=""><strong>Confirmar</strong></button>
+            </div>
+        </form>
     </div>
-</nav>
 
-<div class="form-container text-center">
-    <h2>CADASTRO/MANUTENÇÃO DE USUÁRIO</h2>
-    <form>
-        <div class="mb-3">
-            <label for="nome" class="form-label">Nome</label>
-            <input type="text" class="form-control" id="nome" placeholder="Nome">
-        </div>
-        <div class="mb-3">
-            <label for="email" class="form-label">Email</label>
-            <input type="email" class="form-control" id="email" placeholder="Email">
-        </div>
-        <div class="mb-3">
-            <label for="nome-usuario" class="form-label">Nome Usuário</label>
-            <input type="text" class="form-control" id="nome-usuario" placeholder="Nome Usuário">
-        </div>
-        <div class="mb-3">
-            <label for="senha" class="form-label">Senha</label>
-            <input type="password" class="form-control" id="senha" placeholder="Senha">
-        </div>
-        <button type="submit" class="btn btn-confirm">Confirmar</button>
-    </form>
-</div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            fetch('categorias/')
+                .then(response => response.json())
+                .then(data => {
+                    let select = document.getElementById("categoria");
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pp6B85+n7V9m7R/wFuBw60R4m5YBo0iwMy1ED6TVYJ29MhsB+NEl1AQ6qGFaIcOr" crossorigin="anonymous"></script>
+                    data.forEach(function (categoria) {
+                        let option = document.createElement("option");
+                        option.value = categoria.id;
+                        option.text = categoria.Descricao;
+                        select.add(option);
+                    });
+                })
+                .catch(error => console.error('Erro ao carregar categorias:', error));
+        });</script>
+    {%endblock%}
 
 </body>
+
 </html>

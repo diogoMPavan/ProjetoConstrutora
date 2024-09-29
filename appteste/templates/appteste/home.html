@@ -1,15 +1,21 @@
+{% extends "appteste/cabecalho.html" %}
+
+{% block content %}
+
 <head>
     {% load static %}
     <link rel="stylesheet" href="{% static 'tinymce/css/prism.css' %}">
 </head>
 
 <body>
-    {% for m in Mov_financeira %}
-    <p>{{m.aPagar}}</p>
+    {% for m in categoria_financeira %}
     <p>{{m.descricao}}</p>
-    <p>{{m.valor}}</p>
-    <p>{{m.date}}</p>
+    <p>{{m.ativa}}</p>
     {% endfor %}
+
+
 </body>
 
 <script src="{%static 'tinymce/js/prism.js' %}"></script>
+
+{%endblock%}

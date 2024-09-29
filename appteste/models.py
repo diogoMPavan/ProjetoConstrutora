@@ -12,16 +12,22 @@ from datetime import datetime
 class Categoria_Usuario(models.Model):
     Descricao = models.CharField(max_length=100)
     Ativa = models.BooleanField(default=True)
+    def __str__(self) -> str:
+        return self.Descricao
 
 class Usuario(models.Model):
     Nome = models.CharField(max_length=200)
     Login = models.CharField(max_length=45)
     Senha = models.CharField(max_length=45)
     Categoria_Usuario = models.ForeignKey(Categoria_Usuario, on_delete=models.CASCADE)
+    def __str__(self) -> str:
+        return self.Login
 
 class Categoria_Financeira(models.Model):
     Descricao = models.CharField(max_length=100)
     Ativa = models.BooleanField(default=True)
+    def __str__(self) -> str:
+        return self.Descricao
 
 class Mov_Financeira(models.Model):
     A_pagar = models.BooleanField(default=False)
