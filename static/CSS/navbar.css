@@ -1,0 +1,46 @@
+.navbar {
+    background-color: #035949;
+    height: 80px;
+}
+
+.navbar-nav .nav-link {
+    color: #fff;
+    font-size: 18px;
+}
+
+.container-fluid {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.navbar-left {
+    display: flex;
+    align-items: center;
+}
+
+.navbar-left img {
+    max-height: 50px;
+}
+
+.navbar-center {
+    display: flex;
+    justify-content: center;
+    flex-grow: 1;
+}
+
+.navbar-nav {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+}
+
+.navbar-right {
+    display: flex;
+    align-items: center;
+}
+
+.badge {
+    font-size: 1.2rem;
+    padding: 10px;
+}
