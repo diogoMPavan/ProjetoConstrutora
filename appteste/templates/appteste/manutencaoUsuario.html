@@ -41,11 +41,10 @@
 </head>
 
 <body>
-
-
     <div class="form-container">
         <h2 style="text-align: center;">CADASTRO DE USUÁRIO</h2>
-        <form>
+        <form method="POST" action="" id="usuario">
+            {% csrf_token %}
             <div class="mb-3">
                 <label for="nome" class="form-label">Nome</label>
                 <input type="text" class="form-control" id="nome" placeholder="Nome" required="True">
@@ -53,26 +52,27 @@
             <div class="mb-3">
                 <label for="categoria">Categoria</label>
                 <select class="form-select form-select-md" aria-label="Small select example"
-                    style="background-color: rgb(255, 255, 255); color: black; border-radius: 50px;" id="categoria" required="True">
+                    style="background-color: rgb(255, 255, 255); color: black; border-radius: 50px;" id="categoria"
+                    required="True">
                     <option value=""></option>
                 </select>
             </div>
             <div class="mb-3">
-                <label for="nome-usuario" class="form-label">Usuário</label>
-                <input type="text" class="form-control" id="nome-usuario" placeholder="Usuário" required="True"> 
+                <label for="login" class="form-label">Usuário</label>
+                <input type="text" class="form-control" id="login" placeholder="Usuário" required="True">
             </div>
             <div class="mb-3">
                 <label for="senha" class="form-label">Senha</label>
                 <input type="password" class="form-control" id="senha" placeholder="Senha" required="True">
             </div>
             <div class="mb-3"></div>
-                <label for="senha" class="form-label">Senha</label>
-                <input type="password" class="form-control" id="senha" placeholder="Senha" required="True">
-            </div>
-            <div style="text-align: center;">
-                <button type="submit" class="btn btn-confirm" onclick=""><strong>Confirmar</strong></button>
-            </div>
-        </form>
+            <!--<label for="senha" class="form-label">Senha</label>
+            <input type="password" class="form-control" id="senha" placeholder="Senha" required="True">-->
+    </div>
+    <div style="text-align: center;">
+        <button type="submit" class="btn btn-confirm"> <strong>Confirmar</strong></button>
+    </div>
+    </form>
     </div>
 
     <script>
@@ -90,7 +90,32 @@
                     });
                 })
                 .catch(error => console.error('Erro ao carregar categorias:', error));
-        });</script>
+        });
+
+
+        document.getElementById("usuario").addEventListener('submit', function (event) {
+            event.preventDefault()
+
+            const dados = {
+                nome: document.getElementById('nome').value,
+                categoria: document.getElementById('categoria').value,
+                login: document.getElementById('login').value,
+                senha: document.getElementById('senha').value
+            };
+
+
+            fetch('/appteste/salvaUsuario/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': '{{ csrf_token }}'
+                },
+                body: JSON.stringify(dados)
+            })
+                .then(response => response.json())
+                .catch(error => console.error('Erro ao criar usuario:', error));
+        });
+    </script>
     {%endblock%}
 
 </body>
