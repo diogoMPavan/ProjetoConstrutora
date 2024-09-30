@@ -8,4 +8,7 @@ urlpatterns = [
     path("listaUsuario/", views.listaUsuario, name="listaUsuario"),
     path("listaEmpreendimento/", views.listaEmpreendimento, name="listaEmpreendimento"),
     path("categorias/", views.listaCategorias, name="lista_categorias"),
+    path("appteste/salvaUsuario/", views.salvaUsuario, name="salvaUsuario"),
+    path("mostrarUsuarios/", views.mostrarUsuarios, name="mostrar"),
+    path('del/<int:f_id>', views.deleteUsuario, name="delete"),
 ]

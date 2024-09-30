@@ -1,5 +1,7 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse, JsonResponse
+import json
+from django.contrib.auth.hashers import make_password
 from appteste.models import Mov_Financeira
 from .models import Categoria_Financeira
 from .models import Categoria_Usuario, Usuario
@@ -34,12 +36,34 @@ def listaCategorias(request):
 
 def salvaUsuario(request):
     if request.method == 'POST':
-        nome = request.POST.get('nome')
-        categoria = request.POST.get('categoria')
-        usuario = request.POST.get('usuario')
-        senha =request.POST.get('senha')
+        data = json.loads(request.body)
+        nome = data.get('nome')
+        categoria_id = data.get('categoria')
+        login = data.get('login')
+        senha = data.get('senha')
     
-    novo_usuario = Usuario(nome=nome, login=usuario, categoria=categoria, senha=senha)
-    novo_usuario.save()
+        categoria = Categoria_Usuario.objects.get(id=categoria_id)
 
-    return JsonResponse({'mensagem': 'Usuario criado com sucesso!'}, status=201)
+        print('nome:' + nome)
+        Usuario.objects.create(
+            Nome = nome,
+            Categoria_Usuario = categoria,
+            Login = login,
+            Senha = make_password(senha)
+        )
+
+        return redirect('../mostrarUsuarios/')
+
+
+def mostrarUsuarios(request):
+    obj_data = Usuario.objects.all()
+    obj = Usuario.objects.all().select_related('Categoria_Usuario')
+    template_name = "appteste/listaUsuario.html"
+    context = {"obj": obj}
+    return render(request, template_name, context)
+
+def deleteUsuario(request, f_id):
+    usuario = Usuario.objects.get(id=f_id)
+    if request.method == "POST":
+        usuario.delete()
+        return redirect('../mostrarUsuarios/')
