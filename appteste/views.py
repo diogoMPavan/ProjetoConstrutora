@@ -67,3 +67,15 @@ def deleteUsuario(request, f_id):
     if request.method == "POST":
         usuario.delete()
         return redirect('../mostrarUsuarios/')
+    
+def fazLogin(request):
+    if request.method == "POST":
+        data = json.loads(request.body)
+        login = data.get('login')
+        senha = data.get('senha')
+        print('Login:' + login, 'senha' + senha)
+        obj = Usuario.objects.all().values().filter(Login = login)
+        if obj.Senha == make_password(senha):
+            return render(request, template_name='appteste/home.html', context={"obj": obj})
+        else:
+            return render(request, template_name='appteste/login.html',context={"obj": obj})

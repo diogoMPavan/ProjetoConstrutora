@@ -19,7 +19,6 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Configurações do STATIC_URL
 STATIC_URL = '/static/CSS'
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 

@@ -11,5 +11,5 @@ urlpatterns = [
     path("appteste/salvaUsuario/", views.salvaUsuario, name="salvaUsuario"),
     path("mostrarUsuarios/", views.mostrarUsuarios, name="mostrar"),
     path('del/<int:f_id>', views.deleteUsuario, name="delete"),
-    path("appteste/salvaUsuario/", views.salvaUsuario, name="salvaUsuario"),
+    path('fazLogin/', views.fazLogin, name="fazLogin"),
 ]
