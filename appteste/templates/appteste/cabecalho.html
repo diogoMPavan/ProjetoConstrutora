@@ -10,11 +10,13 @@
 <style>
     
 </style>
+
+{% load static %}
 <body>
     <nav class="navbar navbar-expand-lg" style="background-color: #1e6054;" > 
         <div class="container-fluid">
             <!--<a class="navbar-brand" href="#" style="display:flex; justify-content: start;">LuCasa Incorporadora</a>-->
-            <img src="../appteste/imagens/logo.jpg" alt="Logo" width="30" height="25" class="d-inline-block align-text-top">
+            <img src="{% static '/imagens/Logo_Lucasa_Incoporadora.png' %}" alt="Logo" width="30" height="25" class="d-inline-block align-text-top">
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>

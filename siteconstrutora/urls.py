@@ -16,6 +16,8 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import include, path
+from django.conf.urls.static import static
+from django.conf import settings
 
 #aqui é onde são colocadas as rotas que irão nortear o site
 urlpatterns = [
@@ -27,3 +29,5 @@ urlpatterns = [
     path("listaUsuario/", include('appteste.urls')),
     path("listaEmpreendimento/", include('appteste.urls')),
 ]
+
+urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
