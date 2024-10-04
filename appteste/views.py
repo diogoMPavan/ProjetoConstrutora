@@ -18,41 +18,45 @@ def login(request):
                   template_name='appteste/login.html')
 
 def cadUsuario(request):
+    obj = Categoria_Usuario.objects.all().filter(Ativa = True)
+    context = {"obj": obj}
     return render(request=request,
-                  template_name='appteste/manutencaoUsuario.html')
+                  template_name='appteste/manutencaoUsuario.html', context=context)
 
 def listaUsuario(request):
+    obj = Usuario.objects.all()
+    context = {"obj": obj}
     return render(request=request,
-                  template_name='appteste/listaUsuario.html')
+                  template_name='appteste/listaUsuario.html', context=context)
 
 def listaEmpreendimento(request):
     return render(request=request,
                   template_name='appteste/listaEmpreendimento.html')
 
 def listaCategorias(request):
-    categorias = Categoria_Usuario.objects.all().values('id', 'Descricao').filter(Ativa = True)
-    categorias_list = list(categorias)
-    return JsonResponse(categorias_list, safe=False)
+    obj = Categoria_Usuario.objects.all().filter(Ativa = True)
+    template_name = "appteste/manutencaoUsuario.html"
+    context = {"obj": obj}
+    return render(request, template_name, context)
 
 def salvaUsuario(request):
     if request.method == 'POST':
-        data = json.loads(request.body)
-        nome = data.get('nome')
-        categoria_id = data.get('categoria')
-        login = data.get('login')
-        senha = data.get('senha')
-    
+        nome = request.POST.get('nome')
+        categoria_id = request.POST.get('categoria')
+        login = request.POST.get('login')
+        senha = request.POST.get('senha')
+
         categoria = Categoria_Usuario.objects.get(id=categoria_id)
 
-        print('nome:' + nome)
         Usuario.objects.create(
             Nome = nome,
             Categoria_Usuario = categoria,
             Login = login,
             Senha = make_password(senha)
         )
-
-        return redirect('../mostrarUsuarios/')
+        usuarios = Usuario.objects.all()
+        return redirect('listaUsuario')
+        #return render(request=request, template_name='appteste/listaUsuario.html')
 
 
 def mostrarUsuarios(request):
@@ -66,7 +70,7 @@ def deleteUsuario(request, f_id):
     usuario = Usuario.objects.get(id=f_id)
     if request.method == "POST":
         usuario.delete()
-        return redirect('../mostrarUsuarios/')
+        return redirect('listaUsuario')
     
 def fazLogin(request):
     if request.method == "POST":

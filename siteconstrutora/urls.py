@@ -29,5 +29,3 @@ urlpatterns = [
     path("listaUsuario/", include('appteste.urls')),
     path("listaEmpreendimento/", include('appteste.urls')),
 ]
-
-urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
