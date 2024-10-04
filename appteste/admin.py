@@ -19,6 +19,7 @@ class Usuario_Admin(admin.ModelAdmin):
     fields = ["Nome",
               "Login",
               "Senha",
+              "Ativo",
               "Categoria_Usuario"]
     
 class Empreendimento_Admin(admin.ModelAdmin):

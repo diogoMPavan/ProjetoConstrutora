@@ -24,7 +24,7 @@ def cadUsuario(request):
                   template_name='appteste/manutencaoUsuario.html', context=context)
 
 def listaUsuario(request):
-    obj = Usuario.objects.all()
+    obj = Usuario.objects.all().filter(Ativo = True)
     context = {"obj": obj}
     return render(request=request,
                   template_name='appteste/listaUsuario.html', context=context)
@@ -56,12 +56,10 @@ def salvaUsuario(request):
         )
         usuarios = Usuario.objects.all()
         return redirect('listaUsuario')
-        #return render(request=request, template_name='appteste/listaUsuario.html')
 
 
 def mostrarUsuarios(request):
-    obj_data = Usuario.objects.all()
-    obj = Usuario.objects.all().select_related('Categoria_Usuario')
+    obj = Usuario.objects.all().select_related('Categoria_Usuario').filter(Ativo = True)
     template_name = "appteste/listaUsuario.html"
     context = {"obj": obj}
     return render(request, template_name, context)
@@ -69,9 +67,23 @@ def mostrarUsuarios(request):
 def deleteUsuario(request, f_id):
     usuario = Usuario.objects.get(id=f_id)
     if request.method == "POST":
-        usuario.delete()
+        #usuario.delete()
+        usuario.Ativo = False
+        usuario.save()
         return redirect('listaUsuario')
+    template_name = "appteste/confirmacao.html"
+    context = {"usuario": usuario}
+    return render(request, template_name, context)
     
+def updateUsuario(request, f_id):
+    usuario = Usuario.objects.select_related('Categoria_Usuario').get(id=f_id)
+    if request.method == "POST":
+       usuario = Usuario(request.POST, instance=usuario)
+       usuario.save()
+    template_name = "appteste/manutencaoUsuario.html"
+    context = {"usuario": usuario}
+    return render(request, template_name, context)
+
 def fazLogin(request):
     if request.method == "POST":
         data = json.loads(request.body)

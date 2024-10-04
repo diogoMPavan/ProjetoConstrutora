@@ -28,10 +28,12 @@
 
                     <td style="text-align: center;">
                         <button class="btn btn-warning btn-sm">
-                            <i class="bi bi-pencil"><strong>Editar</strong></i>
+                            <a href="{% url 'updateUsuario' obj.id %}" style="text-decoration: none; color: rgb(0, 0, 0);">
+                                <i class="bi bi-pencil"><strong>Editar</strong></i>
+                            </a>
                         </button>
-                        <button class="btn btn-danger btn-sm">
-                            <a href="{% url 'delete' obj.id %}" style="text-decoration: none; color: white;">
+                        <button type="" class="btn btn-danger btn-sm">
+                            <a href="{% url 'deleteUsuario' obj.id %}" style="text-decoration: none; color: white;">
                                 <i class="bi bi-pencil"><strong>Remover</strong></i>
                             </a>
 
@@ -54,21 +56,6 @@
     </div>
 
     <script>
-        /*document.addEventListener("DOMContentLoaded", function () {
-            fetch('listarUsuarios/')
-                .then(response => response.json())
-                .then(data => {
-                    let table = document.getElementById("usuarios");
-
-                    data.forEach(function (usuario) {
-                        let td = document.createElement("td");
-                        td.textContent = usuario.id;
-                        option.text = categoria.Descricao;
-                        select.add(option);
-                    });
-                })
-                .catch(error => console.error('Erro ao carregar usuarios:', error));
-        });*/
     </script>
     {% endblock %}
 </body>

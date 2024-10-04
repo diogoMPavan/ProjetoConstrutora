@@ -10,6 +10,7 @@ urlpatterns = [
     path("categorias/", views.listaCategorias, name="lista_categorias"),
     path("appteste/salvaUsuario/", views.salvaUsuario, name="salvaUsuario"),
     path("mostrarUsuarios/", views.mostrarUsuarios, name="mostrar"),
-    path('del/<int:f_id>', views.deleteUsuario, name="delete"),
+    path('del/<int:f_id>', views.deleteUsuario, name="deleteUsuario"),
+    path('update/<int:f_id>', views.updateUsuario, name="updateUsuario"),
     path('fazLogin/', views.fazLogin, name="fazLogin"),
 ]
