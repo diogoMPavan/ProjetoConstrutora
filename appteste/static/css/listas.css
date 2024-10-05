@@ -1,0 +1,40 @@
+body{
+
+    background-color: #ffffff;
+
+}
+
+th{
+    text-align: center;
+}
+
+td{
+    text-align: center;
+}
+
+.btn-success{
+
+    background-color: #1e6054;
+
+}
+
+a{
+
+    color: #ffffff;
+    text-decoration: none;
+
+}
+
+.btn-editar{
+
+    text-decoration: none; 
+    color: #000000;
+
+}
+
+.btn-remov{
+
+    text-decoration: none; 
+    color: #ffffff;
+
+}
