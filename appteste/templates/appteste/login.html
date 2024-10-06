@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,6 +9,7 @@
     {% load static %}
     <link href="{% static 'css/login.css' %}" rel="stylesheet">
 </head>
+
 <body>
     <div class="logo">
         <img src="{% static 'imagens/LogoLucasa.png' %}" class="rounded" alt="LuCasa Incorporadora Logo">
@@ -18,12 +20,20 @@
             {% csrf_token %}
             <div class="form-group">
                 <label for="login">Usuário</label>
-                <input type="text" class="form-control" id="usuario" placeholder="Digite seu usuário" required="true">
+                <input type="text" class="form-control" id="usuario" placeholder="Digite seu usuário" name="login"
+                    required="true">
             </div>
-            
+            {% if messages %}
+            <ul>
+                {% for message in messages %}
+                <li{% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}</li>
+                    {% endfor %}
+            </ul>
+            {% endif %}
             <div class="form-group">
                 <label for="senha">Senha</label>
-                <input type="password" class="form-control" id="senha" placeholder="Digite sua senha" required="true">
+                <input type="password" class="form-control" id="senha" placeholder="Digite sua senha" name="senha"
+                    required="true">
             </div>
             <br>
             <button type="submit" class="btn btn-login">Entrar</button>
@@ -35,4 +45,5 @@
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
+
 </html>

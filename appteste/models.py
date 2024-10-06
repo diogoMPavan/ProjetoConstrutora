@@ -18,7 +18,7 @@ class Categoria_Usuario(models.Model):
 class Usuario(models.Model):
     Nome = models.CharField(max_length=200)
     Login = models.CharField(max_length=45)
-    Senha = models.CharField(max_length=45)
+    Senha = models.CharField(max_length=100)
     Ativo = models.BooleanField(default=True)
     Categoria_Usuario = models.ForeignKey(Categoria_Usuario, on_delete=models.CASCADE)
     def __str__(self) -> str:

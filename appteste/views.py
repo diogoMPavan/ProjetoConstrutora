@@ -1,10 +1,15 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, JsonResponse
 import json
-from django.contrib.auth.hashers import make_password
+from django.contrib.auth.hashers import make_password, check_password
+#from django_cryptography.fields import encrypt, decrypt
+from cryptography.fernet import Fernet
+from django.contrib.auth import authenticate
 from appteste.models import Mov_Financeira
 from .models import Categoria_Financeira
 from .models import Categoria_Usuario, Usuario
+from django.contrib import messages
+from baseconv import base64
 
 #aqui 'aponta' para determinada tela nos templates
 
@@ -39,6 +44,8 @@ def listaCategorias(request):
     context = {"obj": obj}
     return render(request, template_name, context)
 
+
+
 def salvaUsuario(request):
     if request.method == 'POST':
         nome = request.POST.get('nome')
@@ -52,7 +59,7 @@ def salvaUsuario(request):
             Nome = nome,
             Categoria_Usuario = categoria,
             Login = login,
-            Senha = make_password(senha)
+            Senha = make_password(senha),
         )
         usuarios = Usuario.objects.all()
         return redirect('listaUsuario')
@@ -86,12 +93,19 @@ def updateUsuario(request, f_id):
 
 def fazLogin(request):
     if request.method == "POST":
-        data = json.loads(request.body)
-        login = data.get('login')
-        senha = data.get('senha')
-        print('Login:' + login, 'senha' + senha)
-        obj = Usuario.objects.all().values().filter(Login = login)
-        if obj.Senha == make_password(senha):
-            return render(request, template_name='appteste/home.html', context={"obj": obj})
+        login = request.POST.get('login')
+        senha = request.POST.get('senha')
+
+        for m in messages.get_messages(request):
+            del m['senha']
+        if verificaSenha(login, senha):
+            messages.success(request, "Login realizado com sucesso")
+            return render(request, template_name='appteste/home.html')
         else:
-            return render(request, template_name='appteste/login.html',context={"obj": obj})
+            messages.error(request, "Dados incorretos!")
+            return render(request, template_name='appteste/login.html')
+            
+def verificaSenha(login, senha):
+    obj = Usuario.objects.all().filter(Login=login, Ativo=True)
+    for o in obj:
+        return check_password(senha, o.Senha)
