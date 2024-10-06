@@ -1,43 +1,9 @@
 {% extends "appteste/cabecalho.html" %}
 
 {% block content%}
-<style>
-    body {
-        background-color: #f8f9fa;
-    }
 
-    .form-container {
-        background-color: #019587;
-        border-radius: 20px;
-        padding: 30px;
-        margin-top: 50px;
-        max-width: 500px;
-        margin-left: auto;
-        margin-right: auto;
-        color: #fff;
-    }
-
-    .form-control {
-        border-radius: 50px;
-    }
-
-    .btn-confirm {
-        background-color: #007c75;
-        border-radius: 50px;
-        padding: 10px 40px;
-        font-size: 18px;
-    }
-
-    .btn-confirm:hover {
-        background-color: #036b68;
-    }
-
-    .dropdown {
-        background-color: rgb(255, 255, 255);
-        color: black;
-        border-radius: 50px;
-    }
-</style>
+{% load static %}
+<link href="{% static 'css/manutUsuario.css' %}" rel="stylesheet">
 </head>
 
 <body>

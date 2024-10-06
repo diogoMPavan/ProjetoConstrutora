@@ -1,0 +1,23 @@
+.navbar {
+    background-color: #1e6054;
+}
+
+.nav-link {
+    color: #ffffff;
+}
+
+.collapse {
+    padding-right: 10%;
+}
+
+.Logo {
+    display: inline-block;
+    padding: 0;
+    margin: 0;
+}
+
+.logo-img {
+    max-width: 150px;
+    height: auto;
+}
+

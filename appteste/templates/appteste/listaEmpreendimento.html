@@ -2,6 +2,13 @@
 
 {% block content%}
 
+<head>
+
+    {% load static%}
+    <link href="{% static 'css/listas.css' %}" rel="stylesheet">
+
+</head>
+
 <body>
     
     </nav>
@@ -18,16 +25,17 @@
         </div>
 
         <table class="table table-bordered table-hover">
-            <thead>
+            <thead class="table-dark">
                 <tr>
-                    <th style="background-color: #1ba29e; color: #ffffff">Código</th>
-                    <th style="background-color: #1ba29e; color: #ffffff">Nome</th>
-                    <th style="background-color: #1ba29e; color: #ffffff">Cidade</th>
-                    <th style="background-color: #1ba29e; color: #ffffff">UF</th>
-                    <th style="background-color: #1ba29e; color: #ffffff">Custo (R$)</th>
-                    <th style="background-color: #1ba29e; color: #ffffff">Status</th>
-                    <th style="background-color: #1ba29e; color: #ffffff">Editar/Remover</th>
+                    <th style="background-color: #28A394;">Codigo</th>
+                    <th style="background-color: #28A394;">Nome</th>
+                    <th style="background-color: #28A394;">Cidade</th>
+                    <th style="background-color: #28A394;">UF</th>
+                    <th style="background-color: #28A394;">Custo</th>
+                    <th style="background-color: #28A394;">Status</th>
+                    <th style="background-color: #28A394; width: 15%;">Editar / Remover</th>
                 </tr>
+            </thead>
             </thead>
             <tbody>
                 <tr>
