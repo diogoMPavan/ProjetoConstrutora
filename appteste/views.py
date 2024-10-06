@@ -45,7 +45,6 @@ def listaCategorias(request):
     return render(request, template_name, context)
 
 
-
 def salvaUsuario(request):
     if request.method == 'POST':
         nome = request.POST.get('nome')
@@ -96,14 +95,15 @@ def fazLogin(request):
         login = request.POST.get('login')
         senha = request.POST.get('senha')
 
-        for m in messages.get_messages(request):
-            del m['senha']
         if verificaSenha(login, senha):
             messages.success(request, "Login realizado com sucesso")
             return render(request, template_name='appteste/home.html')
         else:
             messages.error(request, "Dados incorretos!")
             return render(request, template_name='appteste/login.html')
+        
+    for m in messages.get_messages(request):
+            del m['senha']
             
 def verificaSenha(login, senha):
     obj = Usuario.objects.all().filter(Login=login, Ativo=True)
