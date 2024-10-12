@@ -1,0 +1,36 @@
+    body {
+        background-color: #69e4b5;
+    }
+
+    .form-container {
+        background-color: #019587;
+        border-radius: 20px;
+        padding: 30px;
+        margin-top: 50px;
+        max-width: 500px;
+        margin-left: auto;
+        margin-right: auto;
+        color: #fff;
+    }
+
+    .form-control {
+        border-radius: 50px;
+    }
+
+    .btn-confirm {
+        background-color: #1e6054;
+        color: #ffffff;
+        border-radius: 50px;
+        padding: 10px 40px;
+        font-size: 18px;
+    }
+
+    .btn-confirm:hover {
+        background-color: #1e6054;
+    }
+
+    .dropdown {
+        background-color: rgb(255, 255, 255);
+        color: black;
+        border-radius: 50px;
+    }
