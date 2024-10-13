@@ -41,10 +41,12 @@ class Mov_Financeira(models.Model):
     Usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE)
 
 class Empreendimento(models.Model):
-    Descricao = models.TextField()
+    Nome = models.CharField(max_length=100, default="")
+    Descricao = models.TextField(max_length=200)
     Data_inicio = models.DateField("Data inicio", default=datetime.now)
     Data_fim_prevista = models.DateField("Data fim prev")
     Data_fim = models.DateField("Data fim")
+    Cidade = models.CharField(max_length=50, default="")
     Valor_total = models.DecimalField(max_digits=10, decimal_places=2)
     Ativo = models.BooleanField(default=True)
     Usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE)

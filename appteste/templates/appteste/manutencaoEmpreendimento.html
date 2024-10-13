@@ -9,26 +9,38 @@
 <body>
     <div class="form-container">
         <h2 style="text-align: center;">CADASTRO DE EMPREENDIMENTO</h2>
-        <form method="POST" id="empreendimento" action="{% url 'salvaEmpreendimento' %}">
+        <form method="POST" id="empreendimento" action="">
             {% csrf_token %}
             <div class="mb-3">
                 <label for="nome" class="form-label">Nome</label>
-                <input type="text" class="form-control" id="nome" name="nome" placeholder="Nome do Empreendimento" required="True">
+                <input type="text" class="form-control" id="nome" name="nome" placeholder="Nome do Empreendimento"
+                    required="True">
+            </div>
+            <div class="input-group date">
+                <span class="input-group text">Data de início e fim</span>
+                <input style="border-top-left-radius: 50px; border-bottom-left-radius: 50px;" type="date"
+                    class="form-control" placeholder="Data de início" id="dataini">
+                <input type="date" class="form-control" placeholder="Data de fim" id="datafim">
+            </div>
+            <br>
+            <div class="mb-3">
+                <label for="uf" class="form-label">UF</label>
+                <select class="form-select" name="uf" required id="uf">
+                    <option value=""></option>
+                    {% for u in uf %}
+                    <option value="{{ u }}">{{ u }}</option>
+                    {% endfor %}
+                    <select>
             </div>
             <div class="mb-3">
                 <label for="cidade" class="form-label">Cidade</label>
-                <input type="text" class="form-control" id="cidade" name="cidade" placeholder="Cidade" required="True">
-            </div>
-            <div class="mb-3">
-                <label for="uf" class="form-label">UF</label>
-                <select class="form-select form-select-md" id="uf" required="True" name="uf"
-                    style="background-color: rgb(255, 255, 255); color: black; border-radius: 50px;">
-                    <!-- Adicionar estados aqui -->
+                <select class="form-select" required name="cidade" id="cidade">
                 </select>
             </div>
             <div class="mb-3">
                 <label for="custo" class="form-label">Custo</label>
-                <input type="number" class="form-control" id="custo" name="custo" placeholder="Custo" required="True" step="0.01">
+                <input type="number" class="form-control" id="custo" name="custo" placeholder="Custo" required="True"
+                    step="0.01">
             </div>
             <div class="mb-3">
                 <label for="status" class="form-label">Status</label>
@@ -46,5 +58,24 @@
     </div>
 
     <script>
+        document.getElementById("uf").addEventListener("change", function () {
+            const selected = this.value;
+            console.log(selected);
+            const secondSelect = document.getElementById('cidade');
+
+            if (selected) {
+                fetch('/retornaCidades/' + selected + '/')
+                    .then((response) => response.json())
+                    .then((data) => {
+                        secondSelect.innerHTML = '<option value=""></option>';
+                        data.forEach(data => {
+                            const opt = document.createElement('option');
+                            opt.value = data.value;
+                            opt.text = data;
+                            secondSelect.appendChild(opt);
+                        });
+                    });
+            }
+        })
     </script>
-{% endblock %}
+    {% endblock %}

@@ -7,9 +7,10 @@ from cryptography.fernet import Fernet
 from django.contrib.auth import authenticate
 from appteste.models import Mov_Financeira
 from .models import Categoria_Financeira
-from .models import Categoria_Usuario, Usuario
+from .models import Categoria_Usuario, Usuario, Empreendimento
 from django.contrib import messages
 import base64
+from pyUFbr.baseuf import ufbr
 
 #aqui 'aponta' para determinada tela nos templates
 
@@ -35,8 +36,21 @@ def listaUsuario(request):
                   template_name='appteste/listaUsuario.html', context=context)
 
 def listaEmpreendimento(request):
-    return render(request=request,
+    emp = Empreendimento.objects.all().filter(Ativo = True)
+    context = {"emp": emp}
+    return render(request=request, context=context,
                   template_name='appteste/listaEmpreendimento.html')
+
+def cadEmpreendimento(request):
+    obj = Empreendimento.objects.all().filter(Ativo = True)
+    context = {"obj": obj, "uf": ufbr.list_uf}
+    return render(request=request, template_name='appteste/manutencaoEmpreendimento.html', context=context)
+
+def retornaCidades(request, uf):
+    cidades = ufbr.list_cidades(uf)
+    #cidades = [{"cidade:", cidades} for cidades in cidades]
+    json_lst = json.dumps(cidades, ensure_ascii=False)
+    return HttpResponse(json_lst)
 
 def listaCategorias(request):
     obj = Categoria_Usuario.objects.all().filter(Ativa = True)
@@ -83,7 +97,10 @@ def updateUsuario(request, f_id):
     usuario = Usuario.objects.select_related('Categoria_Usuario').get(id=f_id)
     obj = Categoria_Usuario.objects.all().filter(Ativa = True)
     if request.method == "POST":
-       usuario = Usuario(request.POST)
+       usuario.Nome = request.POST.get('nome')
+       categoria = Categoria_Usuario.objects.get(id=request.POST.get('categoria'))
+       usuario.Categoria_Usuario = categoria
+       usuario.Login = request.POST.get('login')
        usuario.save()
        return redirect('listaUsuario')
     template_name = "appteste/atualizaUsuario.html"

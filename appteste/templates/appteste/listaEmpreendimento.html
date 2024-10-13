@@ -16,7 +16,7 @@
     <div class="container mt-5">
         <div class="d-flex justify-content-between align-items-center mb-3">
             <h2>Lista de Empreendimentos</h2>
-            <button class="btn btn-success">Novo Empreendimento</button>
+            <button class="btn btn-success"><a href="../cadEmpreendimento/" >Novo Empreendimento</a></button>
         </div>
 
         <div class="input-group mb-3">
@@ -38,8 +38,9 @@
             </thead>
             </thead>
             <tbody>
+                {% for e in emp %}
                 <tr>
-                    <td></td>
+                    <td>{{e.Codigo}}</td>
                     <td></td>
                     <td></td>
                     <td></td>
@@ -54,6 +55,7 @@
                         </button>
                     </td>
                 </tr>
+                {% endfor %}
             </tbody>
         </table>
 

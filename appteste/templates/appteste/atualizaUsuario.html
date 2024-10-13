@@ -12,37 +12,39 @@
         <form method="POST" id="usuario">
             {% csrf_token %}
             <div class="mb-3">
-                <input type="number" class="form-control" name="id" style="visibility: hidden;" id="id" value="{{usuario.id}}" required>
+                <input type="text" class="form-control" name="id" style="visibility: hidden;" id="id"
+                    value="{{usuario.id}}" required>
             </div>
             <div class="mb-3">
                 <label for="nome" class="form-label">Nome</label>
-                <input type="text" class="form-control" id="nome" name="nome" placeholder="Nome" required="True" value="{{usuario.Nome}}">
+                <input type="text" class="form-control" id="nome" name="nome" placeholder="Nome" required="True"
+                    value="{{usuario.Nome}}">
             </div>
             <div class="mb-3">
                 <label for="categoria">Categoria</label>
                 <select class="form-select form-select-md" aria-label="Small select example"
                     style="background-color: rgb(255, 255, 255); color: black; border-radius: 50px;" id="categoria"
-                    required="True" name="categoria">
-                    <option value="">{{usuario.Categoria_Usuario}}</option>
+                    required name="categoria">
+                    <!---<option value="{{usuario.Categoria_Usuario_id}}">{{usuario.Categoria_Usuario}}</option>--->
                     {% for o in obj %}
-                    <option value="{{ o.id }}">{{ o.Descricao }}</option>
+                        {% if usuario.Categoria_Usuario_id == o.id %}
+                            <option selected value="{{o.id}}">{{o.Descricao}}</option>
+                        {% else %}
+                            <option value="{{ o.id }}">{{ o.Descricao }}</option>
+                        {% endif %}
                     {% endfor %}
                 </select>
             </div>
             <div class="mb-3">
                 <label for="login" class="form-label">Usuário</label>
-                <input type="text" class="form-control" id="login" placeholder="Usuário" required="True" name="login" value="{{usuario.Login}}">
+                <input type="text" class="form-control" id="login" placeholder="Usuário" required="True" name="login"
+                    value="{{usuario.Login}}">
             </div>
-            <!---<div class="mb-3">
-                <label for="senha" class="form-label">Senha</label>
-                <input type="password" class="form-control" id="senha" placeholder="Senha" required="True" name="senha">
-            </div>--->
             <div class="mb-3"></div>
             <div style="text-align: center;">
-                <button type="" class="btn btn-confirm"><a href="{% url 'updateUsuario' usuario.id %}"></a><strong>Salvar</strong></button>
+                <button type="" class="btn btn-confirm"><a
+                        href="{% url 'updateUsuario' usuario.id %}"></a><strong>Salvar</strong></button>
             </div>
-            <!--<label for="senha" class="form-label">Senha</label>
-            <input type="password" class="form-control" id="senha" placeholder="Senha" required="True">-->
         </form>
     </div>
 
@@ -51,4 +53,3 @@
     {%endblock%}
 
 </body>
-

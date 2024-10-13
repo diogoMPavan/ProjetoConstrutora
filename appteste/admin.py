@@ -23,10 +23,12 @@ class Usuario_Admin(admin.ModelAdmin):
               "Categoria_Usuario"]
     
 class Empreendimento_Admin(admin.ModelAdmin):
-    fields = ["Descricao",
+    fields = ["Nome",
+              "Descricao",
               "Data_inicio",
               "Data_fim_prevista",
               "Data_fim",
+              "Cidade",
               "Valor_total",
               "Ativo",
               "Usuario"]

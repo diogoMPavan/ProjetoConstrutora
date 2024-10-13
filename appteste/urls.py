@@ -13,4 +13,7 @@ urlpatterns = [
     path('del/<int:f_id>', views.deleteUsuario, name="deleteUsuario"),
     path('update/<int:f_id>', views.updateUsuario, name="updateUsuario"),
     path('fazLogin/', views.fazLogin, name="fazLogin"),
+    path('cadEmpreendimento/', views.cadEmpreendimento, name="cadEmpreendimento"),
+    path('listaEmpreendimento/', views.listaEmpreendimento, name="listaEmpreendimento"),
+    path('retornaCidades/<str:uf>/', views.retornaCidades, name="retoraCidades"),
 ]
