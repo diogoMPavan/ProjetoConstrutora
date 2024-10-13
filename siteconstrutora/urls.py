@@ -28,4 +28,5 @@ urlpatterns = [
     path("cadUsuario/", include('appteste.urls')),
     path("listaUsuario/", include('appteste.urls')),
     path("listaEmpreendimento/", include('appteste.urls')),
+    
 ]

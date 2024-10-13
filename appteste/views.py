@@ -63,7 +63,6 @@ def salvaUsuario(request):
         usuarios = Usuario.objects.all()
         return redirect('listaUsuario')
 
-
 def mostrarUsuarios(request):
     obj = Usuario.objects.all().select_related('Categoria_Usuario').filter(Ativo = True)
     template_name = "appteste/listaUsuario.html"
@@ -73,7 +72,6 @@ def mostrarUsuarios(request):
 def deleteUsuario(request, f_id):
     usuario = Usuario.objects.get(id=f_id)
     if request.method == "POST":
-        #usuario.delete()
         usuario.Ativo = False
         usuario.save()
         return redirect('listaUsuario')
@@ -83,12 +81,13 @@ def deleteUsuario(request, f_id):
     
 def updateUsuario(request, f_id):
     usuario = Usuario.objects.select_related('Categoria_Usuario').get(id=f_id)
+    obj = Categoria_Usuario.objects.all().filter(Ativa = True)
     if request.method == "POST":
-       usuario = Usuario(request.POST, instance=usuario)
+       usuario = Usuario(request.POST)
        usuario.save()
-    template_name = "appteste/manutencaoUsuario.html"
-    context = {"usuario": usuario}
-    return render(request, template_name, context)
+       return redirect('listaUsuario')
+    template_name = "appteste/atualizaUsuario.html"
+    return render(request, template_name, {"usuario": usuario, "obj": obj})
 
 def fazLogin(request):
     if request.method == "POST":

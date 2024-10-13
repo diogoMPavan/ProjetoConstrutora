@@ -9,18 +9,21 @@
 <body>
     <div class="form-container">
         <h2 style="text-align: center;">CADASTRO DE USUÁRIO</h2>
-        <form method="POST" id="usuario" action="{% url 'salvaUsuario' %}">
+        <form method="POST" id="usuario">
             {% csrf_token %}
             <div class="mb-3">
+                <input type="number" class="form-control" name="id" style="visibility: hidden;" id="id" value="{{usuario.id}}" required>
+            </div>
+            <div class="mb-3">
                 <label for="nome" class="form-label">Nome</label>
-                <input type="text" class="form-control" id="nome" name="nome" placeholder="Nome" required="True">
+                <input type="text" class="form-control" id="nome" name="nome" placeholder="Nome" required="True" value="{{usuario.Nome}}">
             </div>
             <div class="mb-3">
                 <label for="categoria">Categoria</label>
                 <select class="form-select form-select-md" aria-label="Small select example"
                     style="background-color: rgb(255, 255, 255); color: black; border-radius: 50px;" id="categoria"
                     required="True" name="categoria">
-                    <option value=""></option>
+                    <option value="">{{usuario.Categoria_Usuario}}</option>
                     {% for o in obj %}
                     <option value="{{ o.id }}">{{ o.Descricao }}</option>
                     {% endfor %}
@@ -28,15 +31,15 @@
             </div>
             <div class="mb-3">
                 <label for="login" class="form-label">Usuário</label>
-                <input type="text" class="form-control" id="login" placeholder="Usuário" required="True" name="login">
+                <input type="text" class="form-control" id="login" placeholder="Usuário" required="True" name="login" value="{{usuario.Login}}">
             </div>
-            <div class="mb-3">
+            <!---<div class="mb-3">
                 <label for="senha" class="form-label">Senha</label>
                 <input type="password" class="form-control" id="senha" placeholder="Senha" required="True" name="senha">
-            </div>
+            </div>--->
             <div class="mb-3"></div>
             <div style="text-align: center;">
-                <button type="submit" class="btn btn-confirm"> <strong>Salvar</strong></button>
+                <button type="" class="btn btn-confirm"><a href="{% url 'updateUsuario' usuario.id %}"></a><strong>Salvar</strong></button>
             </div>
             <!--<label for="senha" class="form-label">Senha</label>
             <input type="password" class="form-control" id="senha" placeholder="Senha" required="True">-->
