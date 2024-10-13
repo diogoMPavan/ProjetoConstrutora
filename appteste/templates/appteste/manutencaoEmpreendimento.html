@@ -1,0 +1,50 @@
+{% extends "appteste/cabecalho.html" %}
+
+{% block content%}
+
+{% load static %}
+<link href="{% static 'css/manutEmpree.css' %}" rel="stylesheet">
+</head>
+
+<body>
+    <div class="form-container">
+        <h2 style="text-align: center;">CADASTRO DE EMPREENDIMENTO</h2>
+        <form method="POST" id="empreendimento" action="{% url 'salvaEmpreendimento' %}">
+            {% csrf_token %}
+            <div class="mb-3">
+                <label for="nome" class="form-label">Nome</label>
+                <input type="text" class="form-control" id="nome" name="nome" placeholder="Nome do Empreendimento" required="True">
+            </div>
+            <div class="mb-3">
+                <label for="cidade" class="form-label">Cidade</label>
+                <input type="text" class="form-control" id="cidade" name="cidade" placeholder="Cidade" required="True">
+            </div>
+            <div class="mb-3">
+                <label for="uf" class="form-label">UF</label>
+                <select class="form-select form-select-md" id="uf" required="True" name="uf"
+                    style="background-color: rgb(255, 255, 255); color: black; border-radius: 50px;">
+                    <!-- Adicionar estados aqui -->
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="custo" class="form-label">Custo</label>
+                <input type="number" class="form-control" id="custo" name="custo" placeholder="Custo" required="True" step="0.01">
+            </div>
+            <div class="mb-3">
+                <label for="status" class="form-label">Status</label>
+                <select class="form-select form-select-md" id="status" required="True" name="status"
+                    style="background-color: rgb(255, 255, 255); color: black; border-radius: 50px;">
+                    <option value=""></option>
+                    <option value="Ativo">Ativo</option>
+                    <option value="Inativo">Inativo</option>
+                </select>
+            </div>
+            <div style="text-align: center;">
+                <button type="submit" class="btn btn-confirm"><strong>Salvar</strong></button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+    </script>
+{% endblock %}

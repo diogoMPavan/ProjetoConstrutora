@@ -9,7 +9,7 @@ from appteste.models import Mov_Financeira
 from .models import Categoria_Financeira
 from .models import Categoria_Usuario, Usuario
 from django.contrib import messages
-from baseconv import base64
+import base64
 
 #aqui 'aponta' para determinada tela nos templates
 
