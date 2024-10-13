@@ -12,19 +12,23 @@
         <form method="POST" id="empreendimento" action="">
             {% csrf_token %}
             <div class="mb-3">
-                <label for="nome" class="form-label">Nome</label>
+                <label for="nome" class="form-label"><strong>Nome</strong></label>
                 <input type="text" class="form-control" id="nome" name="nome" placeholder="Nome do Empreendimento"
                     required="True">
             </div>
+            <div>
+                <label for="descricao"><strong>Descrição</strong></label>
+                <textarea class="form-control" rows="3" type="textarea" name="descricao" id="descricao" placeholder="Descrição do empreendimento" maxlength="200" style="border-radius: 20px;"></textarea>
+            </div>
+            <br>
             <div class="input-group date">
-                <span class="input-group text">Data de início e fim</span>
+                <span class="input-group text"><strong>Data de início e fim previstas</strong></span>
                 <input style="border-top-left-radius: 50px; border-bottom-left-radius: 50px;" type="date"
                     class="form-control" placeholder="Data de início" id="dataini">
                 <input type="date" class="form-control" placeholder="Data de fim" id="datafim">
             </div>
-            <br>
             <div class="mb-3">
-                <label for="uf" class="form-label">UF</label>
+                <label for="uf" class="form-label"><strong>UF</strong></label>
                 <select class="form-select" name="uf" required id="uf">
                     <option value=""></option>
                     {% for u in uf %}
@@ -33,23 +37,18 @@
                     <select>
             </div>
             <div class="mb-3">
-                <label for="cidade" class="form-label">Cidade</label>
+                <label for="cidade" class="form-label"><strong>Cidade</strong></label>
                 <select class="form-select" required name="cidade" id="cidade">
                 </select>
             </div>
             <div class="mb-3">
-                <label for="custo" class="form-label">Custo</label>
+                <label for="custo" class="form-label"><strong>Custo</strong></label>
                 <input type="number" class="form-control" id="custo" name="custo" placeholder="Custo" required="True"
                     step="0.01">
             </div>
             <div class="mb-3">
-                <label for="status" class="form-label">Status</label>
-                <select class="form-select form-select-md" id="status" required="True" name="status"
-                    style="background-color: rgb(255, 255, 255); color: black; border-radius: 50px;">
-                    <option value=""></option>
-                    <option value="Ativo">Ativo</option>
-                    <option value="Inativo">Inativo</option>
-                </select>
+                <input type="checkbox" class="form-check-input" id="status" checked>
+                <label for="status" class="form-label"><strong>Ativo</strong></label>
             </div>
             <div style="text-align: center;">
                 <button type="submit" class="btn btn-confirm"><strong>Salvar</strong></button>

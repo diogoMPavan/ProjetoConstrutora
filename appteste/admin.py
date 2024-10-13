@@ -28,6 +28,7 @@ class Empreendimento_Admin(admin.ModelAdmin):
               "Data_inicio",
               "Data_fim_prevista",
               "Data_fim",
+              "UF",
               "Cidade",
               "Valor_total",
               "Ativo",

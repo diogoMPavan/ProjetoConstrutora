@@ -46,6 +46,7 @@ class Empreendimento(models.Model):
     Data_inicio = models.DateField("Data inicio", default=datetime.now)
     Data_fim_prevista = models.DateField("Data fim prev")
     Data_fim = models.DateField("Data fim")
+    UF = models.CharField(max_length=2, default="")
     Cidade = models.CharField(max_length=50, default="")
     Valor_total = models.DecimalField(max_digits=10, decimal_places=2)
     Ativo = models.BooleanField(default=True)

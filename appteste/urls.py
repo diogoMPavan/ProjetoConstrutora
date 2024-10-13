@@ -8,10 +8,15 @@ urlpatterns = [
     path("listaUsuario/", views.listaUsuario, name="listaUsuario"),
     path("listaEmpreendimento/", views.listaEmpreendimento, name="listaEmpreendimento"),
     path("categorias/", views.listaCategorias, name="lista_categorias"),
+    #============================= USUARIO ===================================
     path("appteste/salvaUsuario/", views.salvaUsuario, name="salvaUsuario"),
     path("mostrarUsuarios/", views.mostrarUsuarios, name="mostrar"),
-    path('del/<int:f_id>', views.deleteUsuario, name="deleteUsuario"),
     path('update/<int:f_id>', views.updateUsuario, name="updateUsuario"),
+    path('del/<int:f_id>', views.deleteUsuario, name="deleteUsuario"),
+    #=========================================================================
+    #============================= EMPREENDIMENTO ============================
+    path('salvaEmpreendimento/', views.salvaEmpreendimento, name="salvaEmpreendimento"),
+    #=========================================================================
     path('fazLogin/', views.fazLogin, name="fazLogin"),
     path('cadEmpreendimento/', views.cadEmpreendimento, name="cadEmpreendimento"),
     path('listaEmpreendimento/', views.listaEmpreendimento, name="listaEmpreendimento"),

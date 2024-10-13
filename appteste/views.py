@@ -14,6 +14,7 @@ from pyUFbr.baseuf import ufbr
 
 #aqui 'aponta' para determinada tela nos templates
 
+#============================== Abre telas ==================================
 def home(request):
     return render(request=request, 
                   template_name='appteste/home.html',
@@ -45,20 +46,9 @@ def cadEmpreendimento(request):
     obj = Empreendimento.objects.all().filter(Ativo = True)
     context = {"obj": obj, "uf": ufbr.list_uf}
     return render(request=request, template_name='appteste/manutencaoEmpreendimento.html', context=context)
+#============================================================================
 
-def retornaCidades(request, uf):
-    cidades = ufbr.list_cidades(uf)
-    #cidades = [{"cidade:", cidades} for cidades in cidades]
-    json_lst = json.dumps(cidades, ensure_ascii=False)
-    return HttpResponse(json_lst)
-
-def listaCategorias(request):
-    obj = Categoria_Usuario.objects.all().filter(Ativa = True)
-    template_name = "appteste/manutencaoUsuario.html"
-    context = {"obj": obj}
-    return render(request, template_name, context)
-
-
+#========================== USUÁRIO ================================
 def salvaUsuario(request):
     if request.method == 'POST':
         nome = request.POST.get('nome')
@@ -105,6 +95,46 @@ def updateUsuario(request, f_id):
        return redirect('listaUsuario')
     template_name = "appteste/atualizaUsuario.html"
     return render(request, template_name, {"usuario": usuario, "obj": obj})
+#============================================================================
+
+#===================================== EMPREENDIMENTO =======================================
+def salvaEmpreendimento(request):
+    if request.method == "POST":
+        nome = request.POST.get('nome')
+        descricao = request.POST.get('descricao')
+        dataIni = request.POST.get('dataInicio')
+        dataFim = request.POST.get('dataFim')
+        uf = request.POST.get('uf')
+        cidade = request.POST.get('cidade')
+        custo = request.POST.get('custo')
+        ativo = request.POST.get('ativo')
+        usuario = 'Diogo Teste'
+        Empreendimento.objects.create(
+            Nome = nome,
+            Descricao = descricao,
+            Data_inicio = dataIni,
+            Data_Fim_prevista = dataFim,
+            Data_Fim = None,
+            UF = uf,
+            cidade = cidade,
+            Valor_total = custo,
+            Ativo = ativo,
+            Usuario = usuario
+        )
+        return redirect('listaEmpreendimento')
+#============================================================================
+
+#=============================== GENÉRICAS =================================
+def retornaCidades(request, uf):
+    cidades = ufbr.list_cidades(uf)
+    json_lst = json.dumps(cidades, ensure_ascii=False)
+    return HttpResponse(json_lst)
+
+def listaCategorias(request):
+    obj = Categoria_Usuario.objects.all().filter(Ativa = True)
+    template_name = "appteste/manutencaoUsuario.html"
+    context = {"obj": obj}
+    return render(request, template_name, context)
 
 def fazLogin(request):
     if request.method == "POST":
@@ -125,3 +155,5 @@ def verificaSenha(login, senha):
     obj = Usuario.objects.all().filter(Login=login, Ativo=True)
     for o in obj:
         return check_password(senha, o.Senha)
+
+#================================================================
