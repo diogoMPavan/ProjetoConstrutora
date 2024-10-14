@@ -6,6 +6,7 @@
 
     {% load static%}
     <link href="{% static 'css/listas.css' %}" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.5/font/bootstrap-icons.min.css">
 
 </head>
 
@@ -41,9 +42,8 @@
                         </button>
                         <button type="" class="btn btn-danger btn-sm">
                             <a class="btn-remov" href="{% url 'deleteUsuario' obj.id %}" style="text-decoration: none; color: white;">
-                                <i class="bi bi-pencil"><strong>Remover</strong></i>
+                                <i class="bi bi-trash"><strong>Remover</strong></i>
                             </a>
-
                         </button>
                     </td>
                 </tr>
