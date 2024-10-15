@@ -5,17 +5,114 @@
 <head>
     {% load static %}
     <link rel="stylesheet" href="{% static '\imagens\Logo_Lucasa_Incoporadora.png' %}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 
 <body>
-    {% for m in categoria_financeira %}
-    <p>{{m.descricao}}</p>
-    <p>{{m.ativa}}</p>
-    {% endfor %}
-
-
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-md-8 offset-md-2">
+                <canvas id="costChart"></canvas>
+            </div>
+        </div>
+    </div>    
 </body>
 
-<script src="{%static 'tinymce/js/prism.js' %}"></script>
+<script>
+    var ctx = document.getElementById('costChart').getContext('2d');
+
+    // Substitua estes dados pelos dados reais do banco
+    var entradas = [2000, 3000, 1500, 5000];  // Exemplo de valores de entrada
+    var saidas = [1200, 2200, 800, 3000];     // Exemplo de valores de saída
+    var labels = ['Janeiro', 'Fevereiro', 'Março', 'Abril'];  // Meses ou períodos
+
+    var myChart = new Chart(ctx, {
+        type: 'bar', // Você pode mudar para 'line' ou outro tipo de gráfico
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Entradas',
+                data: entradas,
+                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                borderColor: 'rgba(75, 192, 192, 1)',
+                borderWidth: 1
+            },
+            {
+                label: 'Saídas',
+                data: saidas,
+                backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                borderColor: 'rgba(255, 99, 132, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+</script>
+
+<!-- ESTA PARTE NO VIEWS.PY
+from django.shortcuts import render
+from .models import Custo  # Exemplo de um modelo que contém os custos
+import json
+
+def home_view(request):
+    entradas = list(Custo.objects.filter(tipo='entrada').values_list('valor', flat=True))
+    saidas = list(Custo.objects.filter(tipo='saida').values_list('valor', flat=True))
+    labels = ['Janeiro', 'Fevereiro', 'Março', 'Abril']  # Exemplo de meses ou períodos
+    
+    context = {
+        'entradas': json.dumps(entradas),
+        'saidas': json.dumps(saidas),
+        'labels': json.dumps(labels)
+    }
+    return render(request, 'home.html', context)
+-->
+
+<!-- ESTA PARTE NO HTML
+<script>
+    var entradas = {{ entradas|safe }};
+    var saidas = {{ saidas|safe }};
+    var labels = {{ labels|safe }};
+    
+    var ctx = document.getElementById('costChart').getContext('2d');
+    
+    var myChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Entradas',
+                data: entradas,
+                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                borderColor: 'rgba(75, 192, 192, 1)',
+                borderWidth: 1
+            },
+            {
+                label: 'Saídas',
+                data: saidas,
+                backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                borderColor: 'rgba(255, 99, 132, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+</script>
+
+-->
+
 
 {%endblock%}
