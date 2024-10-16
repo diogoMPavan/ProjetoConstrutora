@@ -108,15 +108,17 @@ def salvaEmpreendimento(request):
         cidade = request.POST.get('cidade')
         custo = request.POST.get('custo')
         ativo = request.POST.get('ativo')
-        usuario = 'Diogo Teste'
+        print("ativo: ", ativo)
+        usuario = Usuario.objects.get(id=6)
+
         Empreendimento.objects.create(
             Nome = nome,
             Descricao = descricao,
             Data_inicio = dataIni,
-            Data_Fim_prevista = dataFim,
-            Data_Fim = None,
+            Data_fim_prevista = dataFim,
+            Data_fim = dataFim,
             UF = uf,
-            cidade = cidade,
+            Cidade = cidade,
             Valor_total = custo,
             Ativo = ativo,
             Usuario = usuario

@@ -27,25 +27,29 @@
         <table class="table table-bordered table-hover">
             <thead class="table-dark">
                 <tr>
-                    <th style="background-color: #28A394;">Codigo</th>
                     <th style="background-color: #28A394;">Nome</th>
-                    <th style="background-color: #28A394;">Cidade</th>
+                    <th style="background-color: #28A394;">Descrição</th>
+                    <th style="background-color: #28A394;">Data de Início</th>
+                    <th style="background-color: #28A394;">Data Final Prevista</th>
                     <th style="background-color: #28A394;">UF</th>
+                    <th style="background-color: #28A394;">Cidade</th>
                     <th style="background-color: #28A394;">Custo</th>
                     <th style="background-color: #28A394;">Status</th>
-                    <th style="background-color: #28A394; width: 15%;">Editar / Remover</th>
+                    <th style="background-color: #28A394; width: 15%;">Editar / Remover</th> 
                 </tr>
             </thead>
             </thead>
             <tbody>
                 {% for e in emp %}
                 <tr>
-                    <td>{{e.Codigo}}</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
+                    <td>{{e.Nome}}</td>
+                    <td>{{e.Descricao}}</td>
+                    <td>{{e.Data_inicio}}</td>
+                    <td>{{e.Data_fim_prevista}}</td>
+                    <td>{{e.UF}}</td>
+                    <td>{{e.Cidade}}</td>
+                    <td>{{e.Valor_total}}</td>
+                    <td>{{e.Ativo}}</td>
                     <td>
                         <button class="btn btn-warning btn-sm">
                             <i class="bi bi-pencil"><strong>Editar</strong></i>
