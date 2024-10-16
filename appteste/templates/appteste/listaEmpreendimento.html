@@ -6,6 +6,7 @@
 
     {% load static%}
     <link href="{% static 'css/listas.css' %}" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.5/font/bootstrap-icons.min.css">
 
 </head>
 
@@ -47,7 +48,13 @@
                     <td>{{e.Data_inicio}}</td>
                     <td>{{e.Data_fim_prevista}}</td>
                     <td>{{e.UF}}</td>
-                    <td>{{e.Cidade}}</td>
+                    <td>{{e.Cidade}}
+                        <!--  ADICONAR BOTÃO QUE LEVA PRA PAGINA DE ADIÇÃO DE CUSTOS PARA OBRA.
+                         <button class="btn btn-round" onclick="window.location.href='{% url 'adicionar_custo' e.Codigo %}'">
+                            <i class="bi bi-plus"></i>
+                         </button>
+                        !-->
+                        </td>
                     <td>{{e.Valor_total}}</td>
                     <td>{{e.Ativo}}</td>
                     <td>
