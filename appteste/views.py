@@ -28,24 +28,24 @@ def cadUsuario(request):
     obj = Categoria_Usuario.objects.all().filter(Ativa = True)
     context = {"obj": obj}
     return render(request=request,
-                  template_name='appteste/manutencaoUsuario.html', context=context)
+                  template_name='appteste/Usuario/manutencaoUsuario.html', context=context)
 
 def listaUsuario(request):
     obj = Usuario.objects.all().filter(Ativo = True)
     context = {"obj": obj}
     return render(request=request,
-                  template_name='appteste/listaUsuario.html', context=context)
+                  template_name='appteste/Usuario/listaUsuario.html', context=context)
 
 def listaEmpreendimento(request):
     emp = Empreendimento.objects.all().filter(Ativo = True)
     context = {"emp": emp}
     return render(request=request, context=context,
-                  template_name='appteste/listaEmpreendimento.html')
+                  template_name='appteste/Empreendimento/listaEmpreendimento.html')
 
 def cadEmpreendimento(request):
     obj = Empreendimento.objects.all().filter(Ativo = True)
     context = {"obj": obj, "uf": ufbr.list_uf}
-    return render(request=request, template_name='appteste/manutencaoEmpreendimento.html', context=context)
+    return render(request=request, template_name='appteste/Empreendimento/manutencaoEmpreendimento.html', context=context)
 #============================================================================
 
 #========================== USUÁRIO ================================
@@ -69,7 +69,7 @@ def salvaUsuario(request):
 
 def mostrarUsuarios(request):
     obj = Usuario.objects.all().select_related('Categoria_Usuario').filter(Ativo = True)
-    template_name = "appteste/listaUsuario.html"
+    template_name = "appteste/Usuario/listaUsuario.html"
     context = {"obj": obj}
     return render(request, template_name, context)
 
@@ -79,7 +79,7 @@ def deleteUsuario(request, f_id):
         usuario.Ativo = False
         usuario.save()
         return redirect('listaUsuario')
-    template_name = "appteste/confirmacao.html"
+    template_name = "appteste/Usuario/confirmacaoUsuario.html"
     context = {"usuario": usuario}
     return render(request, template_name, context)
     
@@ -93,7 +93,7 @@ def updateUsuario(request, f_id):
        usuario.Login = request.POST.get('login')
        usuario.save()
        return redirect('listaUsuario')
-    template_name = "appteste/atualizaUsuario.html"
+    template_name = "appteste/Usuario/atualizaUsuario.html"
     return render(request, template_name, {"usuario": usuario, "obj": obj})
 #============================================================================
 
@@ -104,11 +104,11 @@ def salvaEmpreendimento(request):
         descricao = request.POST.get('descricao')
         dataIni = request.POST.get('dataInicio')
         dataFim = request.POST.get('dataFim')
-        uf = request.POST.get('uf')
+        uf = request.POST.get('uf') 
         cidade = request.POST.get('cidade')
+        print("cidade: ", cidade)
         custo = request.POST.get('custo')
         ativo = request.POST.get('ativo')
-        print("ativo: ", ativo)
         usuario = Usuario.objects.get(id=6)
 
         Empreendimento.objects.create(
@@ -124,6 +124,35 @@ def salvaEmpreendimento(request):
             Usuario = usuario
         )
         return redirect('listaEmpreendimento')
+    
+def deleteEmpreendimento(request, f_id):
+    emp = Empreendimento.objects.get(id=f_id)
+    if request.method == "POST":
+        emp.Ativo = False
+        emp.save()
+        return redirect('listaEmpreendimento')
+    template_name = "appteste/Empreendimento/confirmacaoEmp.html"
+    context = {"emp": emp}
+    return render(request, template_name, context)
+
+def updateEmpreendimento(request, f_id):
+    emp = Empreendimento.objects.get(id=f_id)
+    if request.method == "POST":
+        emp.Nome = request.POST.get('nome')
+        emp.Descricao = request.POST.get('descricao')
+        emp.Data_inicio = request.POST.get('dataInicio')
+        emp.Data_fim_prevista = request.POST.get('dataFim')
+        emp.Data_fim = request.POST.get('dataFim')
+        emp.UF = request.POST.get('uf')
+        emp.Cidade = request.POST.get('cidade')
+        emp.Valor_total = request.POST.get('custo')
+        emp.Ativo = request.POST.get('ativo')
+        emp.Usuario = request.POST.get('usuario')
+        emp.save()
+        return redirect('listaEmpreendimento')
+    template_name = "appteste/Empreendimento/atualizaEmp.html"
+    return render(request, template_name, {"emp": emp, "uf": ufbr.list_uf})
+
 #============================================================================
 
 #=============================== GENÉRICAS =================================
@@ -134,7 +163,7 @@ def retornaCidades(request, uf):
 
 def listaCategorias(request):
     obj = Categoria_Usuario.objects.all().filter(Ativa = True)
-    template_name = "appteste/manutencaoUsuario.html"
+    template_name = "appteste/Usuario/manutencaoUsuario.html"
     context = {"obj": obj}
     return render(request, template_name, context)
 

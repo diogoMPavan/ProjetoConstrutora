@@ -16,6 +16,8 @@ urlpatterns = [
     #=========================================================================
     #============================= EMPREENDIMENTO ============================
     path('salvaEmpreendimento/', views.salvaEmpreendimento, name="salvaEmpreendimento"),
+    path('delEmp/<int:f_id>', views.deleteEmpreendimento, name="deleteEmp"),
+    path('updateEmp/<int:f_id>', views.updateEmpreendimento, name="updateEmp"),
     #=========================================================================
     path('fazLogin/', views.fazLogin, name="fazLogin"),
     path('cadEmpreendimento/', views.cadEmpreendimento, name="cadEmpreendimento"),

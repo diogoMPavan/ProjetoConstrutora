@@ -1,0 +1,94 @@
+{% extends "appteste/cabecalho.html" %}
+
+{% block content%}
+
+{% load static %}
+<link href="{% static 'css/manutEmpree.css' %}" rel="stylesheet">
+</head>
+
+<body>
+    <div class="form-container">
+        <h2 style="text-align: center;">CADASTRO DE EMPREENDIMENTO</h2>
+        <form method="POST" id="empreendimento">
+            {% csrf_token %}
+            <div class="mb-3">
+                <label for="nome" class="form-label"><strong>Nome</strong></label>
+                <input type="text" class="form-control" id="nome" name="nome" placeholder="Nome do Empreendimento"
+                    required="True" value="{{emp.Nome}}">
+            </div>
+            <div>
+                <label for="descricao"><strong>Descrição</strong></label>
+                <textarea class="form-control" rows="3" type="textarea" name="descricao" id="descricao"
+                    placeholder="Descrição do empreendimento" maxlength="200" style="border-radius: 20px;"
+                    required>{{emp.Descricao}}</textarea>
+            </div>
+            <br>
+            <div class="input-group date">
+                <span class="input-group text"><strong>Data de início e fim previstas</strong></span>
+                <input style="border-top-left-radius: 50px; border-bottom-left-radius: 50px;" type="date"
+                    class="form-control" placeholder="Data de início" id="dataini" name="dataInicio" required
+                    value="{{emp.Data_inicio}}">
+                <input type="date" class="form-control" placeholder="Data de fim" id="datafim" name="dataFim" required
+                    value="{{emp.Data_fim_prevista}}">
+                    <!--- Ajustar a data no banco para salvar em formato mais cru para poder atualizar corretamente -->
+            </div>
+            <div class="mb-3">
+                <label for="uf" class="form-label"><strong>UF</strong></label>
+                <select class="form-select" name="uf" required id="uf">
+                    <option value=""></option>
+                    {% for u in uf %}
+                        {% if emp.UF == u %}
+                            <option selected value="{{emp.UF}}">{{emp.UF}}</option>
+                        {% else %}
+                            <option value="{{ u }}">{{ u }}</option>
+                        {% endif %}
+                    {% endfor %}
+                    <select>
+            </div>
+            <div class="mb-3">
+                <label for="cidade" class="form-label"><strong>Cidade</strong></label>
+                <select class="form-select" required name="cidade" id="cidade">
+                    <option value="{{emp.Cidade}}" selected>{{emp.Cidade}}</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="custo" class="form-label"><strong>Custo</strong></label>
+                <input type="number" class="form-control" id="custo" name="custo" placeholder="Custo" required="True"
+                    step="0.01" value="{{emp.Valor_total}}">
+            </div>
+            <div class="mb-3">
+                {% if emp.Ativo %}
+                <input type="checkbox" class="form-check-input" id="status" name="ativo" value="1" checked>
+                {% else %}
+                <input type="checkbox" class="form-check-input" id="status" name="ativo" value="1">
+                {% endif %}
+                <label for="status" class="form-label"><strong>Ativo</strong></label>
+            </div>
+            <div style="text-align: center;">
+                <button type="" class="btn btn-confirm"><a href="{% url 'updateEmp' emp.id %}"></a><strong>Salvar</strong></button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById("uf").addEventListener("change", function () {
+            const selected = this.value;
+            console.log(selected);
+            const secondSelect = document.getElementById('cidade');
+
+            if (selected) {
+                fetch('/retornaCidades/' + selected + '/')
+                    .then((response) => response.json())
+                    .then((data) => {
+                        secondSelect.innerHTML = '<option value=""></option>';
+                        data.forEach(data => {
+                            const opt = document.createElement('option');
+                            opt.value = data;
+                            opt.text = data;
+                            secondSelect.appendChild(opt);
+                        });
+                    });
+            }
+        })
+    </script>
+    {% endblock %}

@@ -69,7 +69,7 @@
                         secondSelect.innerHTML = '<option value=""></option>';
                         data.forEach(data => {
                             const opt = document.createElement('option');
-                            opt.value = data.value;
+                            opt.value = data;
                             opt.text = data;
                             secondSelect.appendChild(opt);
                         });
