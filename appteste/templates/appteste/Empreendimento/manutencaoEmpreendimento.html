@@ -18,14 +18,18 @@
             </div>
             <div>
                 <label for="descricao"><strong>Descrição</strong></label>
-                <textarea class="form-control" rows="3" type="textarea" name="descricao" id="descricao" placeholder="Descrição do empreendimento" maxlength="200" style="border-radius: 20px;" required></textarea>
+                <textarea class="form-control" rows="3" type="textarea" name="descricao" id="descricao"
+                    placeholder="Descrição do empreendimento" maxlength="200" style="border-radius: 20px;"
+                    required></textarea>
             </div>
             <br>
             <div class="input-group date">
                 <span class="input-group text"><strong>Data de início e fim previstas</strong></span>
                 <input style="border-top-left-radius: 50px; border-bottom-left-radius: 50px;" type="date"
-                    class="form-control" placeholder="Data de início" id="dataini" name="dataInicio" required>
-                <input type="date" class="form-control" placeholder="Data de fim" id="datafim" name="dataFim" required>
+                    date-date-format="DD MM YYYY" class="form-control" placeholder="Data de início" id="dataini"
+                    name="dataInicio" required>
+                <input type="date" timezone="[[timezone]]" class="form-control" placeholder="Data de fim" id="datafim"
+                    name="dataFim" required>
             </div>
             <div class="mb-3">
                 <label for="uf" class="form-label"><strong>UF</strong></label>

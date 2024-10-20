@@ -10,6 +10,7 @@ from .models import Categoria_Financeira
 from .models import Categoria_Usuario, Usuario, Empreendimento
 from django.contrib import messages
 import base64
+from datetime import datetime
 from pyUFbr.baseuf import ufbr
 
 #aqui 'aponta' para determinada tela nos templates
@@ -103,25 +104,30 @@ def salvaEmpreendimento(request):
         nome = request.POST.get('nome')
         descricao = request.POST.get('descricao')
         dataIni = request.POST.get('dataInicio')
+        dataIni = datetime.strptime(dataIni, '%Y-%m-%d')
+        dataIniFormatada = dataIni.strftime('%d/%m/%Y')
+        print("Data Inicio", dataIniFormatada)
         dataFim = request.POST.get('dataFim')
+        dataFim = datetime.strptime(dataFim, '%Y-%m-%d')
+        dataFimFormatada = dataFim.strftime('%d/%m/%Y')
+        print("Data Fim", dataFimFormatada)
         uf = request.POST.get('uf') 
         cidade = request.POST.get('cidade')
-        print("cidade: ", cidade)
         custo = request.POST.get('custo')
         ativo = request.POST.get('ativo')
-        usuario = Usuario.objects.get(id=6)
+        usuario = 6
 
         Empreendimento.objects.create(
             Nome = nome,
             Descricao = descricao,
-            Data_inicio = dataIni,
-            Data_fim_prevista = dataFim,
-            Data_fim = dataFim,
+            Data_inicio = dataIniFormatada,
+            Data_fim_prevista = dataFimFormatada,
+            Data_fim = dataFimFormatada,
             UF = uf,
             Cidade = cidade,
             Valor_total = custo,
             Ativo = ativo,
-            Usuario = usuario
+            Usuario_id = usuario
         )
         return redirect('listaEmpreendimento')
     
