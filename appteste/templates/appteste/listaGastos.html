@@ -1,0 +1,36 @@
+{% extends "appteste/cabecalho.html" %}
+
+{% block content%}
+
+{% load static %}
+<link href="{% static 'css/listas.css' %}" rel="stylesheet">
+
+<div class="table-container">
+    <h2>Lista de Gastos</h2>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Empreendimento</th>
+                <th>Valor</th>
+                <th>Categoria</th>
+                <th>Data de Aquisição</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for gasto in gastos %}
+            <tr>
+                <td>{{ gasto.empreendimento.nome }}</td>
+                <td>{{ gasto.valor|floatformat:2 }}</td>
+                <td>{{ gasto.categoria }}</td>
+                <td>{{ gasto.data|date:"d/m/Y" }}</td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="4">Nenhum gasto cadastrado.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}

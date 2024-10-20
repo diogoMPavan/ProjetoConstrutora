@@ -1,0 +1,32 @@
+{% extends "appteste/cabecalho.html" %}
+
+{% block content%}
+
+{% load static %}
+<link href="{% static 'css/manutCategoria.css' %}" rel="stylesheet">
+</head>
+
+<body>
+    <div class="form-container">
+        <h2>CADASTRO DE CATEGORIA</h2>
+        <form method="POST" id="categoria" action="{% url 'salvaCategoria' %}">
+            {% csrf_token %}
+            
+            <div class="mb-3">
+                <label for="nome" class="form-label"><strong>Nome da Categoria</strong></label>
+                <input type="text" class="form-control" id="nome" name="nome" placeholder="Nome da Categoria" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="observacao" class="form-label"><strong>Observação</strong></label>
+                <textarea class="form-control" rows="3" name="observacao" id="observacao" placeholder="Insira uma observação" maxlength="200"></textarea>
+            </div>
+
+            <div style="text-align: center;">
+                <button type="submit" class="btn btn-confirm"><strong>Salvar</strong></button>
+                <a href="{% url 'lista_categorias' %}" class="btn btn-secondary"><strong>Ver Lista de Categorias</strong></a>
+            </div>
+        </form>
+    </div>
+</body>
+{% endblock %}
