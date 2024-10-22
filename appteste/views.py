@@ -12,6 +12,8 @@ from django.contrib import messages
 import base64
 from datetime import datetime
 from pyUFbr.baseuf import ufbr
+from django.core.paginator import Paginator
+from django.shortcuts import render
 
 #aqui 'aponta' para determinada tela nos templates
 
@@ -172,6 +174,27 @@ def listaCategorias(request):
     template_name = "appteste/Usuario/manutencaoUsuario.html"
     context = {"obj": obj}
     return render(request, template_name, context)
+
+def listaEmpreendimento(request):
+    emp = Empreendimento.objects.all().filter(Ativo=True)
+    paginator = Paginator(emp, 5)  # 5 por página
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    
+    context = {"emp": page_obj}
+    return render(request=request, context=context,
+                  template_name='appteste/Empreendimento/listaEmpreendimento.html')
+
+def listaUsuario(request):
+    emp = Usuario.objects.all().filter(Ativo=True)
+    paginator = Paginator(emp, 2)  # Define 2 usuários por página
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number) 
+
+    context = {"emp": page_obj}
+    return render(request=request, context=context,
+                  template_name='appteste/Usuario/listaUsuario.html')
+
 
 def fazLogin(request):
     if request.method == "POST":

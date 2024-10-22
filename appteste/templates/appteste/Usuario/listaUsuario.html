@@ -1,21 +1,18 @@
 {% extends "appteste/cabecalho.html" %}
 
-{% block content%}
+{% block content %}
 
 <head>
-
-    {% load static%}
+    {% load static %}
     <link href="{% static 'css/listas.css' %}" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.5/font/bootstrap-icons.min.css">
-
 </head>
 
 <body>
     <div class="container mt-5">
         <div class="d-flex justify-content-between align-items-center mb-3">
             <h2>Lista de Usuários</h2>
-            <button class="btn btn-success"><a href="../cadUsuario/">Novo
-                    Usuário</a></button>
+            <button class="btn btn-success"><a href="../cadUsuario/">Novo Usuário</a></button>
         </div>
 
         <table class="table table-bordered table-hover table-striped table-responsive" id="usuarios">
@@ -28,41 +25,47 @@
                 </tr>
             </thead>
             <tbody>
-                {% for obj in obj %}
-                <tr> 
-                    <td>{{obj.Nome}}</td>
-                    <td>{{obj.Login}}</td>
-                    <td>{{obj.Categoria_Usuario.Descricao}}</td>
-
+                {% for usuario in obj %}
+                <tr>
+                    <td>{{ usuario.Nome }}</td>
+                    <td>{{ usuario.Login }}</td>
+                    <td>{{ usuario.Categoria_Usuario.Descricao }}</td>
                     <td style="text-align: center;">
-                        <button class="btn btn-warning btn-sm"> 
-                            <a class="btn-editar" href="{% url 'updateUsuario' obj.id %}" style="text-decoration: none; color: rgb(0, 0, 0);">
-                                <i class="bi bi-pencil"><strong>Editar</strong></i>
-                            </a>
-                        </button>
-                        <button type="" class="btn btn-danger btn-sm">
-                            <a class="btn-remov" href="{% url 'deleteUsuario' obj.id %}" style="text-decoration: none; color: white;">
-                                <i class="bi bi-trash"><strong>Remover</strong></i>
-                            </a>
-                        </button>
+                        <a class="btn btn-warning btn-sm" href="{% url 'updateUsuario' usuario.id %}">
+                            <i class="bi bi-pencil"><strong>Editar</strong></i>
+                        </a>
+                        <a class="btn btn-danger btn-sm" href="{% url 'deleteUsuario' usuario.id %}">
+                            <i class="bi bi-trash"><strong>Remover</strong></i>
+                        </a>
                     </td>
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
 
-        <!--<div class="d-flex justify-content-center">
+        <div class="d-flex justify-content-center">
             <nav aria-label="Navegação de página">
                 <ul class="pagination">
-                    <li class="page-item"><a class="page-link" href="#">1</a></li>
-                    <li class="page-item"><a class="page-link" href="#">2</a></li>
-                    <li class="page-item"><a class="page-link" href="#">3</a></li>
+                    <li class="page-item {% if emp.has_previous %}enabled{% else %}disabled{% endif %}">
+                        <a class="page-link" href="?page=1">Primeira</a>
+                    </li>
+                    <li class="page-item {% if emp.has_previous %}enabled{% else %}disabled{% endif %}">
+                        <a class="page-link" href="?page={{ emp.previous_page_number }}">Anterior</a>
+                    </li>
+                    {% for i in emp.paginator.page_range %}
+                        <li class="page-item {% if emp.number == i %}active{% endif %}">
+                            <a class="page-link" href="?page={{ i }}">{{ i }}</a>
+                        </li>
+                    {% endfor %}
+                    <li class="page-item {% if emp.has_next %}enabled{% else %}disabled{% endif %}">
+                        <a class="page-link" href="?page={{ emp.next_page_number }}">Próxima</a>
+                    </li>
+                    <li class="page-item {% if emp.has_next %}enabled{% else %}disabled{% endif %}">
+                        <a class="page-link" href="?page={{ emp.paginator.num_pages }}">Última</a>
+                    </li>
                 </ul>
             </nav>
-        </div>-->
-    </div>
-
-    <script>
-    </script>
+        </div>
     {% endblock %}
 </body>
+</html>

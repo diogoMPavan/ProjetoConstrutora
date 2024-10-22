@@ -25,65 +25,71 @@
             <input type="text" class="form-control" placeholder="Buscar por nome..." aria-label="Buscar por nome">
             <button class="btn btn-outline-secondary" type="button"><i class="bi bi-search"></i></button>
         </div>
-
-        <table class="table table-bordered table-hover">
-            <thead class="table-dark">
-                <tr>
-                    <th style="background-color: #28A394;">Nome</th>
-                    <th style="background-color: #28A394;">Descrição</th>
-                    <th style="background-color: #28A394;">Data de Início</th>
-                    <th style="background-color: #28A394;">Data Final Prevista</th>
-                    <th style="background-color: #28A394;">UF</th>
-                    <th style="background-color: #28A394;">Cidade</th>
-                    <th style="background-color: #28A394;">Custo Previsto</th>
-                    <th style="background-color: #28A394;">Status</th>
-                    <th style="background-color: #28A394; width: 15%;">Editar / Remover</th>
-                </tr>
-            </thead>
-            </thead>
-            <tbody>
-                {% for e in emp %}
-                <tr>
-                    <td>{{e.Nome}}</td>
-                    <td>{{e.Descricao}}</td>
-                    <td>{{e.Data_inicio}}</td>
-                    <td>{{e.Data_fim_prevista}}</td>
-                    <td>{{e.UF}}</td>
-                    <td>{{e.Cidade}}</td>
-                    <td>{{e.Valor_total}}</td>
-                    <td>
-                        {% if e.Ativo %}
-                        Ativo
-                        {% else %}
-                        Inativo
+        
+            <table class="table table-bordered table-hover">
+                <thead class="table-dark">
+                    <tr>
+                        <th style="background-color: #28A394;">Nome</th>
+                        <th style="background-color: #28A394;">Descrição</th>
+                        <th style="background-color: #28A394;">Data de Início</th>
+                        <th style="background-color: #28A394;">Data Final Prevista</th>
+                        <th style="background-color: #28A394;">UF</th>
+                        <th style="background-color: #28A394;">Cidade</th>
+                        <th style="background-color: #28A394;">Custo Previsto</th>
+                        <th style="background-color: #28A394;">Status</th>
+                        <th style="background-color: #28A394; width: 15%;">Editar / Remover</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for e in emp %}
+                    <tr>
+                        <td>{{ e.Nome }}</td>
+                        <td>{{ e.Descricao }}</td>
+                        <td>{{ e.Data_inicio }}</td>
+                        <td>{{ e.Data_fim_prevista }}</td>
+                        <td>{{ e.UF }}</td>
+                        <td>{{ e.Cidade }}</td>
+                        <td>{{ e.Valor_total }}</td>
+                        <td>
+                            {% if e.Ativo %}
+                            Ativo
+                            {% else %}
+                            Inativo
+                            {% endif %}
+                        </td>
+                        <td>
+                            <a href="{% url 'updateEmp' e.id %}" class="btn btn-warning btn-sm">Editar</a>
+                            <a href="{% url 'deleteEmp' e.id %}" class="btn btn-danger btn-sm">Remover</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        
+            <!-- Navegação da Paginação -->
+            <div class="d-flex justify-content-center">
+                <nav aria-label="Navegação de página">
+                    <ul class="pagination">
+                        {% if emp.has_previous %}
+                            <li class="page-item"><a class="page-link" href="?page=1">Primeira</a></li>
+                            <li class="page-item"><a class="page-link" href="?page={{ emp.previous_page_number }}">Anterior</a></li>
                         {% endif %}
-                    </td>
-                    <td>
-                        <button class="btn btn-warning btn-sm">
-                            <a href="{% url 'updateEmp' e.id %}" style="text-decoration: none; color: rgb(0, 0, 0);">
-                                <i class="bi bi-pencil"><strong>Editar</strong></i>
-                            </a>
-                        </button>
-                        <button class="btn btn-danger btn-sm">
-                            <a href="{% url 'deleteEmp' e.id %}" style="text-decoration: none; color: white;">
-                                <i class="bi bi-trash"><strong>Remover</strong></i>
-                            </a>
-                        </button>
-                    </td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-
-        <div class="d-flex justify-content-center">
-            <nav aria-label="Navegação de página">
-                <ul class="pagination">
-                    <li class="page-item"><a class="page-link" href="#">1</a></li>
-                    <li class="page-item"><a class="page-link" href="#">2</a></li>
-                    <li class="page-item"><a class="page-link" href="#">3</a></li>
-                </ul>
-            </nav>
+                        
+                        {% for i in emp.paginator.page_range %}
+                            <li class="page-item {% if emp.number == i %}active{% endif %}">
+                                <a class="page-link" href="?page={{ i }}">{{ i }}</a>
+                            </li>
+                        {% endfor %}
+                
+                        {% if emp.has_next %}
+                            <li class="page-item"><a class="page-link" href="?page={{ emp.next_page_number }}">Próxima</a></li>
+                            <li class="page-item"><a class="page-link" href="?page={{ emp.paginator.num_pages }}">Última</a></li>
+                        {% endif %}
+                    </ul>
+                </nav>
+            </div>
         </div>
+        
     </div>
     {%endblock%}
 </body>
