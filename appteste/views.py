@@ -49,6 +49,8 @@ def cadEmpreendimento(request):
     obj = Empreendimento.objects.all().filter(Ativo = True)
     context = {"obj": obj, "uf": ufbr.list_uf}
     return render(request=request, template_name='appteste/Empreendimento/manutencaoEmpreendimento.html', context=context)
+
+
 #============================================================================
 
 #========================== USUÁRIO ================================
@@ -146,11 +148,17 @@ def deleteEmpreendimento(request, f_id):
 def updateEmpreendimento(request, f_id):
     emp = Empreendimento.objects.get(id=f_id)
     if request.method == "POST":
+        dataIni = request.POST.get('dataInicio')
+        dataIni = datetime.strptime(dataIni, '%Y-%m-%d')
+        dataIniFormatada = dataIni.strftime('%d/%m/%Y')
+        dataFim = request.POST.get('dataFim')
+        dataFim = datetime.strptime(dataFim, '%Y-%m-%d')
+        dataFimFormatada = dataFim.strftime('%d/%m/%Y')
         emp.Nome = request.POST.get('nome')
         emp.Descricao = request.POST.get('descricao')
-        emp.Data_inicio = request.POST.get('dataInicio')
-        emp.Data_fim_prevista = request.POST.get('dataFim')
-        emp.Data_fim = request.POST.get('dataFim')
+        emp.Data_inicio = dataIniFormatada
+        emp.Data_fim_prevista = dataFimFormatada
+        emp.Data_fim = dataFimFormatada
         emp.UF = request.POST.get('uf')
         emp.Cidade = request.POST.get('cidade')
         emp.Valor_total = request.POST.get('custo')
@@ -162,7 +170,14 @@ def updateEmpreendimento(request, f_id):
     return render(request, template_name, {"emp": emp, "uf": ufbr.list_uf})
 
 #============================================================================
+#============================== CATEGORIA ===================================
+def mostraCategoria(request):
+    obj = Categoria_Financeira.objects.all().filter(Ativa = True)
+    context = {"obj": obj}
+    return render(request, template_name='appteste/listaCategoria.html', context=context)
 
+
+#============================================================================
 #=============================== GENÉRICAS =================================
 def retornaCidades(request, uf):
     cidades = ufbr.list_cidades(uf)
@@ -194,7 +209,6 @@ def listaUsuario(request):
     context = {"emp": page_obj}
     return render(request=request, context=context,
                   template_name='appteste/Usuario/listaUsuario.html')
-
 
 def fazLogin(request):
     if request.method == "POST":

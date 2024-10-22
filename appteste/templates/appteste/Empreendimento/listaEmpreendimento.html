@@ -29,6 +29,7 @@
             <table class="table table-bordered table-hover">
                 <thead class="table-dark">
                     <tr>
+                        <th style="background-color: #28A394;"></th>
                         <th style="background-color: #28A394;">Nome</th>
                         <th style="background-color: #28A394;">Descrição</th>
                         <th style="background-color: #28A394;">Data de Início</th>
@@ -43,9 +44,10 @@
                 <tbody>
                     {% for e in emp %}
                     <tr>
+                        <td><button>+</button></td>
                         <td>{{ e.Nome }}</td>
                         <td>{{ e.Descricao }}</td>
-                        <td>{{ e.Data_inicio }}</td>
+                        <td>{{ e.Data_inicio}}</td>
                         <td>{{ e.Data_fim_prevista }}</td>
                         <td>{{ e.UF }}</td>
                         <td>{{ e.Cidade }}</td>
@@ -61,6 +63,27 @@
                             <a href="{% url 'updateEmp' e.id %}" class="btn btn-warning btn-sm">Editar</a>
                             <a href="{% url 'deleteEmp' e.id %}" class="btn btn-danger btn-sm">Remover</a>
                         </td>
+                    </tr>
+                    <tr id="linhaEsconder">
+                        <td></td>
+                        <table class="table table-bordered table-hover">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                <tr>
+                                    <td></td>
+                                </tr>
+
+                            </tbody>
+                        </table>
                     </tr>
                     {% endfor %}
                 </tbody>
