@@ -6,10 +6,6 @@
     color: #ffffff;
 }
 
-.collapse {
-    padding-right: 10%;
-}
-
 .Logo {
     display: inline-block;
     padding: 0;
@@ -20,4 +16,3 @@
     max-width: 150px;
     height: auto;
 }
-

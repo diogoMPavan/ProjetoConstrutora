@@ -3,27 +3,49 @@
 {% block content%}
 
 {% load static %}
-<link href="{% static 'css/listas.css' %}" rel="stylesheet">
+<head>
 
-<div class="table-container">
+    {% load static%}
+    <link href="{% static 'css/listas.css' %}" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.5/font/bootstrap-icons.min.css">
+
+</head>
+
+<div class="container mt-5">
+    <div class="d-flex justify-content-between align-items-center mb-3">
     <h2>Lista de Categorias</h2>
-    <table class="table table-striped">
-        <thead>
+    <button class="btn btn-success"><a href="">Nova Categoria</a></button><!-- Fazer pathing cadCategoria.html-->
+    </div>
+
+    <div class="input-group mb-3">
+    <input type="text" class="form-control" placeholder="Buscar por nome..." aria-label="Buscar por nome">
+    <button class="btn btn-outline-secondary" type="button"><i class="bi bi-search"></i></button>
+    </div>
+
+    <table class="table table-bordered table-hover">
+        
+        <thead class="table-dark">
+            
             <tr>
-                <th>Nome</th>
-                <th>Observação</th>
+ 
+                <th style="background-color: #28A394;">Nome</th>
+                <th style="background-color: #28A394;">Descrição</th>
+                
             </tr>
+
         </thead>
+
         <tbody>
+
             <tr>
-                <td></td>
-                <td></td>
+                <td>nome exemplo</td>  <!--Puxar categorias do banco de dados-->
+                <td>descrição exemplo</td>
             </tr>
-            <tr>
-                <td colspan="2">Nenhuma categoria cadastrada.</td>
-            </tr>
+
         </tbody>
+            
     </table>
+
 </div>
 
 {% endblock %}

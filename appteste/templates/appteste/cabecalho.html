@@ -12,15 +12,15 @@
 
 <body>
     <nav class="navbar navbar-expand-lg"> 
-        <div class="container-fluid">
+        <div class="container-fluid d-flex justify-content-between align-items-center">
             <a href="{% url 'home' %}" class="Logo">
-                <img src="{% static 'imagens/LogoLucasa.png' %}" alt="Logo" class="logo-img d-inline-block align-text-top">
+                <img src="{% static 'imagens/LogoLucasa.png' %}" alt="Logo" class="logo-img">
             </a>                        
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <div class="collapse navbar-collapse d-flex justify-content-center" id="navbarNav">
-                <ul class="navbar-nav">
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav mx-auto">
                     <li class="nav-item">
                         <a class="nav-link" href="/"><strong>Início</strong></a>
                     </li>
@@ -37,7 +37,7 @@
             </div>
         </div>
     </nav>
-<!---Adicionar a região do usuário logado no cabeçalho-->
+
     {% block content %}
     {% endblock %}
 

@@ -6,25 +6,22 @@
 
     {% load static%}
     <link href="{% static 'css/listas.css' %}" rel="stylesheet">
-    <link rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.5/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.5/font/bootstrap-icons.min.css">
 
 </head>
 
 <body>
 
-    </nav>
-
     <div class="container mt-5">
-        <div class="d-flex justify-content-between align-items-center mb-3">
+            <div class="d-flex justify-content-between align-items-center mb-3">
             <h2>Lista de Empreendimentos</h2>
             <button class="btn btn-success"><a href="../cadEmpreendimento/">Novo Empreendimento</a></button>
-        </div>
+            </div>
 
-        <div class="input-group mb-3">
+            <div class="input-group mb-3">
             <input type="text" class="form-control" placeholder="Buscar por nome..." aria-label="Buscar por nome">
             <button class="btn btn-outline-secondary" type="button"><i class="bi bi-search"></i></button>
-        </div>
+            </div>
         
             <table class="table table-bordered table-hover">
                 <thead class="table-dark">
@@ -64,7 +61,7 @@
                             <a href="{% url 'deleteEmp' e.id %}" class="btn btn-danger btn-sm">Remover</a>
                         </td>
                     </tr>
-                    <tr id="linhaEsconder">
+                    <!-- <tr id="linhaEsconder">
                         <td></td>
                         <table class="table table-bordered table-hover">
                             <thead class="table-dark">
@@ -84,7 +81,7 @@
 
                             </tbody>
                         </table>
-                    </tr>
+                    </tr> -->
                     {% endfor %}
                 </tbody>
             </table>
@@ -111,7 +108,6 @@
                     </ul>
                 </nav>
             </div>
-        </div>
         
     </div>
     {%endblock%}
