@@ -32,16 +32,6 @@ class Categoria_Financeira(models.Model):
     def __str__(self) -> str:
         return self.Descricao
 
-class Mov_Financeira(models.Model):
-    A_pagar = models.BooleanField(default=False)
-    Descricao = models.TextField(200)
-    Valor = models.DecimalField(max_digits=10, decimal_places=2) 
-    Data = models.CharField("Data", max_length=10)
-    Status = models.CharField(max_length=45)
-    Meio_de_Transacao = models.CharField(max_length=45)
-    Categoria_Financeira = models.ForeignKey(Categoria_Financeira, on_delete=models.CASCADE)
-    Usuario_id = models.IntegerField(default=0)
-
 class Empreendimento(models.Model):
     Nome = models.CharField(max_length=100, default="")
     Descricao = models.TextField(max_length=200)
@@ -53,3 +43,17 @@ class Empreendimento(models.Model):
     Valor_total = models.DecimalField(max_digits=10, decimal_places=2)
     Ativo = models.BooleanField(default=True)
     Usuario_id = models.IntegerField(default=0)
+    def __str__(self) -> str:
+        return self.Descricao
+
+class Mov_Financeira(models.Model):
+    A_pagar = models.BooleanField(default=False)
+    Descricao = models.TextField(max_length=200)
+    Valor = models.DecimalField(max_digits=10, decimal_places=2) 
+    Data = models.CharField("Data", max_length=10)
+    Pendente = models.BooleanField(default=False)
+    Categoria_Financeira = models.ForeignKey(Categoria_Financeira, on_delete=models.CASCADE)
+    Empreendimento = models.ForeignKey(Empreendimento, on_delete=models.CASCADE, default=2)
+    Usuario_id = models.IntegerField(default=0)
+    def __str__(self) -> str:
+        return self.Descricao

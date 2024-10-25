@@ -32,17 +32,16 @@ class Empreendimento_Admin(admin.ModelAdmin):
               "Cidade",
               "Valor_total",
               "Ativo",
-              "Usuario"]
+              "Usuario_id"]
 
 class Mov_FinanceiraAdmin(admin.ModelAdmin):
     fields = ["A_pagar",
               "Descricao",
               "Valor",
               "Data",
-              "Status",
-              "Meio_de_Transacao",
+              "Pendente",
               "Categoria_Financeira",
-              "Usuario"]
+              "Usuario_id"]
 
 
 admin.site.register(Categoria_Usuario, Categoria_UsuarioAdmin) 
