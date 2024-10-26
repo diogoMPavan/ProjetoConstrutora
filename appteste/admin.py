@@ -41,6 +41,7 @@ class Mov_FinanceiraAdmin(admin.ModelAdmin):
               "Data",
               "Pendente",
               "Categoria_Financeira",
+              "Empreendimento_id",
               "Usuario_id"]
 
 

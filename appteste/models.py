@@ -43,8 +43,6 @@ class Empreendimento(models.Model):
     Valor_total = models.DecimalField(max_digits=10, decimal_places=2)
     Ativo = models.BooleanField(default=True)
     Usuario_id = models.IntegerField(default=0)
-    def __str__(self) -> str:
-        return self.Descricao
 
 class Mov_Financeira(models.Model):
     A_pagar = models.BooleanField(default=False)
@@ -53,7 +51,7 @@ class Mov_Financeira(models.Model):
     Data = models.CharField("Data", max_length=10)
     Pendente = models.BooleanField(default=False)
     Categoria_Financeira = models.ForeignKey(Categoria_Financeira, on_delete=models.CASCADE)
-    Empreendimento = models.ForeignKey(Empreendimento, on_delete=models.CASCADE, default=2)
+    Empreendimento_id = models.IntegerField(default=2)
     Usuario_id = models.IntegerField(default=0)
     def __str__(self) -> str:
         return self.Descricao

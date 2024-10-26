@@ -6,111 +6,155 @@
 
     {% load static%}
     <link href="{% static 'css/listas.css' %}" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.5/font/bootstrap-icons.min.css">
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.5/font/bootstrap-icons.min.css">
 
 </head>
-
+<style>
+    .hidden{
+        display: none;
+    }
+</style>
 <body>
 
     <div class="container mt-5">
-            <div class="d-flex justify-content-between align-items-center mb-3">
+        <div class="d-flex justify-content-between align-items-center mb-3">
             <h2>Lista de Empreendimentos</h2>
             <button class="btn btn-success"><a href="../cadEmpreendimento/">Novo Empreendimento</a></button>
-            </div>
+        </div>
 
-            <div class="input-group mb-3">
+        <div class="input-group mb-3">
             <input type="text" class="form-control" placeholder="Buscar por nome..." aria-label="Buscar por nome">
             <button class="btn btn-outline-secondary" type="button"><i class="bi bi-search"></i></button>
-            </div>
-        
-            <table class="table table-bordered table-hover">
-                <thead class="table-dark">
-                    <tr>
-                        <th style="background-color: #28A394;"></th>
-                        <th style="background-color: #28A394;">Nome</th>
-                        <th style="background-color: #28A394;">Descrição</th>
-                        <th style="background-color: #28A394;">Data de Início</th>
-                        <th style="background-color: #28A394;">Data Final Prevista</th>
-                        <th style="background-color: #28A394;">UF</th>
-                        <th style="background-color: #28A394;">Cidade</th>
-                        <th style="background-color: #28A394;">Custo Previsto</th>
-                        <th style="background-color: #28A394;">Status</th>
-                        <th style="background-color: #28A394; width: 15%;">Editar / Remover</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for e in emp %}
-                    <tr>
-                        <td><button class="btn btn-light btn-sm" onclick="esconderLinha()">+</button></td>
-                        <td>{{ e.Nome }}</td>
-                        <td>{{ e.Descricao }}</td>
-                        <td>{{ e.Data_inicio}}</td>
-                        <td>{{ e.Data_fim_prevista }}</td>
-                        <td>{{ e.UF }}</td>
-                        <td>{{ e.Cidade }}</td>
-                        <td>{{ e.Valor_total }}</td>
-                        <td>
-                            {% if e.Ativo %}
-                            Ativo
-                            {% else %}
-                            Inativo
-                            {% endif %}
-                        </td>
-                        <td>
-                            <a href="{% url 'updateEmp' e.id %}" class="btn btn-warning btn-sm">Editar</a>
-                            <a href="{% url 'deleteEmp' e.id %}" class="btn btn-danger btn-sm">Remover</a>
-                        </td>
-                    </tr>
-                    <!-- <tr id="linhaEsconder">
-                        <td></td>
+        </div>
+
+        <table class="table table-bordered table-hover">
+            <thead class="table-dark">
+                <tr>
+                    <th style="background-color: #28A394;"></th>
+                    <th style="background-color: #28A394;">Id</th>
+                    <th style="background-color: #28A394;">Nome</th>
+                    <th style="background-color: #28A394;">Descrição</th>
+                    <th style="background-color: #28A394;">Data de Início</th>
+                    <th style="background-color: #28A394;">Data Final Prevista</th>
+                    <th style="background-color: #28A394;">UF</th>
+                    <th style="background-color: #28A394;">Cidade</th>
+                    <th style="background-color: #28A394;">Custo Previsto</th>
+                    <th style="background-color: #28A394;">Status</th>
+                    <th style="background-color: #28A394; width: 15%;">Editar / Remover</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for e in emp %}
+                <tr>
+                    <td><button class="btn btn-light btn-sm" onclick="esconderLinha(this)">+</button></td>
+                    <td>{{ e.id }}</td>
+                    <td>{{ e.Nome }}</td>
+                    <td>{{ e.Descricao }}</td>
+                    <td>{{ e.Data_inicio}}</td>
+                    <td>{{ e.Data_fim_prevista }}</td>
+                    <td>{{ e.UF }}</td>
+                    <td>{{ e.Cidade }}</td>
+                    <td>{{ e.Valor_total }}</td>
+                    <td>
+                        {% if e.Ativo %}
+                        Ativo
+                        {% else %}
+                        Inativo
+                        {% endif %}
+                    </td>
+                    <td>
+                        <a href="{% url 'updateEmp' e.id %}" class="btn btn-warning btn-sm">Editar</a>
+                        <a href="{% url 'deleteEmp' e.id %}" class="btn btn-danger btn-sm">Remover</a>
+                    </td>
+                </tr>
+                <tr class="nested-table hidden" >
+                    <td colspan="10">
                         <table class="table table-bordered table-hover">
-                            <thead class="table-dark">
+                            <thead class="table-success">
                                 <tr>
-                                    <th></th>
-                                    <th></th>
-                                    <th></th>
-                                    <th></th>
-                                    <th></th>
+                                    <th>Empreendimento</th>
+                                    <th>Descrição</th>
+                                    <th>Valor</th>
+                                    <th>Data</th>
+                                    <th>Pendente</th>
+                                    <th>Categoria</th>
+                                    <th>Usuario</th>
+                                    <th>Adicionar/Editar/Remover</th>
                                 </tr>
                             </thead>
                             <tbody>
-
+                                {% for m in mov_fin %}
                                 <tr>
-                                    <td></td>
-                                </tr>
-
+                                    {% if e.id == m.Empreendimento_id %}
+                                    <td>{{ m.Empreendimento_id }}</td>
+                                    <td>{{ m.Descricao }}</td>
+                                    <td>{{ m.Valor }}</td>
+                                    <td>{{ m.Data }}</td>
+                                    <td> 
+                                        {% if m.Pendente %}
+                                        Sim
+                                        {% else %} 
+                                        Não   
+                                        {% endif %}
+                                    </td>
+                                    <td>{{ m.Categoria_Financeira }}</td>
+                                    <td>{{ m.Usuario_id }}</td>
+                                    <td>
+                                        <a href="" class="btn btn-info btn-sm">Adicionar</a>
+                                        <a href="" class="btn btn-warning btn-sm">Editar</a>
+                                        <a href="" class="btn btn-danger btn-sm">Remover</a>
+                                    </td>
+                                    {% endif %}
+                                </tr> 
+                                {% endfor %}
                             </tbody>
                         </table>
-                    </tr> -->
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <!-- Navegação da Paginação -->
+        <div class="d-flex justify-content-center">
+            <nav aria-label="Navegação de página">
+                <ul class="pagination">
+                    {% if emp.has_previous %}
+                    <li class="page-item"><a class="page-link" href="?page=1">Primeira</a></li>
+                    <li class="page-item"><a class="page-link" href="?page={{ emp.previous_page_number }}">Anterior</a>
+                    </li>
+                    {% endif %}
+
+                    {% for i in emp.paginator.page_range %}
+                    <li class="page-item {% if emp.number == i %}active{% endif %}">
+                        <a class="page-link" href="?page={{ i }}">{{ i }}</a>
+                    </li>
                     {% endfor %}
-                </tbody>
-            </table>
-        
-            <!-- Navegação da Paginação -->
-            <div class="d-flex justify-content-center">
-                <nav aria-label="Navegação de página">
-                    <ul class="pagination">
-                        {% if emp.has_previous %}
-                            <li class="page-item"><a class="page-link" href="?page=1">Primeira</a></li>
-                            <li class="page-item"><a class="page-link" href="?page={{ emp.previous_page_number }}">Anterior</a></li>
-                        {% endif %}
-                        
-                        {% for i in emp.paginator.page_range %}
-                            <li class="page-item {% if emp.number == i %}active{% endif %}">
-                                <a class="page-link" href="?page={{ i }}">{{ i }}</a>
-                            </li>
-                        {% endfor %}
-                
-                        {% if emp.has_next %}
-                            <li class="page-item"><a class="page-link" href="?page={{ emp.next_page_number }}">Próxima</a></li>
-                            <li class="page-item"><a class="page-link" href="?page={{ emp.paginator.num_pages }}">Última</a></li>
-                        {% endif %}
-                    </ul>
-                </nav>
-            </div>
-        
+
+                    {% if emp.has_next %}
+                    <li class="page-item"><a class="page-link" href="?page={{ emp.next_page_number }}">Próxima</a></li>
+                    <li class="page-item"><a class="page-link" href="?page={{ emp.paginator.num_pages }}">Última</a>
+                    </li>
+                    {% endif %}
+                </ul>
+            </nav>
+        </div>
+
     </div>
+    <script>
+        function esconderLinha(button) { 
+            //const nestedTable = document.getElementById('nested-table');
+            //nestedTable.classList.toggle('nested');
+            const currentRow = button.parentNode.parentNode;
+            const nestedRow = currentRow.nextElementSibling;
+
+            // Alterna a classe "hidden" na linha nested-table
+            if (nestedRow && nestedRow.classList.contains('nested-table')) {
+                nestedRow.classList.toggle('hidden');
+            }
+        }
+    </script>
     {%endblock%}
 </body>
-
 </html>

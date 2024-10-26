@@ -41,7 +41,8 @@ def listaUsuario(request):
 
 def listaEmpreendimento(request):
     emp = Empreendimento.objects.all().filter(Ativo = True)
-    context = {"emp": emp}
+    mov_fin = Mov_Financeira.objects.all().filter(A_pagar = True)
+    context = {"emp": emp, "mov_fin": mov_fin}
     return render(request=request, context=context,
                   template_name='appteste/Empreendimento/listaEmpreendimento.html')
 
@@ -195,8 +196,9 @@ def listaEmpreendimento(request):
     paginator = Paginator(emp, 5)  # 5 por página
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
-    
-    context = {"emp": page_obj}
+    mov_fin = Mov_Financeira.objects.all().filter(A_pagar = True)
+
+    context = {"emp": page_obj, "mov_fin": mov_fin}
     return render(request=request, context=context,
                   template_name='appteste/Empreendimento/listaEmpreendimento.html')
 
