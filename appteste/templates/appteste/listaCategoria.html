@@ -23,25 +23,19 @@
     </div>
 
     <table class="table table-bordered table-hover">
-        
         <thead class="table-dark">
-            
             <tr>
- 
-                <th style="background-color: #28A394;">Nome</th>
+                <th style="background-color: #28A394;">Id</th>
                 <th style="background-color: #28A394;">Descrição</th>
-                
             </tr>
-
         </thead>
-
         <tbody>
-
+            {% for c in categorias %}
             <tr>
-                <td>nome exemplo</td>  <!--Puxar categorias do banco de dados-->
-                <td>descrição exemplo</td>
+                <td>{{ c.id }}</td>
+                <td>{{ c.Descricao }}</td>
             </tr>
-
+            {% endfor %}
         </tbody>
             
     </table>

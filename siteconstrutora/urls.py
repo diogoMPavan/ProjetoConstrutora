@@ -18,13 +18,17 @@ from django.contrib import admin
 from django.urls import include, path
 from django.conf.urls.static import static
 from django.conf import settings
+from django.views.generic import TemplateView
 
 #aqui é onde são colocadas as rotas que irão nortear o site
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path("", include("appteste.urls")),
+    #path("", include("appteste.urls")),
+    path('accounts/', include('django.contrib.auth.urls')),
     path('tinymce/', include('tinymce.urls')),
     path("login/", include("appteste.urls")),
+    path("", TemplateView.as_view(template_name="home.html"), name="home"),
+    path("login/", TemplateView.as_view(template_name="login.html"), name="login"),
     path("cadUsuario/", include('appteste.urls')),
     path("listaUsuario/", include('appteste.urls')),
     path("listaEmpreendimento/", include('appteste.urls')),

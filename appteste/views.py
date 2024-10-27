@@ -49,11 +49,14 @@ def listaEmpreendimento(request):
 def cadEmpreendimento(request):
     obj = Empreendimento.objects.all().filter(Ativo = True)
     context = {"obj": obj, "uf": ufbr.list_uf}
-    return render(request=request, template_name='appteste/Empreendimento/manutencaoEmpreendimento.html', context=context)
+    return render(request=request, template_name='appteste/Empreendimento/manutencaoEmpreendimento.html', context=context) 
 
-
+def cadGastos(request, f_id):
+    emp = Empreendimento.objects.all().filter(Ativo = True and id == f_id)
+    cat = Categoria_Financeira.objects.all().filter(Ativa = True)
+    context = {'empreendimentos': emp, 'categoria': cat}
+    return render(request=request,context=context , template_name='appteste/Gastos/cadGastos.html')   
 #============================================================================
-
 #========================== USUÁRIO ================================
 def salvaUsuario(request):
     if request.method == 'POST':
@@ -174,9 +177,14 @@ def updateEmpreendimento(request, f_id):
 #============================== CATEGORIA ===================================
 def mostraCategoria(request):
     obj = Categoria_Financeira.objects.all().filter(Ativa = True)
-    context = {"obj": obj}
+    context = {"categorias": obj}
     return render(request, template_name='appteste/listaCategoria.html', context=context)
 
+
+#============================================================================
+#========================== GASTOS ================================  
+#def salvaGastos(request):
+    #if request.method == 'POST':
 
 #============================================================================
 #=============================== GENÉRICAS =================================

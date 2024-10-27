@@ -1,0 +1,51 @@
+{% extends "appteste/cabecalho.html" %}
+
+{% block content%}
+
+{% load static %}
+<link href="{% static 'css/manutGastos.css' %}" rel="stylesheet">
+</head>
+
+<body>
+    <div class="form-container">
+        <h2 style="text-align: center;">CADASTRO DE GASTO</h2>
+        <form method="POST" id="gasto" action="">
+            {% csrf_token %}
+            
+            <div class="mb-3">
+                <label for="Descricao" class="form-label"><strong>Descrição</strong></label>
+                <input type="text" class="form-control" id="descricao" name="descricao" placeholder="Descrição do gasto" required id="desc">
+            </div>
+            <div class="mb-3">
+                <label for="valor" class="form-label"><strong>Valor</strong></label>
+                <input type="number" class="form-control" id="valor" name="valor" placeholder="Valor do gasto" required step="0.01">
+            </div>
+            <div class="mb-3">
+                <label for="data" class="form-label"><strong>Data</strong></label>
+                <input type="date" class="form-control" id="data" name="data" required value="">
+            </div>
+            <div class="mb-3">
+                <label for="empreendimento" class="form-label"><strong>Empreendimento</strong></label>
+                <select class="form-select" name="empreendimento" required id="empreendimento">
+                    <option value=""></option>
+                    {% for emp in empreendimentos %}
+                    <option value="{{ emp.id }}">{{ emp.id }} - {{ emp.Nome }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="categoria" class="form-label"><strong>Categoria de Gasto</strong></label>
+                <select class="form-select" name="categoria" required id="categoria">
+                    <option value=""></option>
+                    {% for c in categoria %}
+                    <option value="{{c.id}}">{{c.Descricao}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="mb-3">
+                <button class="btn btn-confirm"><a href=""></a></button>
+            </div>
+        </form>
+    </div>
+</body>
+{% endblock %}

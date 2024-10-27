@@ -101,7 +101,7 @@
                                     <td>{{ m.Categoria_Financeira }}</td>
                                     <td>{{ m.Usuario_id }}</td>
                                     <td>
-                                        <a href="" class="btn btn-info btn-sm">Adicionar</a>
+                                        <a href="{% url 'cadGastos' m.Empreendimento_id %}" class="btn btn-info btn-sm">Adicionar</a>
                                         <a href="" class="btn btn-warning btn-sm">Editar</a>
                                         <a href="" class="btn btn-danger btn-sm">Remover</a>
                                     </td>

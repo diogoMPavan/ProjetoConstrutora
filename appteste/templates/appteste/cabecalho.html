@@ -35,6 +35,15 @@
                     </li>
                 </ul>
             </div>
+            <div>
+                <p class="nav-item">Bem vindo</p>
+                {% if Usuario.is_authenticated %}
+                <p>{{ Usuario.login }}!</p>
+                {% else %}
+                <p>visitante!</p>
+                <button class="btn btn-primary btn-sm">Login</button>
+                {% endif %}
+            </div>
         </div>
     </nav>
 
