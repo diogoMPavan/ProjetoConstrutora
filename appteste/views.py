@@ -14,24 +14,37 @@ from datetime import datetime
 from pyUFbr.baseuf import ufbr
 from django.core.paginator import Paginator
 from django.shortcuts import render
+from django.contrib.auth.models import User
+from django.contrib.auth.forms import UserCreationForm  
+from django.contrib.auth import login, logout, authenticate
 
 #aqui 'aponta' para determinada tela nos templates
 
 #============================== Abre telas ==================================
 def home(request):
-    return render(request=request, 
-                  template_name='appteste/home.html',
-                  context={"Mov_financeira": Mov_Financeira.Categoria_Financeira}) 
+    return render(request=request, template_name='home.html') 
 
 def login(request):
     return render(request=request,
-                  template_name='appteste/login.html')
+                  template_name='registration/login.html')
 
 def cadUsuario(request):
     obj = Categoria_Usuario.objects.all().filter(Ativa = True)
     context = {"obj": obj}
     return render(request=request,
-                  template_name='appteste/Usuario/manutencaoUsuario.html', context=context)
+                  template_name='Usuario/manutencaoUsuario.html', context=context)
+
+def cadUsuario2(request):
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            login(user)
+            return redirect("home")
+    else:
+        form = UserCreationForm()
+        context = {'form': form}
+        return render(request=request, context=context, template_name='register.html')
 
 def listaUsuario(request):
     obj = Usuario.objects.all().filter(Ativo = True)
@@ -59,22 +72,13 @@ def cadGastos(request, f_id):
 #============================================================================
 #========================== USUÁRIO ================================
 def salvaUsuario(request):
-    if request.method == 'POST':
-        nome = request.POST.get('nome')
-        categoria_id = request.POST.get('categoria')
-        login = request.POST.get('login')
-        senha = request.POST.get('senha')
-
-        categoria = Categoria_Usuario.objects.get(id=categoria_id)
-
-        Usuario.objects.create(
-            Nome = nome,
-            Categoria_Usuario = categoria,
-            Login = login,
-            Senha = make_password(senha),
-        )
-        usuarios = Usuario.objects.all()
-        return redirect('listaUsuario')
+   username = request.GET.get('username')
+   password = request.GET.get('password')
+   
+   if User.objects.get(username=username, password=password) is None:
+       user = User.objects.create(username, password)
+       
+   return redirect('listaUsuario')
 
 def mostrarUsuarios(request):
     obj = Usuario.objects.all().select_related('Categoria_Usuario').filter(Ativo = True)
@@ -219,25 +223,5 @@ def listaUsuario(request):
     context = {"emp": page_obj}
     return render(request=request, context=context,
                   template_name='appteste/Usuario/listaUsuario.html')
-
-def fazLogin(request):
-    if request.method == "POST":
-        login = request.POST.get('login')
-        senha = request.POST.get('senha')
-
-        if verificaSenha(login, senha):
-            messages.success(request, "Login realizado com sucesso")
-            return render(request, template_name='appteste/home.html')
-        else:
-            messages.error(request, "Dados incorretos!")
-            return render(request, template_name='appteste/login.html')
-        
-    for m in messages.get_messages(request):
-            del m['senha']
-            
-def verificaSenha(login, senha):
-    obj = Usuario.objects.all().filter(Login=login, Ativo=True)
-    for o in obj:
-        return check_password(senha, o.Senha)
 
 #================================================================

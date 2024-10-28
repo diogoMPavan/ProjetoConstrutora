@@ -16,7 +16,7 @@
                     <h3>Confirmar Exclusão</h3>
                 </div>
                 <div class="card-body text-center">
-                    <p class="lead">Tem certeza de que deseja deletar o usuário<strong>{{usuario.Nome}}</strong>?</p>
+                    <p class="lead">Tem certeza de que deseja deletar o usuário <strong>{{usuario.Nome}}</strong>?</p>
 
                     <form method="POST" action="{% url 'deleteUsuario' usuario.id %}">
                         {% csrf_token %}

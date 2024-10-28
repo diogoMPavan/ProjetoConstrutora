@@ -18,20 +18,25 @@
         <h1>Login</h1>
         <form action="" method="POST">
             {% csrf_token %}
-            <!---<div class="form-group">
-                <label for="login">Usuário</label>
-                <input type="text" class="form-control" id="usuario" placeholder="Digite seu usuário" name="login"
-                    required="true">
-            </div>
-            <div class="form-group">
-                <label for="senha">Senha</label>
-                <input type="password" class="form-control" id="senha" placeholder="Digite sua senha" name="senha"
-                    required="true">
-            </div>
-            <br>--->
-            {{form}}
+            {{ form.non_field_errors }}
+                
+                <div class="mb-3">
+                    {{ form.username.label_tag }}
+                    {{ form.username }}
+                    <div class="form-text text-danger">{{ form.username.errors }}</div>
+                </div>
+
+                <div class="mb-3">
+                    {{ form.password.label_tag }}
+                    {{ form.password }}
+                    <div class="form-text text-danger">{{ form.password.errors }}</div>
+                </div>
             <button type="submit" class="btn btn-login">Entrar</button>
             <a href="#" class="forgot-password">Esqueci a senha</a>
+            <hr>
+            <div style="text-align: center;">
+                <button type="" class="btn btn-outline-light btn-sm"><a href="../register/" style="color: white;">Criar Usuário</a></button>
+            </div>
         </form>
     </div>
 

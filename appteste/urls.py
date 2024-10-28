@@ -1,11 +1,14 @@
 from django.urls import path
 from . import views
+from django.contrib.auth import views as auth_views
+from .forms import CustomLoginForm
 
 urlpatterns = [
     path("",views.home, name="home"),
-
-    path("login/", views.login, name="login"),
+    path('login/', auth_views.LoginView.as_view(), name='login'),
+    path('logout/', auth_views.LogoutView.as_view(), name='logout'),
     path("cadUsuario/", views.cadUsuario, name="cadUsuario"),
+    path("cadUsuario2/", views.cadUsuario2, name="cadUsuario2"),
     path("listaUsuario/", views.listaUsuario, name="listaUsuario"),
     path("listaEmpreendimento/", views.listaEmpreendimento, name="listaEmpreendimento"),
     path("categorias/", views.listaCategorias, name="lista_categorias"),
@@ -25,7 +28,6 @@ urlpatterns = [
     #================================= GASTOS ================================
 
     #=========================================================================
-    path('fazLogin/', views.fazLogin, name="fazLogin"),
     path('cadEmpreendimento/', views.cadEmpreendimento, name="cadEmpreendimento"),
     path('listaEmpreendimento/', views.listaEmpreendimento, name="listaEmpreendimento"),
     path('retornaCidades/<str:uf>/', views.retornaCidades, name="retoraCidades"),
