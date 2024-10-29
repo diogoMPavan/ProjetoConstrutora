@@ -18,15 +18,17 @@ body {
 }
 
 .btn-confirm {
-    background-color: #1e6054;
-    color: #ffffff;
+    background-color: #007bff;
+    color: white;
     border-radius: 50px;
     padding: 10px 40px;
     font-size: 18px;
+    border: none; /* Remove a borda */
 }
 
 .btn-confirm:hover {
     background-color: #1e6054;
+    color: #ffffff;
 }
 
 .btn-secondary {

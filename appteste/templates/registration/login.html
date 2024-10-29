@@ -20,17 +20,23 @@
             {% csrf_token %}
             {{ form.non_field_errors }}
                 
-                <div class="mb-3">
-                    {{ form.username.label_tag }}
+            <div class="mb-3 text-center">
+                <label class="text-white">{{ form.username.label_tag }}</label>
+                <div class="d-flex justify-content-center">
                     {{ form.username }}
-                    <div class="form-text text-danger">{{ form.username.errors }}</div>
                 </div>
-
-                <div class="mb-3">
-                    {{ form.password.label_tag }}
+                <div class="form-text text-danger text-center">{{ form.username.errors }}</div>
+            </div>
+            
+            <div class="mb-3 text-center">
+                <label class="text-white">{{ form.password.label_tag }}</label>
+                <div class="d-flex justify-content-center">
                     {{ form.password }}
-                    <div class="form-text text-danger">{{ form.password.errors }}</div>
                 </div>
+                <div class="form-text text-danger text-center">{{ form.password.errors }}</div>
+            </div>
+            
+            
             <button type="submit" class="btn btn-login">Entrar</button>
             <a href="#" class="forgot-password">Esqueci a senha</a>
             <hr>
