@@ -22,7 +22,10 @@ from django.contrib.auth import login, logout, authenticate
 
 #============================== Abre telas ==================================
 def home(request):
-    return render(request=request, template_name='home.html') 
+    if (request.user.is_authenticated):
+        return render(request=request, template_name='home.html') 
+    else:
+        return redirect("login")
 
 def login(request):
     return render(request=request,
@@ -65,7 +68,7 @@ def cadEmpreendimento(request):
     return render(request=request, template_name='appteste/Empreendimento/manutencaoEmpreendimento.html', context=context) 
 
 def cadGastos(request, f_id):
-    emp = Empreendimento.objects.all().filter(Ativo = True and id == f_id)
+    emp = Empreendimento.objects.get(id= f_id)
     cat = Categoria_Financeira.objects.all().filter(Ativa = True)
     context = {'empreendimentos': emp, 'categoria': cat}
     return render(request=request,context=context , template_name='appteste/Gastos/cadGastos.html')   
@@ -118,11 +121,9 @@ def salvaEmpreendimento(request):
         dataIni = request.POST.get('dataInicio')
         dataIni = datetime.strptime(dataIni, '%Y-%m-%d')
         dataIniFormatada = dataIni.strftime('%d/%m/%Y')
-        print("Data Inicio", dataIniFormatada)
         dataFim = request.POST.get('dataFim')
         dataFim = datetime.strptime(dataFim, '%Y-%m-%d')
         dataFimFormatada = dataFim.strftime('%d/%m/%Y')
-        print("Data Fim", dataFimFormatada)
         uf = request.POST.get('uf') 
         cidade = request.POST.get('cidade')
         custo = request.POST.get('custo')
@@ -187,8 +188,34 @@ def mostraCategoria(request):
 
 #============================================================================
 #========================== GASTOS ================================  
-#def salvaGastos(request):
-    #if request.method == 'POST':
+def salvaGastos(request):
+    if request.method == 'POST':
+        a_pagar = True
+        descricao = request.POST.get('descricao')
+        valor = request.POST.get('valor')
+        data = request.POST.get('data')
+        data = datetime.strptime(data, '%Y-%m-%d')
+        dataIniFormatada = data.strftime('%d/%m/%Y')
+        categoria = request.POST.get('categoria')
+        empreendimento = request.POST.get('empreendimento')
+        
+        Mov_Financeira.objects.create(
+            A_pagar = True,
+            Descricao = descricao,
+            Valor = valor,
+            Data = dataIniFormatada,
+            Pendente = True,
+            Categoria_Financeira = categoria,
+            Empreendimento_id = empreendimento,
+            Usuario = request.user
+        )
+
+        emp = Empreendimento.objects.get(id=empreendimento)
+        emp.Valor_total += valor
+        emp.save()
+
+        return redirect('listaEmpreendimento')
+
 
 #============================================================================
 #=============================== GENÉRICAS =================================

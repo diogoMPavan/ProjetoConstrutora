@@ -42,7 +42,7 @@ class Mov_FinanceiraAdmin(admin.ModelAdmin):
               "Pendente",
               "Categoria_Financeira",
               "Empreendimento_id",
-              "Usuario_id"]
+              "Usuario"]
 
 
 admin.site.register(Categoria_Usuario, Categoria_UsuarioAdmin) 

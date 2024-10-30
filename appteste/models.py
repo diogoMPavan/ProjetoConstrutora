@@ -52,6 +52,6 @@ class Mov_Financeira(models.Model):
     Pendente = models.BooleanField(default=False)
     Categoria_Financeira = models.ForeignKey(Categoria_Financeira, on_delete=models.CASCADE)
     Empreendimento_id = models.IntegerField(default=2)
-    Usuario_id = models.IntegerField(default=0)
+    Usuario = models.CharField(max_length=25, default="")
     def __str__(self) -> str:
         return self.Descricao

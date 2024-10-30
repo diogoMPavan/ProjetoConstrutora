@@ -73,7 +73,6 @@
                         <table class="table table-bordered table-hover">
                             <thead class="table-success">
                                 <tr>
-                                    <th>Empreendimento</th>
                                     <th>Descrição</th>
                                     <th>Valor</th>
                                     <th>Data</th>
@@ -87,7 +86,6 @@
                                 {% for m in mov_fin %}
                                 <tr>
                                     {% if e.id == m.Empreendimento_id %}
-                                    <td>{{ m.Empreendimento_id }}</td>
                                     <td>{{ m.Descricao }}</td>
                                     <td>{{ m.Valor }}</td>
                                     <td>{{ m.Data }}</td>
@@ -105,8 +103,18 @@
                                         <a href="" class="btn btn-warning btn-sm">Editar</a>
                                         <a href="" class="btn btn-danger btn-sm">Remover</a>
                                     </td>
-                                    {% endif %}
+                                    {% else %}
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td>
+                                    <a href="{% url 'cadGastos' e.id %}" class="btn btn-info btn-sm">Adicionar</a>
+                                </td>
                                 </tr> 
+                                    {% endif %}
                                 {% endfor %}
                             </tbody>
                         </table>
@@ -144,12 +152,9 @@
     </div>
     <script>
         function esconderLinha(button) { 
-            //const nestedTable = document.getElementById('nested-table');
-            //nestedTable.classList.toggle('nested');
             const currentRow = button.parentNode.parentNode;
             const nestedRow = currentRow.nextElementSibling;
 
-            // Alterna a classe "hidden" na linha nested-table
             if (nestedRow && nestedRow.classList.contains('nested-table')) {
                 nestedRow.classList.toggle('hidden');
             }

@@ -29,7 +29,7 @@ urlpatterns = [
     path('accounts/', include('django.contrib.auth.urls')),
     path('tinymce/', include('tinymce.urls')),
     path('register/', cadUsuario2, name='register'),
-    path("", TemplateView.as_view(template_name="home.html"), name="home"),
+    #path("", TemplateView.as_view(template_name="home.html"), name="home"),
     path("cadUsuario/", TemplateView.as_view(template_name="appteste/Usuario/manutencaoUsuario.html"), name="cadUsuario"),
     path("", include("appteste.urls")),
 ]

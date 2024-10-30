@@ -24,13 +24,10 @@
                 <label for="data" class="form-label"><strong>Data</strong></label>
                 <input type="date" class="form-control" id="data" name="data" required value="">
             </div>
-            <div class="mb-3">
+            <div class="mb-3" aria-disabled="true">
                 <label for="empreendimento" class="form-label"><strong>Empreendimento</strong></label>
-                <select class="form-select" name="empreendimento" required id="empreendimento">
-                    <option value=""></option>
-                    {% for emp in empreendimentos %}
-                    <option value="{{ emp.id }}">{{ emp.id }} - {{ emp.Nome }}</option>
-                    {% endfor %}
+                <select class="form-select" name="empreendimento" required id="empreendimento" disabled="true">
+                    <option selected value="{{ empreendimentos.id }}">{{ empreendimentos.Nome }}</option>
                 </select>
             </div>
             <div class="mb-3">
