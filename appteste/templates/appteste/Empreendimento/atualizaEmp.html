@@ -8,7 +8,7 @@
 
 <body>
     <div class="form-container">
-        <h2 style="text-align: center;">CADASTRO DE EMPREENDIMENTO</h2>
+        <h2 style="text-align: center;">EDIÇÃO DE EMPREENDIMENTO</h2>
         <form method="POST" id="empreendimento">
             {% csrf_token %}
             <div class="mb-3">
@@ -27,9 +27,9 @@
                 <span class="input-group text"><strong>Data de início e fim previstas</strong></span>
                 <input style="border-top-left-radius: 50px; border-bottom-left-radius: 50px;" type="date"
                     class="form-control" placeholder="Data de início" id="dataini" name="dataInicio" required
-                    value="{{emp.Data_inicio}}">
+                    value="{{emp.Data_inicio|date:'Y-m-d' }}">
                 <input type="date" class="form-control" placeholder="Data de fim" id="datafim" name="dataFim" required
-                    value="{{emp.Data_fim_prevista}}">
+                    value="{{emp.Data_fim_prevista|date:'Y-m-d' }}">
             </div>
             <div class="mb-3">
                 <label for="uf" class="form-label"><strong>UF</strong></label>

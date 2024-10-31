@@ -1,0 +1,52 @@
+{% extends "appteste/cabecalho.html" %}
+
+{% block content%}
+
+{% load static %}
+<link href="{% static 'css/manutGastos.css' %}" rel="stylesheet">
+</head>
+
+<body>
+    <div class="form-container">
+        <h2 style="text-align: center;">EDIÇÃO DE GASTO</h2>
+        <form method="POST" id="gasto" action="{% url 'salvaGastos' %}">
+            {% csrf_token %}
+            
+            <div class="mb-3">
+                <label for="Descricao" class="form-label"><strong>Descrição</strong></label>
+                <input type="text" class="form-control" id="descricao" name="descricao" placeholder="Descrição do gasto" required value="{{gasto.Descricao}}">
+            </div>
+            <div class="mb-3">
+                <label for="valor" class="form-label"><strong>Valor</strong></label>
+                <input type="text" class="form-control" id="valor" name="valor" placeholder="Valor do gasto" required 
+                value="{{ gasto.Valor|floatformat:0 }}">
+            </div>
+            <div class="mb-3">
+                <label for="data" class="form-label"><strong>Data</strong></label>
+                <input type="date" class="form-control" id="data" name="data" value="{{ gasto.Data|date:'Y-m-d' }}" required >
+            </div>
+            <div class="mb-3" aria-disabled="true">
+                <label for="empreendimento" class="form-label"><strong>Empreendimento</strong></label>
+                <input type="text", name="emp" id="emp" value="{{empreendimentos.id}}" hidden>
+                <input type="text" class="form-control" name="empreendimento" id="empreendimento" value="{{empreendimentos.Nome}}" disabled>
+            </div>
+            <div class="mb-3">
+                <label for="categoria" class="form-label"><strong>Categoria de Gasto</strong></label>
+                <select class="form-select" name="categoria" required id="categoria">
+                    <option value=""></option>
+                    {% for c in cat %}
+                    {% if Categoria_Financeira.id == cat.id %}
+                    <option selected value="{{c.id}}">{{c.Descricao}}</option>
+                    {% else %}
+                    <option value="{{c.id}}">{{c.Descricao}}</option>
+                    {% endif %}
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="mb-3 text-center">
+                <button type="submit" class="btn btn-confirm">Cadastrar Gasto</button>
+            </div>
+        </form>
+    </div>
+</body>
+{% endblock %}

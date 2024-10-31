@@ -26,7 +26,10 @@ urlpatterns = [
     path('updateEmp/<int:f_id>', views.updateEmpreendimento, name="updateEmp"),
     #=========================================================================
     #================================= GASTOS ================================
-
+    path('salvaGastos/', views.salvaGastos, name='salvaGastos'),
+    path('listaGastos/', views.listaGastos, name='listaGastos'),
+    path('deleteGasto/<int:f_id>', views.deleteGasto, name='deleteGasto'),
+    path('updateGasto/<int:f_id>', views.updateGasto, name='updateGasto'),
     #=========================================================================
     path('cadEmpreendimento/', views.cadEmpreendimento, name="cadEmpreendimento"),
     path('listaEmpreendimento/', views.listaEmpreendimento, name="listaEmpreendimento"),

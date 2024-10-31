@@ -35,9 +35,9 @@ class Categoria_Financeira(models.Model):
 class Empreendimento(models.Model):
     Nome = models.CharField(max_length=100, default="")
     Descricao = models.TextField(max_length=200)
-    Data_inicio = models.CharField(max_length=10, default=datetime.now().date())
-    Data_fim_prevista = models.CharField(max_length=10)
-    Data_fim = models.CharField(max_length=10)
+    Data_inicio = models.DateField(default=datetime.now)
+    Data_fim_prevista = models.DateField(default=datetime.now)
+    Data_fim = models.DateField(default=datetime.now)
     UF = models.CharField(max_length=2, default="")
     Cidade = models.CharField(max_length=50, default="")
     Valor_total = models.DecimalField(max_digits=10, decimal_places=2)
@@ -48,10 +48,10 @@ class Mov_Financeira(models.Model):
     A_pagar = models.BooleanField(default=False)
     Descricao = models.TextField(max_length=200)
     Valor = models.DecimalField(max_digits=10, decimal_places=2) 
-    Data = models.CharField("Data", max_length=10)
+    Data = models.DateField(default=datetime.now)
     Pendente = models.BooleanField(default=False)
     Categoria_Financeira = models.ForeignKey(Categoria_Financeira, on_delete=models.CASCADE)
-    Empreendimento_id = models.IntegerField(default=2)
+    Empreendimento_id = models.ForeignKey(Empreendimento, on_delete=models.CASCADE)
     Usuario = models.CharField(max_length=25, default="")
     def __str__(self) -> str:
         return self.Descricao

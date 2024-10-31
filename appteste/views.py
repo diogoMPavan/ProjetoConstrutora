@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, JsonResponse
 import json
+from decimal import Decimal
 from django.contrib.auth.hashers import make_password, check_password
 #from django_cryptography.fields import encrypt, decrypt
 from cryptography.fernet import Fernet
@@ -57,7 +58,7 @@ def listaUsuario(request):
 
 def listaEmpreendimento(request):
     emp = Empreendimento.objects.all().filter(Ativo = True)
-    mov_fin = Mov_Financeira.objects.all().filter(A_pagar = True)
+    mov_fin = Mov_Financeira.objects.filter(A_pagar = True)
     context = {"emp": emp, "mov_fin": mov_fin}
     return render(request=request, context=context,
                   template_name='appteste/Empreendimento/listaEmpreendimento.html')
@@ -133,9 +134,9 @@ def salvaEmpreendimento(request):
         Empreendimento.objects.create(
             Nome = nome,
             Descricao = descricao,
-            Data_inicio = dataIniFormatada,
-            Data_fim_prevista = dataFimFormatada,
-            Data_fim = dataFimFormatada,
+            Data_inicio = dataIni,
+            Data_fim_prevista = dataFim,
+            Data_fim = dataFim,
             UF = uf,
             Cidade = cidade,
             Valor_total = custo,
@@ -165,9 +166,9 @@ def updateEmpreendimento(request, f_id):
         dataFimFormatada = dataFim.strftime('%d/%m/%Y')
         emp.Nome = request.POST.get('nome')
         emp.Descricao = request.POST.get('descricao')
-        emp.Data_inicio = dataIniFormatada
-        emp.Data_fim_prevista = dataFimFormatada
-        emp.Data_fim = dataFimFormatada
+        emp.Data_inicio = dataIni
+        emp.Data_fim_prevista = dataFim
+        emp.Data_fim = dataFim
         emp.UF = request.POST.get('uf')
         emp.Cidade = request.POST.get('cidade')
         emp.Valor_total = request.POST.get('custo')
@@ -185,37 +186,71 @@ def mostraCategoria(request):
     context = {"categorias": obj}
     return render(request, template_name='appteste/listaCategoria.html', context=context)
 
-
 #============================================================================
 #========================== GASTOS ================================  
 def salvaGastos(request):
     if request.method == 'POST':
-        a_pagar = True
         descricao = request.POST.get('descricao')
         valor = request.POST.get('valor')
         data = request.POST.get('data')
         data = datetime.strptime(data, '%Y-%m-%d')
         dataIniFormatada = data.strftime('%d/%m/%Y')
         categoria = request.POST.get('categoria')
-        empreendimento = request.POST.get('empreendimento')
+        cat_fin = Categoria_Financeira.objects.get(id=categoria)
+        empreendimento = request.POST.get('emp')
+        emp = Empreendimento.objects.get(id=empreendimento)
         
         Mov_Financeira.objects.create(
             A_pagar = True,
             Descricao = descricao,
             Valor = valor,
-            Data = dataIniFormatada,
+            Data = data,
             Pendente = True,
-            Categoria_Financeira = categoria,
-            Empreendimento_id = empreendimento,
+            Categoria_Financeira = cat_fin,
+            Empreendimento_id = emp,
             Usuario = request.user
         )
 
         emp = Empreendimento.objects.get(id=empreendimento)
-        emp.Valor_total += valor
+        emp.Valor_total += Decimal(valor)
         emp.save()
 
         return redirect('listaEmpreendimento')
 
+def listaGastos(request):
+    gastos = Mov_Financeira.objects.all().filter(A_pagar=True  ).order_by('Empreendimento_id')
+    emp = Empreendimento.objects.all()
+    context = {'gastos': gastos, 'emp':emp}
+    return render(request, template_name='appteste/Gastos/listaGastos.html', context=context)
+
+def deleteGasto(request, f_id):
+    gasto = Mov_Financeira.objects.get(id=f_id)
+    emp = Empreendimento.objects.get(id=gasto.Empreendimento_id.id)
+    if (request.method == 'POST'):
+        gasto.delete()
+        emp.Valor_total -= Decimal(gasto.Valor)
+        emp.save()
+        return redirect(listaEmpreendimento)
+    else:
+        template_name = "appteste/Gastos/confirmacaoGastos.html"
+        context = {"gasto": gasto}
+        return render(request, template_name=template_name, context=context)
+    
+def updateGasto(request, f_id):
+    gasto = Mov_Financeira.objects.get(id=f_id)
+    if (request.method == 'POST'):
+        gasto.Descricao = request.POST.get('descricao')
+        gasto.Valor = request.POST.get('valor')
+        gasto.Data = request.POST.get('data')
+        gasto.Categoria_Financeira = request.POST.get('categoria')
+        gasto.Usuario = request.user
+        gasto.save()
+        return redirect('listaEmpreendimento')
+    template_name = 'appteste/Gastos/atualizaGastos.html'
+    emp = Empreendimento.objects.get(id=gasto.Empreendimento_id.id)
+    cat = Categoria_Financeira.objects.all()
+    context = {'gasto': gasto, 'empreendimentos': emp, 'cat': cat}
+    return render(request, template_name, context=context)
 
 #============================================================================
 #=============================== GENÉRICAS =================================

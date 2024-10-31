@@ -9,7 +9,7 @@
 <body>
     <div class="form-container">
         <h2 style="text-align: center;">CADASTRO DE GASTO</h2>
-        <form method="POST" id="gasto" action="">
+        <form method="POST" id="gasto" action="{% url 'salvaGastos' %}">
             {% csrf_token %}
             
             <div class="mb-3">
@@ -26,9 +26,8 @@
             </div>
             <div class="mb-3" aria-disabled="true">
                 <label for="empreendimento" class="form-label"><strong>Empreendimento</strong></label>
-                <select class="form-select" name="empreendimento" required id="empreendimento" disabled="true">
-                    <option selected value="{{ empreendimentos.id }}">{{ empreendimentos.Nome }}</option>
-                </select>
+                <input type="text", name="emp" id="emp" value="{{empreendimentos.id}}" hidden>
+                <input type="text" class="form-control" name="empreendimento" id="empreendimento" value="{{empreendimentos.Nome}}" disabled>
             </div>
             <div class="mb-3">
                 <label for="categoria" class="form-label"><strong>Categoria de Gasto</strong></label>

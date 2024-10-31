@@ -1,0 +1,48 @@
+{% extends "appteste/cabecalho.html" %}
+
+{% block content%}
+
+{% load static %}
+<link href="{% static 'css/listas.css' %}" rel="stylesheet">
+
+<div class="container mt-5">
+    <h2>Lista de Gastos</h2>
+    <table class="table table-bordered table-hover">
+        <thead>
+            <tr>
+                <th>Descrição</th>
+                <th>Valor</th>
+                <th>Empreendimento</th>
+                <th>Data</th>
+                <th>Categoria</th>
+                <th>Usuario</th>
+                <th>Pendente</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for gasto in gastos %}
+            <tr>
+                <td>{{ gasto.Descricao }}</td>
+                <td>{{ gasto.Valor}}</td>
+                <td>{{ gasto.Empreendimento_id.Nome }}</td>
+                <td>{{ gasto.Data }}</td>
+                <td>{{ gasto.Categoria_Financeira }}</td>
+                <td>{{ gasto.Usuario }}</td>
+                <td>
+                    {% if gasto.Pendente %}
+                    Sim
+                    {% else %}
+                    Não
+                    {% endif %}
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="4">Nenhum gasto cadastrado.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}

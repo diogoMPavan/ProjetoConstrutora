@@ -11,10 +11,11 @@
 
 </head>
 <style>
-    .hidden{
+    .hidden {
         display: none;
     }
 </style>
+
 <body>
 
     <div class="container mt-5">
@@ -39,7 +40,7 @@
                     <th style="background-color: #28A394;">Data Final Prevista</th>
                     <th style="background-color: #28A394;">UF</th>
                     <th style="background-color: #28A394;">Cidade</th>
-                    <th style="background-color: #28A394;">Custo Previsto</th>
+                    <th style="background-color: #28A394;">Custo</th>
                     <th style="background-color: #28A394;">Status</th>
                     <th style="background-color: #28A394; width: 15%;">Editar / Remover</th>
                 </tr>
@@ -55,7 +56,7 @@
                     <td>{{ e.Data_fim_prevista }}</td>
                     <td>{{ e.UF }}</td>
                     <td>{{ e.Cidade }}</td>
-                    <td>{{ e.Valor_total }}</td>
+                    <td>R${{ e.Valor_total }}</td>
                     <td>
                         {% if e.Ativo %}
                         Ativo
@@ -68,56 +69,60 @@
                         <a href="{% url 'deleteEmp' e.id %}" class="btn btn-danger btn-sm">Remover</a>
                     </td>
                 </tr>
-                <tr class="nested-table hidden" >
+                <tr class="nested-table hidden">
                     <td colspan="10">
-                        <table class="table table-bordered table-hover">
-                            <thead class="table-success">
-                                <tr>
-                                    <th>Descrição</th>
-                                    <th>Valor</th>
-                                    <th>Data</th>
-                                    <th>Pendente</th>
-                                    <th>Categoria</th>
-                                    <th>Usuario</th>
-                                    <th>Adicionar/Editar/Remover</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {% for m in mov_fin %}
-                                <tr>
-                                    {% if e.id == m.Empreendimento_id %}
-                                    <td>{{ m.Descricao }}</td>
-                                    <td>{{ m.Valor }}</td>
-                                    <td>{{ m.Data }}</td>
-                                    <td> 
-                                        {% if m.Pendente %}
-                                        Sim
-                                        {% else %} 
-                                        Não   
+                        <div style="max-height: 450px; overflow-y:hidden;">
+                            <table class="table table-bordered table-hover">
+                                <thead class="table-success">
+                                    <tr>
+                                        <th>Descrição</th>
+                                        <th>Valor</th>
+                                        <th>Data</th>
+                                        <th>Pendente</th>
+                                        <th>Categoria</th>
+                                        <th>Usuario</th>
+                                        <th>Adicionar/Editar/Remover</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for m in mov_fin%}
+                                    <tr>
+                                        {% if e.id == m.Empreendimento_id.id %}
+                                        <td>{{ m.Descricao }}</td>
+                                        <td>{{ m.Valor }}</td>
+                                        <td>{{ m.Data }}</td>
+                                        <td>
+                                            {% if m.Pendente %}
+                                            Sim
+                                            {% else %}
+                                            Não
+                                            {% endif %}
+                                        </td>
+                                        <td>{{ m.Categoria_Financeira }}</td>
+                                        <td>{{ m.Usuario }}</td>
+                                        <td>
+                                            <a href="{% url 'updateGasto' m.id %}" class="btn btn-warning btn-sm">Editar</a>
+                                            <a href="{% url 'deleteGasto' m.id %}" class="btn btn-danger btn-sm">Remover</a>
+                                        </td>
+
                                         {% endif %}
-                                    </td>
-                                    <td>{{ m.Categoria_Financeira }}</td>
-                                    <td>{{ m.Usuario_id }}</td>
-                                    <td>
-                                        <a href="{% url 'cadGastos' m.Empreendimento_id %}" class="btn btn-info btn-sm">Adicionar</a>
-                                        <a href="" class="btn btn-warning btn-sm">Editar</a>
-                                        <a href="" class="btn btn-danger btn-sm">Remover</a>
-                                    </td>
-                                    {% else %}
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td>
-                                    <a href="{% url 'cadGastos' e.id %}" class="btn btn-info btn-sm">Adicionar</a>
-                                </td>
-                                </tr> 
-                                    {% endif %}
-                                {% endfor %}
-                            </tbody>
-                        </table>
+                                        {% endfor %}
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div style="text-align: center; ">
+                            <table style="display: inline-table;">
+                                <td colspan="10">
+                                    <tr>
+                                        <td><a href="{% url 'cadGastos' e.id %}" style="color: black;"><u><i>Novo
+                                                        Gasto</i></u></a></td>
+                                    </tr>
+                                    <tr>
+                                        <td><a href="{% url 'listaGastos' %}" style="color: black;"><u><i>Todos os Gastos</i></u></a></td>
+                                    </tr>
+                            </table>
+                        </div>
                     </td>
                 </tr>
                 {% endfor %}
@@ -151,7 +156,7 @@
 
     </div>
     <script>
-        function esconderLinha(button) { 
+        function esconderLinha(button) {
             const currentRow = button.parentNode.parentNode;
             const nestedRow = currentRow.nextElementSibling;
 
@@ -159,7 +164,17 @@
                 nestedRow.classList.toggle('hidden');
             }
         }
+
+        /*document.addEventListener("DOMContentLoaded", function () {
+            const rows = document.querySelectorAll("#ntable tr");
+            const maxRows = 15;
+
+            rows.forEach((row, index) => {
+                if (index > maxRows) row.style.display = "none";
+            });
+        });*/
     </script>
     {%endblock%}
 </body>
+
 </html>
