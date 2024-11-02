@@ -9,7 +9,7 @@
 <body>
     <div class="form-container">
         <h2>CADASTRO DE CATEGORIA</h2>
-        <form method="POST" id="categoria" action="{% url 'salvaCategoria' %}">
+        <form method="POST" id="categoria" action="{% url 'cadCategoria' %}">
             {% csrf_token %}
             
             <div class="mb-3">
@@ -18,13 +18,13 @@
             </div>
 
             <div class="mb-3">
-                <label for="observacao" class="form-label"><strong>Observação</strong></label>
-                <textarea class="form-control" rows="3" name="observacao" id="observacao" placeholder="Insira uma observação" maxlength="200"></textarea>
+                <label for="observacao" class="form-label"><strong>Descrição</strong></label>
+                <textarea class="form-control" rows="3" name="observacao" id="observacao" placeholder="Descrição da Categoria" maxlength="200" style="border-radius: 20px;"></textarea>
             </div>
 
             <div style="text-align: center;">
                 <button type="submit" class="btn btn-confirm"><strong>Salvar</strong></button>
-                <a href="{% url 'lista_categorias' %}" class="btn btn-secondary"><strong>Ver Lista de Categorias</strong></a>
+                <a href="{% url 'listaCategorias' %}" class="btn btn-secondary"><strong>Ver Lista de Categorias</strong></a>
             </div>
         </form>
     </div>

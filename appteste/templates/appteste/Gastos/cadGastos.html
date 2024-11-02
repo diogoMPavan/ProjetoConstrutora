@@ -11,14 +11,16 @@
         <h2 style="text-align: center;">CADASTRO DE GASTO</h2>
         <form method="POST" id="gasto" action="{% url 'salvaGastos' %}">
             {% csrf_token %}
-            
+
             <div class="mb-3">
                 <label for="Descricao" class="form-label"><strong>Descrição</strong></label>
-                <input type="text" class="form-control" id="descricao" name="descricao" placeholder="Descrição do gasto" required id="desc">
+                <input type="text" class="form-control" id="descricao" name="descricao" placeholder="Descrição do gasto"
+                    required id="desc">
             </div>
             <div class="mb-3">
                 <label for="valor" class="form-label"><strong>Valor</strong></label>
-                <input type="number" class="form-control" id="valor" name="valor" placeholder="Valor do gasto" required step="0.01">
+                <input type="number" class="form-control" id="valor" name="valor" placeholder="Valor do gasto" required
+                    step="0.01">
             </div>
             <div class="mb-3">
                 <label for="data" class="form-label"><strong>Data</strong></label>
@@ -26,17 +28,21 @@
             </div>
             <div class="mb-3" aria-disabled="true">
                 <label for="empreendimento" class="form-label"><strong>Empreendimento</strong></label>
-                <input type="text", name="emp" id="emp" value="{{empreendimentos.id}}" hidden>
-                <input type="text" class="form-control" name="empreendimento" id="empreendimento" value="{{empreendimentos.Nome}}" disabled>
+                <input type="text" , name="emp" id="emp" value="{{empreendimentos.id}}" hidden>
+                <input type="text" class="form-control" name="empreendimento" id="empreendimento"
+                    value="{{empreendimentos.Nome}}" disabled>
             </div>
             <div class="mb-3">
                 <label for="categoria" class="form-label"><strong>Categoria de Gasto</strong></label>
-                <select class="form-select" name="categoria" required id="categoria">
-                    <option value=""></option>
-                    {% for c in categoria %}
-                    <option value="{{c.id}}">{{c.Descricao}}</option>
-                    {% endfor %}
-                </select>
+                <div class=" d-flex align-items-center">
+                    <select class="form-select me-2" name="categoria" required id="categoria" style="flex: 2;">
+                        <option value=""></option>
+                        {% for c in categoria %}
+                        <option value="{{c.id}}">{{c.Descricao}}</option>
+                        {% endfor %}
+                    </select>
+                    <button class="btn btn-light btn-sm"><a href="{% url 'cadCategoria' %}" style="text-decoration: none; color: black;">+</a></button>
+                </div>
             </div>
             <div class="mb-3 text-center">
                 <button type="submit" class="btn btn-confirm">Cadastrar Gasto</button>

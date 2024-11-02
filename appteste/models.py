@@ -27,6 +27,7 @@ class Usuario(models.Model):
         return self.Login
 
 class Categoria_Financeira(models.Model):
+    Nome = models.CharField(max_length=50, default="")
     Descricao = models.CharField(max_length=100)
     Ativa = models.BooleanField(default=True)
     def __str__(self) -> str:

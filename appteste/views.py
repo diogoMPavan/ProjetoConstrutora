@@ -3,9 +3,9 @@ from django.http import HttpResponse, JsonResponse
 import json
 from decimal import Decimal
 from django.contrib.auth.hashers import make_password, check_password
-#from django_cryptography.fields import encrypt, decrypt
 from cryptography.fernet import Fernet
 from django.contrib.auth import authenticate
+from appteste.forms import RegisterUserForm
 from appteste.models import Mov_Financeira
 from .models import Categoria_Financeira
 from .models import Categoria_Usuario, Usuario, Empreendimento
@@ -16,8 +16,10 @@ from pyUFbr.baseuf import ufbr
 from django.core.paginator import Paginator
 from django.shortcuts import render
 from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import UserCreationForm  
 from django.contrib.auth import login, logout, authenticate
+
 
 #aqui 'aponta' para determinada tela nos templates
 
@@ -33,28 +35,33 @@ def login(request):
                   template_name='registration/login.html')
 
 def cadUsuario(request):
-    obj = Categoria_Usuario.objects.all().filter(Ativa = True)
-    context = {"obj": obj}
-    return render(request=request,
-                  template_name='Usuario/manutencaoUsuario.html', context=context)
-
-def cadUsuario2(request):
     if request.method == 'POST':
-        form = UserCreationForm(request.POST)
-        if form.is_valid():
-            user = form.save()
-            login(user)
-            return redirect("home")
+        group = request.user.groups
+        print(group)
+        if group == 'ADMIN':
+            form = RegisterUserForm(request.POST)
+            if form.is_valid():
+                form.save()
+                messages.success(request, "Usuario criado com sucesso!")
+                return redirect("listaUsuario")
+        else:
+            messages.error(request, "Seu usuário não tem permissão para criar um novo usuário")
+            return redirect("listaUsuario")
     else:
-        form = UserCreationForm()
+        form = RegisterUserForm()
         context = {'form': form}
         return render(request=request, context=context, template_name='register.html')
+    
 
 def listaUsuario(request):
-    obj = Usuario.objects.all().filter(Ativo = True)
-    context = {"obj": obj}
-    return render(request=request,
-                  template_name='appteste/Usuario/listaUsuario.html', context=context)
+    usr = get_user_model()
+    obj = usr.objects.all().filter(is_active=True)
+    template_name = "appteste/Usuario/listaUsuario.html"
+    context = {"usr": obj}
+    if (request.user.is_authenticated):
+        return render(request, template_name, context)
+    else:
+        return redirect('login')
 
 def listaEmpreendimento(request):
     emp = Empreendimento.objects.all().filter(Ativo = True)
@@ -66,13 +73,19 @@ def listaEmpreendimento(request):
 def cadEmpreendimento(request):
     obj = Empreendimento.objects.all().filter(Ativo = True)
     context = {"obj": obj, "uf": ufbr.list_uf}
-    return render(request=request, template_name='appteste/Empreendimento/manutencaoEmpreendimento.html', context=context) 
+    if request.user.is_authenticated:
+        return render(request=request, template_name='appteste/Empreendimento/manutencaoEmpreendimento.html', context=context) 
+    else:
+        return redirect('login')
 
 def cadGastos(request, f_id):
     emp = Empreendimento.objects.get(id= f_id)
     cat = Categoria_Financeira.objects.all().filter(Ativa = True)
     context = {'empreendimentos': emp, 'categoria': cat}
-    return render(request=request,context=context , template_name='appteste/Gastos/cadGastos.html')   
+    if request.user.is_authenticated:
+        return render(request=request,context=context , template_name='appteste/Gastos/cadGastos.html')   
+    else:
+        return redirect('login')
 #============================================================================
 #========================== USUÁRIO ================================
 def salvaUsuario(request):
@@ -85,10 +98,14 @@ def salvaUsuario(request):
    return redirect('listaUsuario')
 
 def mostrarUsuarios(request):
-    obj = Usuario.objects.all().select_related('Categoria_Usuario').filter(Ativo = True)
+    usr = get_user_model()
+    obj = usr.objects.all().filter(is_active=True)
     template_name = "appteste/Usuario/listaUsuario.html"
-    context = {"obj": obj}
-    return render(request, template_name, context)
+    context = {"usr": obj}
+    if (request.user.is_authenticated):
+        return render(request, template_name, context)
+    else:
+        return redirect('login')
 
 def deleteUsuario(request, f_id):
     usuario = Usuario.objects.get(id=f_id)
@@ -101,7 +118,7 @@ def deleteUsuario(request, f_id):
     return render(request, template_name, context)
     
 def updateUsuario(request, f_id):
-    usuario = Usuario.objects.select_related('Categoria_Usuario').get(id=f_id)
+    usuario = User.objects.get(id=f_id)
     obj = Categoria_Usuario.objects.all().filter(Ativa = True)
     if request.method == "POST":
        usuario.Nome = request.POST.get('nome')
@@ -129,7 +146,7 @@ def salvaEmpreendimento(request):
         cidade = request.POST.get('cidade')
         custo = request.POST.get('custo')
         ativo = request.POST.get('ativo')
-        usuario = 6
+        usuario = request.user
 
         Empreendimento.objects.create(
             Nome = nome,
@@ -173,7 +190,7 @@ def updateEmpreendimento(request, f_id):
         emp.Cidade = request.POST.get('cidade')
         emp.Valor_total = request.POST.get('custo')
         emp.Ativo = request.POST.get('ativo')
-        emp.Usuario = request.POST.get('usuario')
+        emp.Usuario = request.user
         emp.save()
         return redirect('listaEmpreendimento')
     template_name = "appteste/Empreendimento/atualizaEmp.html"
@@ -184,7 +201,21 @@ def updateEmpreendimento(request, f_id):
 def mostraCategoria(request):
     obj = Categoria_Financeira.objects.all().filter(Ativa = True)
     context = {"categorias": obj}
-    return render(request, template_name='appteste/listaCategoria.html', context=context)
+    if (request.user.is_authenticated):
+        return render(request, template_name='appteste/CategoriaFinanceira/listaCategoria.html', context=context)
+    else:
+        return redirect('login')
+
+def cadCategoria(request):
+    if (request.method == 'POST'):
+        Categoria_Financeira.objects.create(
+            Nome = request.POST.get('nome'),
+            Descricao = request.POST.get('descricao'),
+            Ativa = True
+        )
+        return render(request, template_name='appteste/Empreendimento/listaEmpreendimento.html')
+    else:
+        return render(request, template_name='appteste/CategoriaFinanceira/cadCategoria.html')
 
 #============================================================================
 #========================== GASTOS ================================  
@@ -221,7 +252,10 @@ def listaGastos(request):
     gastos = Mov_Financeira.objects.all().filter(A_pagar=True  ).order_by('Empreendimento_id')
     emp = Empreendimento.objects.all()
     context = {'gastos': gastos, 'emp':emp}
-    return render(request, template_name='appteste/Gastos/listaGastos.html', context=context)
+    if request.user.is_authenticated:
+        return render(request, template_name='appteste/Gastos/listaGastos.html', context=context)
+    else:
+        return redirect('login')
 
 def deleteGasto(request, f_id):
     gasto = Mov_Financeira.objects.get(id=f_id)
@@ -273,12 +307,16 @@ def listaEmpreendimento(request):
     mov_fin = Mov_Financeira.objects.all().filter(A_pagar = True)
 
     context = {"emp": page_obj, "mov_fin": mov_fin}
-    return render(request=request, context=context,
+    if request.user.is_authenticated:
+        return render(request=request, context=context,
                   template_name='appteste/Empreendimento/listaEmpreendimento.html')
+    else:
+        return redirect('login')
 
 def listaUsuario(request):
-    emp = Usuario.objects.all().filter(Ativo=True)
-    paginator = Paginator(emp, 2)  # Define 2 usuários por página
+    usr = get_user_model()
+    obj = usr.objects.all()
+    paginator = Paginator(obj, 2)  # Define 2 usuários por página
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number) 
 

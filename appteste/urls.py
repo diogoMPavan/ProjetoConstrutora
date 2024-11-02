@@ -8,7 +8,6 @@ urlpatterns = [
     path('login/', auth_views.LoginView.as_view(), name='login'),
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
     path("cadUsuario/", views.cadUsuario, name="cadUsuario"),
-    path("cadUsuario2/", views.cadUsuario2, name="cadUsuario2"),
     path("listaUsuario/", views.listaUsuario, name="listaUsuario"),
     path("listaEmpreendimento/", views.listaEmpreendimento, name="listaEmpreendimento"),
     path("categorias/", views.listaCategorias, name="lista_categorias"),
@@ -30,6 +29,10 @@ urlpatterns = [
     path('listaGastos/', views.listaGastos, name='listaGastos'),
     path('deleteGasto/<int:f_id>', views.deleteGasto, name='deleteGasto'),
     path('updateGasto/<int:f_id>', views.updateGasto, name='updateGasto'),
+    #=========================================================================
+    #============================= CATEGORIA =================================
+    path('cadCategoria/', views.cadCategoria, name='cadCategoria'),
+    path('listaCategoria/', views.mostraCategoria, name='listaCategorias'),
     #=========================================================================
     path('cadEmpreendimento/', views.cadEmpreendimento, name="cadEmpreendimento"),
     path('listaEmpreendimento/', views.listaEmpreendimento, name="listaEmpreendimento"),
