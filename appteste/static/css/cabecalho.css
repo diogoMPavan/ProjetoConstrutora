@@ -1,10 +1,12 @@
-.navbar {
-    background-color: #1e6054;
+.navbar .nav-link {
+    color: white !important;
+    text-decoration: none;
 }
 
-.nav-link {
-    color: #ffffff;
+.navbar .nav-link:hover {
+    color: #ccc !important;
 }
+
 
 .Logo {
     display: inline-block;
