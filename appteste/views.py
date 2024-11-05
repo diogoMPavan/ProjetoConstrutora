@@ -241,7 +241,7 @@ def salvaGastos(request):
         )
 
         emp = Empreendimento.objects.get(id=empreendimento)
-        emp.Valor_total += Decimal(valor)
+        emp.Valor_total += float(valor)
         emp.save()
 
         return redirect('listaEmpreendimento')
@@ -260,7 +260,7 @@ def deleteGasto(request, f_id):
     emp = Empreendimento.objects.get(id=gasto.Empreendimento_id.id)
     if (request.method == 'POST'):
         gasto.delete()
-        emp.Valor_total -= Decimal(gasto.Valor)
+        emp.Valor_total -= float(gasto.Valor)
         emp.save()
         return redirect(listaEmpreendimento)
     else:
