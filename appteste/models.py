@@ -41,7 +41,7 @@ class Empreendimento(models.Model):
     Data_fim = models.DateField(default=datetime.now)
     UF = models.CharField(max_length=2, default="")
     Cidade = models.CharField(max_length=50, default="")
-    Valor_total = models.DecimalField(max_digits=10, decimal_places=2)
+    Valor_total = models.FloatField()
     Ativo = models.BooleanField(default=True)
     Usuario_id = models.IntegerField(default=0)
 

@@ -52,7 +52,6 @@ def cadUsuario(request):
         context = {'form': form}
         return render(request=request, context=context, template_name='register.html')
     
-
 def listaUsuario(request):
     usr = get_user_model()
     obj = usr.objects.all().filter(is_active=True)
@@ -144,9 +143,9 @@ def salvaEmpreendimento(request):
         dataFimFormatada = dataFim.strftime('%d/%m/%Y')
         uf = request.POST.get('uf') 
         cidade = request.POST.get('cidade')
-        custo = request.POST.get('custo')
+        custo = float(request.POST.get('custo'))
         ativo = request.POST.get('ativo')
-        usuario = request.user
+        usuario = request.user.id
 
         Empreendimento.objects.create(
             Nome = nome,
@@ -177,10 +176,8 @@ def updateEmpreendimento(request, f_id):
     if request.method == "POST":
         dataIni = request.POST.get('dataInicio')
         dataIni = datetime.strptime(dataIni, '%Y-%m-%d')
-        dataIniFormatada = dataIni.strftime('%d/%m/%Y')
         dataFim = request.POST.get('dataFim')
         dataFim = datetime.strptime(dataFim, '%Y-%m-%d')
-        dataFimFormatada = dataFim.strftime('%d/%m/%Y')
         emp.Nome = request.POST.get('nome')
         emp.Descricao = request.POST.get('descricao')
         emp.Data_inicio = dataIni
@@ -188,9 +185,10 @@ def updateEmpreendimento(request, f_id):
         emp.Data_fim = dataFim
         emp.UF = request.POST.get('uf')
         emp.Cidade = request.POST.get('cidade')
+        print('custo', request.POST.get('custo'))
         emp.Valor_total = request.POST.get('custo')
         emp.Ativo = request.POST.get('ativo')
-        emp.Usuario = request.user
+        emp.Usuario = request.user.id
         emp.save()
         return redirect('listaEmpreendimento')
     template_name = "appteste/Empreendimento/atualizaEmp.html"

@@ -5,44 +5,83 @@
 {% load static %}
 <link href="{% static 'css/listas.css' %}" rel="stylesheet">
 
-<div class="container mt-5">
-    <h2>Lista de Gastos</h2>
-    <table class="table table-bordered table-hover">
-        <thead>
-            <tr>
-                <th>Descrição</th>
-                <th>Valor</th>
-                <th>Empreendimento</th>
-                <th>Data</th>
-                <th>Categoria</th>
-                <th>Usuario</th>
-                <th>Pendente</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for gasto in gastos %}
-            <tr>
-                <td>{{ gasto.Descricao }}</td>
-                <td>{{ gasto.Valor}}</td>
-                <td>{{ gasto.Empreendimento_id.Nome }}</td>
-                <td>{{ gasto.Data }}</td>
-                <td>{{ gasto.Categoria_Financeira }}</td>
-                <td>{{ gasto.Usuario }}</td>
-                <td>
-                    {% if gasto.Pendente %}
-                    Sim
-                    {% else %}
-                    Não
-                    {% endif %}
-                </td>
-            </tr>
-            {% empty %}
-            <tr>
-                <td colspan="4">Nenhum gasto cadastrado.</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-</div>
+<body>
 
+    <div class="container mt-5">
+        <div style="display: flex; justify-content: space-between;">
+            <h2>Lista de Gastos</h2>
+            <button class="btn btn-success" onclick="exportTableToCSV('tabela', 'dados.csv')">Exportar para
+                .csv</button>
+        </div>
+        <br>
+        <table class="table table-bordered table-hover" id="tabela">
+            <thead>
+                <tr>
+                    <th>Descrição</th>
+                    <th>Valor</th>
+                    <th>Empreendimento</th>
+                    <th>Data</th>
+                    <th>Categoria</th>
+                    <th>Usuario</th>
+                    <th>Pendente</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for gasto in gastos %}
+                <tr>
+                    <td>{{ gasto.Descricao }}</td>
+                    <td>{{ gasto.Valor}}</td>
+                    <td>{{ gasto.Empreendimento_id.Nome }}</td>
+                    <td>{{ gasto.Data }}</td>
+                    <td>{{ gasto.Categoria_Financeira }}</td>
+                    <td>{{ gasto.Usuario }}</td>
+                    <td>
+                        {% if gasto.Pendente %}
+                        Sim
+                        {% else %}
+                        Não
+                        {% endif %}
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="4">Nenhum gasto cadastrado.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        function exportTableToCSV(tableId, filename = 'table.csv') {
+    const table = document.getElementById(tableId);
+    const rows = Array.from(table.querySelectorAll('tr'));
+    
+    // Adiciona BOM para que o arquivo seja reconhecido como UTF-8
+    let csvContent = '\uFEFF';
+
+    rows.forEach(row => {
+        const cols = Array.from(row.querySelectorAll('th, td'));
+        const rowContent = cols.map(col => 
+            `"${col.textContent.trim().replace(/"/g, '""').replace(/\n/g, '').replace(/\r/g, '')}"`
+        ).join(',');
+        csvContent += rowContent + '\n';
+    });
+
+    const csvBlob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(csvBlob);
+    
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+
+    URL.revokeObjectURL(url);
+}
+
+
+    </script>
+</body>
 {% endblock %}
