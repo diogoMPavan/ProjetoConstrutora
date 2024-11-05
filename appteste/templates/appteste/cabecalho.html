@@ -23,22 +23,22 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav mx-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="/"><strong>Início</strong></a>
+                        <a class="nav-link" href="/" style="color: #ffffff"><strong>Início</strong></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="../listaEmpreendimento/"><strong>Empreendimentos</strong></a>
+                        <a class="nav-link" href="../listaEmpreendimento/" style="color: #ffffff"><strong>Empreendimentos</strong></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="../mostrarUsuarios/"><strong>Usuários</strong></a>
+                        <a class="nav-link" href="../mostrarUsuarios/" style="color: #ffffff"><strong>Usuários</strong></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="../listaGastos/"><strong>Relatórios</strong></a>
+                        <a class="nav-link" href="../listaGastos/" style="color: #ffffff"><strong>Relatórios</strong></a>
                     </li>
                 </ul>
             </div>
             <div>
                 {% if user.is_authenticated %}
-                    <p>Bem vindo, <strong style="color: white;">{{ user.username }}!</strong></p>
+                    <p style="color: white;">Bem vindo, <strong >{{ user.username }}!</strong></p>
                     <form method="post" action="{% url 'logout' %}">
                         {% csrf_token %}
                         <button type="submit" class="btn btn-outline-light btn-sm"><strong>Log-out</strong></button>
