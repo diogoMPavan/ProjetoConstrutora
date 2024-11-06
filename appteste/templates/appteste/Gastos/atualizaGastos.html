@@ -9,7 +9,7 @@
 <body>
     <div class="form-container">
         <h2 style="text-align: center;">EDIÇÃO DE GASTO</h2>
-        <form method="POST" id="gasto" action="{% url 'salvaGastos' %}">
+        <form method="POST" id="gasto">
             {% csrf_token %}
             
             <div class="mb-3">
@@ -44,7 +44,7 @@
                 </select>
             </div>
             <div class="mb-3 text-center">
-                <button type="submit" class="btn btn-confirm">Editar Gasto</button>
+                <button type="submit" class="btn btn-confirm"><a href="{% url 'updateGasto' gasto.id %}"></a>Editar Gasto</button>
             </div>
         </form>
     </div>

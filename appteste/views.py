@@ -86,6 +86,7 @@ def cadGastos(request, f_id):
     else:
         return redirect('login')
 #============================================================================
+
 #========================== USUÁRIO ================================
 def salvaUsuario(request):
    username = request.GET.get('username')
@@ -195,6 +196,7 @@ def updateEmpreendimento(request, f_id):
     return render(request, template_name, {"emp": emp, "uf": ufbr.list_uf})
 
 #============================================================================
+
 #============================== CATEGORIA ===================================
 def mostraCategoria(request):
     obj = Categoria_Financeira.objects.all().filter(Ativa = True)
@@ -208,14 +210,15 @@ def cadCategoria(request):
     if (request.method == 'POST'):
         Categoria_Financeira.objects.create(
             Nome = request.POST.get('nome'),
-            Descricao = request.POST.get('descricao'),
+            Descricao = request.POST.get('observacao'),
             Ativa = True
         )
-        return render(request, template_name='appteste/Empreendimento/listaEmpreendimento.html')
+        return redirect('listaEmpreendimento')
     else:
         return render(request, template_name='appteste/CategoriaFinanceira/cadCategoria.html')
 
 #============================================================================
+
 #========================== GASTOS ================================  
 def salvaGastos(request):
     if request.method == 'POST':
@@ -274,8 +277,9 @@ def updateGasto(request, f_id):
         gasto.Descricao = request.POST.get('descricao')
         gasto.Valor = request.POST.get('valor')
         gasto.Data = request.POST.get('data')
-        gasto.Categoria_Financeira = request.POST.get('categoria')
-        gasto.Usuario = request.user
+        cat = Categoria_Financeira.objects.get(id=request.POST.get('categoria'))
+        gasto.Categoria_Financeira = cat
+        gasto.Usuario = request.user.username
         gasto.save()
         return redirect('listaEmpreendimento')
     template_name = 'appteste/Gastos/atualizaGastos.html'
@@ -285,6 +289,7 @@ def updateGasto(request, f_id):
     return render(request, template_name, context=context)
 
 #============================================================================
+
 #=============================== GENÉRICAS =================================
 def retornaCidades(request, uf):
     cidades = ufbr.list_cidades(uf)
@@ -321,5 +326,4 @@ def listaUsuario(request):
     context = {"emp": page_obj}
     return render(request=request, context=context,
                   template_name='appteste/Usuario/listaUsuario.html')
-
 #================================================================
