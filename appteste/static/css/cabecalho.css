@@ -1,3 +1,9 @@
+.navbar{
+
+    background-color: #04403a;
+
+}
+
 .navbar .nav-link {
     color: white !important;
     text-decoration: none;
