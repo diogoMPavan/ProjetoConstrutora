@@ -34,23 +34,7 @@ def login(request):
     return render(request=request,
                   template_name='registration/login.html')
 
-def cadUsuario(request):
-    if request.method == 'POST':
-        group = request.user.groups
-        print(group)
-        if group == 'ADMIN':
-            form = RegisterUserForm(request.POST)
-            if form.is_valid():
-                form.save()
-                messages.success(request, "Usuario criado com sucesso!")
-                return redirect("listaUsuario")
-        else:
-            messages.error(request, "Seu usuário não tem permissão para criar um novo usuário")
-            return redirect("listaUsuario")
-    else:
-        form = RegisterUserForm()
-        context = {'form': form}
-        return render(request=request, context=context, template_name='register.html')
+
     
 def listaUsuario(request):
     usr = get_user_model()
@@ -88,14 +72,23 @@ def cadGastos(request, f_id):
 #============================================================================
 
 #========================== USUÁRIO ================================
-def salvaUsuario(request):
-   username = request.GET.get('username')
-   password = request.GET.get('password')
-   
-   if User.objects.get(username=username, password=password) is None:
-       user = User.objects.create(username, password)
-       
-   return redirect('listaUsuario')
+def cadUsuario(request):
+    if request.method == 'POST':
+        group = request.user.groups
+        print(group)
+        if group == 'ADMIN':
+            form = RegisterUserForm(request.POST)
+            if form.is_valid():
+                form.save()
+                messages.success(request, "Usuario criado com sucesso!")
+                return redirect("listaUsuario")
+        else:
+            messages.error(request, "Seu usuário não tem permissão para criar um novo usuário")
+            return redirect("listaUsuario")
+    else:
+        form = RegisterUserForm()
+        context = {'form': form}
+        return render(request=request, context=context, template_name='register.html')
 
 def mostrarUsuarios(request):
     usr = get_user_model()
@@ -119,16 +112,15 @@ def deleteUsuario(request, f_id):
     
 def updateUsuario(request, f_id):
     usuario = User.objects.get(id=f_id)
-    obj = Categoria_Usuario.objects.all().filter(Ativa = True)
     if request.method == "POST":
-       usuario.Nome = request.POST.get('nome')
-       categoria = Categoria_Usuario.objects.get(id=request.POST.get('categoria'))
-       usuario.Categoria_Usuario = categoria
-       usuario.Login = request.POST.get('login')
-       usuario.save()
-       return redirect('listaUsuario')
-    template_name = "appteste/Usuario/atualizaUsuario.html"
-    return render(request, template_name, {"usuario": usuario, "obj": obj})
+       form = RegisterUserForm(request.POST)
+       if form.is_valid():
+          form.save()
+          messages.success(request, "Usuario atualizado com sucesso!")
+          return redirect("listaUsuario")
+    template_name = "appteste/Usuario/updateUser.html"
+    form = RegisterUserForm()
+    return render(request, template_name, {"usuario": usuario, "form": form})
 #============================================================================
 
 #===================================== EMPREENDIMENTO =======================================
