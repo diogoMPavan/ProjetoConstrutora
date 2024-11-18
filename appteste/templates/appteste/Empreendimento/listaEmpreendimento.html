@@ -1,15 +1,12 @@
 {% extends "appteste/cabecalho.html" %}
 
-{% block content%}
+{% block content %}
 
 <head>
-
-    {% load static%}
+    {% load static %}
     <link href="{% static 'css/listas.css' %}" rel="stylesheet">
-    <link rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.5/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.5/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-
 </head>
 <style>
     .hidden {
@@ -25,10 +22,16 @@
             <button class="btn btn-success"><a href="../cadEmpreendimento/">Novo Empreendimento</a></button>
         </div>
 
-        <div class="input-group mb-3">
-            <input type="text" class="form-control" placeholder="Buscar por nome..." aria-label="Buscar por nome">
-            <button class="btn btn-outline-secondary" type="button"><i class="bi bi-search"></i></button>
-        </div>
+        <!-- Formulário de filtro -->
+        <form method="get" action="{% url 'listaEmpreendimento' %}">
+            <div class="input-group mb-3">
+                <input type="text" class="form-control" name="nome" value="{{ nome }}" placeholder="Buscar por nome..." aria-label="Buscar por nome">
+                <input type="text" class="form-control" name="descricao" value="{{ descricao }}" placeholder="Buscar por descrição..." aria-label="Buscar por descrição">
+                <input type="text" class="form-control" name="uf" value="{{ uf }}" placeholder="Buscar por UF..." aria-label="Buscar por UF">
+                <input type="text" class="form-control" name="cidade" value="{{ cidade }}" placeholder="Buscar por cidade..." aria-label="Buscar por cidade">
+                <button class="btn btn-outline-secondary" type="submit"><i class="bi bi-search"></i></button>
+            </div>
+        </form>
 
         <table class="table table-bordered table-hover">
             <thead class="table-dark">
@@ -53,7 +56,7 @@
                     <td>{{ e.id }}</td>
                     <td>{{ e.Nome }}</td>
                     <td>{{ e.Descricao }}</td>
-                    <td>{{ e.Data_inicio}}</td>
+                    <td>{{ e.Data_inicio }}</td>
                     <td>{{ e.Data_fim_prevista }}</td>
                     <td>{{ e.UF }}</td>
                     <td>{{ e.Cidade }}</td>
@@ -86,7 +89,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {% for m in mov_fin%}
+                                    {% for m in mov_fin %}
                                     <tr>
                                         {% if e.id == m.Empreendimento_id.id %}
                                         <td>{{ m.Descricao }}</td>
@@ -102,29 +105,23 @@
                                         <td>{{ m.Categoria_Financeira }}</td>
                                         <td>{{ m.Usuario }}</td>
                                         <td>
-                                            <a href="{% url 'updateGasto' m.id %}"
-                                                class="btn btn-warning btn-sm"><i class="fas fa-edit"></i></a>
-                                            <a href="{% url 'deleteGasto' m.id %}"
-                                                class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
+                                            <a href="{% url 'updateGasto' m.id %}" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i></a>
+                                            <a href="{% url 'deleteGasto' m.id %}" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
                                         </td>
-
                                         {% endif %}
-                                        {% endfor %}
                                     </tr>
+                                    {% endfor %}
                                 </tbody>
                             </table>
                         </div>
-                        <div style="text-align: center; ">
+                        <div style="text-align: center;">
                             <table style="display: inline-table;">
-                                <td colspan="10">
-                                    <tr>
-                                        <td><a href="{% url 'cadGastos' e.id %}" style="color: black;"><u><i>Novo
-                                                        Gasto</i></u></a></td>
-                                    </tr>
-                                    <tr>
-                                        <td><a href="{% url 'listaGastos' %}" style="color: black;"><u><i>Todos os
-                                                        Gastos</i></u></a></td>
-                                    </tr>
+                                <tr>
+                                    <td><a href="{% url 'cadGastos' e.id %}" style="color: black;"><u><i>Novo Gasto</i></u></a></td>
+                                </tr>
+                                <tr>
+                                    <td><a href="{% url 'listaGastos' %}" style="color: black;"><u><i>Todos os Gastos</i></u></a></td>
+                                </tr>
                             </table>
                         </div>
                     </td>
@@ -138,27 +135,26 @@
             <nav aria-label="Navegação de página">
                 <ul class="pagination">
                     {% if emp.has_previous %}
-                    <li class="page-item"><a class="page-link" href="?page=1">Primeira</a></li>
-                    <li class="page-item"><a class="page-link" href="?page={{ emp.previous_page_number }}">Anterior</a>
-                    </li>
+                    <li class="page-item"><a class="page-link" href="?page=1&nome={{ nome }}&descricao={{ descricao }}&uf={{ uf }}&cidade={{ cidade }}">Primeira</a></li>
+                    <li class="page-item"><a class="page-link" href="?page={{ emp.previous_page_number }}&nome={{ nome }}&descricao={{ descricao }}&uf={{ uf }}&cidade={{ cidade }}">Anterior</a></li>
                     {% endif %}
 
                     {% for i in emp.paginator.page_range %}
                     <li class="page-item {% if emp.number == i %}active{% endif %}">
-                        <a class="page-link" href="?page={{ i }}">{{ i }}</a>
+                        <a class="page-link" href="?page={{ i }}&nome={{ nome }}&descricao={{ descricao }}&uf={{ uf }}&cidade={{ cidade }}">{{ i }}</a>
                     </li>
                     {% endfor %}
 
                     {% if emp.has_next %}
-                    <li class="page-item"><a class="page-link" href="?page={{ emp.next_page_number }}">Próxima</a></li>
-                    <li class="page-item"><a class="page-link" href="?page={{ emp.paginator.num_pages }}">Última</a>
-                    </li>
+                    <li class="page-item"><a class="page-link" href="?page={{ emp.next_page_number }}&nome={{ nome }}&descricao={{ descricao }}&uf={{ uf }}&cidade={{ cidade }}">Próxima</a></li>
+                    <li class="page-item"><a class="page-link" href="?page={{ emp.paginator.num_pages }}&nome={{ nome }}&descricao={{ descricao }}&uf={{ uf }}&cidade={{ cidade }}">Última</a></li>
                     {% endif %}
                 </ul>
             </nav>
         </div>
 
     </div>
+
     <script>
         function esconderLinha(button) {
             const currentRow = button.parentNode.parentNode;
@@ -168,17 +164,9 @@
                 nestedRow.classList.toggle('hidden');
             }
         }
-
-        /*document.addEventListener("DOMContentLoaded", function () {
-            const rows = document.querySelectorAll("#ntable tr");
-            const maxRows = 15;
-
-            rows.forEach((row, index) => {
-                if (index > maxRows) row.style.display = "none";
-            });
-        });*/
     </script>
-    {%endblock%}
+
+{% endblock %}
 </body>
 
 </html>
