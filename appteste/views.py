@@ -15,14 +15,13 @@ from datetime import datetime
 from pyUFbr.baseuf import ufbr
 from django.core.paginator import Paginator
 from django.shortcuts import render
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
 from django.contrib.auth import get_user_model
-from django.contrib.auth.forms import UserCreationForm  
+from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from django.contrib.auth import login, logout, authenticate
 
 
 #aqui 'aponta' para determinada tela nos templates
-
 #============================== Abre telas ==================================
 def home(request):
     if (request.user.is_authenticated):
@@ -33,8 +32,6 @@ def home(request):
 def login(request):
     return render(request=request,
                   template_name='registration/login.html')
-
-
     
 def listaUsuario(request):
     usr = get_user_model()
@@ -72,19 +69,34 @@ def cadGastos(request, f_id):
 #============================================================================
 
 #========================== USUÁRIO ================================
+def register(request):  
+    if request.POST == 'POST':  
+        form = RegisterUserForm()  
+        if form.is_valid():  
+            form.save()  
+    else:  
+        form = RegisterUserForm()  
+    context = {  
+        'form':form  
+    }  
+    return render(request, 'register.html', context)  
 def cadUsuario(request):
     if request.method == 'POST':
-        group = request.user.groups
-        print(group)
-        if group == 'ADMIN':
+        group = Group.objects.get(user = request.user)
+        if group.name == 'ADMIN':
             form = RegisterUserForm(request.POST)
             if form.is_valid():
                 form.save()
+                print(form)
                 messages.success(request, "Usuario criado com sucesso!")
-                return redirect("listaUsuario")
         else:
             messages.error(request, "Seu usuário não tem permissão para criar um novo usuário")
-            return redirect("listaUsuario")
+
+        usr = get_user_model()
+        obj = usr.objects.all().filter(is_active=True)
+        template_name = "appteste/Usuario/listaUsuario.html"
+        context = {"usr": obj}
+        return render(request, template_name, context)
     else:
         form = RegisterUserForm()
         context = {'form': form}
@@ -113,13 +125,13 @@ def deleteUsuario(request, f_id):
 def updateUsuario(request, f_id):
     usuario = User.objects.get(id=f_id)
     if request.method == "POST":
-       form = RegisterUserForm(request.POST)
+       form = UserChangeForm(request.POST)
        if form.is_valid():
           form.save()
           messages.success(request, "Usuario atualizado com sucesso!")
           return redirect("listaUsuario")
     template_name = "appteste/Usuario/updateUser.html"
-    form = RegisterUserForm()
+    form = UserChangeForm()
     return render(request, template_name, {"usuario": usuario, "form": form})
 #============================================================================
 
