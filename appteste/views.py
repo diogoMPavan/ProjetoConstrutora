@@ -2,15 +2,24 @@ import json
 from multiprocessing.managers import BaseManager
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, JsonResponse
+import json
+from decimal import Decimal
+from django.contrib.auth.hashers import make_password, check_password
+from cryptography.fernet import Fernet
+from django.contrib.auth import authenticate
+from appteste.forms import RegisterUserForm
+from appteste.models import Mov_Financeira
+from .models import Categoria_Financeira
+from .models import Categoria_Usuario, Usuario, Empreendimento
 from django.contrib import messages
 import base64
 from datetime import datetime
 from pyUFbr.baseuf import ufbr
 from django.core.paginator import Paginator
 from django.shortcuts import render
-from django.contrib.auth.models import User, Group
+from django.contrib.auth.models import User
 from django.contrib.auth import get_user_model
-from django.contrib.auth.forms import UserCreationForm, UserChangeForm
+from django.contrib.auth.forms import UserCreationForm  
 from django.contrib.auth import login, logout, authenticate
 from .models import Empreendimento, Mov_Financeira, Categoria_Financeira, Usuario, Categoria_Usuario
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
