@@ -303,15 +303,28 @@ def salvaGastos(request):
         return redirect('listaEmpreendimento')
 
 # Exibe os gastos
+@login_required
 def listaGastos(request):
-    gastos = Mov_Financeira.objects.filter(A_pagar=True).order_by('Empreendimento_id')
-    emp = Empreendimento.objects.all()
-    context = {'gastos': gastos, 'emp': emp}
-    
-    if request.user.is_authenticated:
-        return render(request, 'appteste/Gastos/listaGastos.html', context)
+    if (request.method == 'POST'):
+        categoria = request.POST.get('categoria')
+        data1 = request.POST.get('data1')
+        data2 = request.POST.get('data2')
+        empreendimento = request.POST.get('empreendimento')
+        gastos = Mov_Financeira.objects.filter(A_pagar = True)
+        if (categoria != ""):
+            gastos = gastos.filter(Categoria_Financeira = categoria)
+        if (data1 != "" or data2 != ""):
+            gastos = gastos.filter(Data__date__range = (data1, data2))
+        if (empreendimento != ""):
+            gastos = gastos.filter(Empreendimento_id = empreendimento)
     else:
-        return redirect('login')
+        gastos = Mov_Financeira.objects.filter(A_pagar=True).order_by('Empreendimento_id')
+
+    emp = Empreendimento.objects.filter(Ativo=True)
+    categorias = Categoria_Financeira.objects.filter(Ativa=True)
+    context = {'gastos': gastos, 'emp': emp, 'categorias': categorias}
+    
+    return render(request, 'appteste/Gastos/listaGastos.html', context)
 
 # Deleta gasto
 def deleteGasto(request, f_id):
@@ -363,4 +376,21 @@ def listaCategorias(request):
     context = {"obj": obj}
     return render(request, template_name, context)
 
+    categoria = request.POST.get('categoria')
+    data1 = request.POST.get('data1')
+    data2 = request.POST.get('data2')
+    empreendimento = request.POST.get('empreendimento')
+    gastos = Mov_Financeira.objects.filter(A_pagar = True)
+    if (categoria != ""):
+        gastos = gastos.filter(Categoria_Financeira = categoria)
+    if (data1 != "" or data2 != ""):
+        gastos = gastos.filter(Data__date__range = (data1, data2))
+    if (empreendimento != ""):
+        gastos = gastos.filter(Empreendimento_id = empreendimento)
+    
+    emp = Empreendimento.objects.filter(Ativo=True)
+    categorias = Categoria_Financeira.objects.filter(Ativa=True)
+    context = {'gastos': gastos, 'emp': emp, 'categorias': categorias}
+    
+    return render(request, 'appteste/Gastos/listaGastos.html', context)
 #============================================================================

@@ -14,46 +14,43 @@
             
             <button class="btn btn-success" onclick="exportTableToCSV('tabela', 'dados.csv')">Exportar para .csv</button>
         </div>
-
+        <br>
         <!-- Filtros -->
-        <form method="GET" class="mb-4">
+        <form method="POST" class="mb-4">
+            {% csrf_token %}
             <div class="row">
                 <!-- Filtro de Categoria -->
                 <div class="col-md-3">
                     <select class="form-control" name="categoria">
                         <option value="">Selecione uma Categoria</option>
-                        {% for categoria in categorias %}
-                        <option value="{{ categoria.id }}" {% if categoria.id == selected_categoria %}selected{% endif %}>
-                            {{ categoria.Nome }}
-                        </option>
+                        {% for c in categorias %}
+                        <option value="{{ c.id }}">{{ c.Descricao }}</option>
                         {% endfor %}
                     </select>
                 </div>
 
                 <!-- Filtro de Data -->
                 <div class="col-md-3">
-                    <input type="date" name="data" class="form-control" value="{{ selected_data }}">
+                    <input type="date" name="data1" class="form-control">
                 </div>
 
                 <!-- Filtro de Valor -->
                 <div class="col-md-3">
-                    <input type="number" step="0.01" name="valor" class="form-control" value="{{ selected_valor }}">
+                    <input type="date" name="data2" class="form-control">
                 </div>
 
                 <!-- Filtro de Empreendimento -->
                 <div class="col-md-3">
                     <select class="form-control" name="empreendimento">
                         <option value="">Selecione um Empreendimento</option>
-                        {% for empreendimento in empreendimentos %}
-                        <option value="{{ empreendimento.id }}" {% if empreendimento.id == selected_empreendimento %}selected{% endif %}>
-                            {{ empreendimento.Nome }}
-                        </option>
+                        {% for e in emp %}
+                        <option value="{{ e.id }}">{{ e.Nome }}</option>
                         {% endfor %}
                     </select>
                 </div>
             </div>
 
-            <button type="submit" class="btn btn-primary mt-3">Filtrar</button>
+            <button type="submit" class="btn btn-primary mt-3"><a href="{% url 'listaGastos' %}"></a>Filtrar</button>
         </form>
 
         <br>
