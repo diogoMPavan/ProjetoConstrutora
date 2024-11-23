@@ -13,7 +13,7 @@ urlpatterns = [
     path("mostraCategorias/", views.mostraCategoria, name="mostraCategorias"),
     path('cadGastos/<int:f_id>', views.cadGastos, name="cadGastos"),
     #============================= USUARIO ===================================
-    path("cadUsuario/", views.cadUsuario, name="cadUsuario"),
+    path("register/", views.register, name="register"),
     path("mostrarUsuarios/", views.mostrarUsuarios, name="mostrar"),
     path('update/<int:f_id>', views.updateUsuario, name="updateUsuario"),
     path('del/<int:f_id>', views.deleteUsuario, name="deleteUsuario"),

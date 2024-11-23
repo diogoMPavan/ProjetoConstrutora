@@ -21,13 +21,12 @@ from django.conf import settings
 from django.views.generic import TemplateView
 from django.contrib.auth import views as auth_views
 from .forms import CustomLoginForm
-from appteste.views import cadUsuario
+from appteste.views import register
 
 #aqui é onde são colocadas as rotas que irão nortear o site
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/', include('django.contrib.auth.urls')),
     path('tinymce/', include('tinymce.urls')),
-    path('register/', cadUsuario, name='register'),
     path("", include("appteste.urls")),
 ]

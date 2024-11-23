@@ -1,3 +1,5 @@
+import json
+from multiprocessing.managers import BaseManager
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, JsonResponse
 from django.contrib import messages
@@ -10,34 +12,34 @@ from django.contrib.auth.models import User, Group
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from django.contrib.auth import login, logout, authenticate
-
+from .models import Empreendimento, Mov_Financeira, Categoria_Financeira, Usuario, Categoria_Usuario
+from django.contrib.auth.forms import UserCreationForm, UserChangeForm
+from .forms import RegisterUserForm, UpdateUserForm
+from django.contrib.auth.decorators import login_required
 
 #aqui 'aponta' para determinada tela nos templates
 #============================== Abre telas ==================================
 
 # Home
+@login_required
 def home(request):
-    if request.user.is_authenticated:
-        return render(request, 'home.html') 
-    else:
-        return redirect("login")
+    return render(request, 'home.html') 
 
 def login(request):
     return render(request=request,
                   template_name='registration/login.html')
     
+@login_required    
 def listaUsuario(request):
     usr = get_user_model()
     obj = usr.objects.filter(is_active=True)
     template_name = "appteste/Usuario/listaUsuario.html"
     context = {"usr": obj}
 
-    if request.user.is_authenticated:
-        return render(request, template_name, context)
-    else:
-        return redirect('login')
+    return render(request, template_name, context)
 
 # Lista de Empreendimentos com busca
+@login_required
 def listaEmpreendimento(request):
     # Pega os parâmetros de pesquisa
     nome = request.GET.get('nome', '')
@@ -76,68 +78,53 @@ def listaEmpreendimento(request):
         "cidade": cidade,
     }
 
-    if request.user.is_authenticated:
-        return render(request, 'appteste/Empreendimento/listaEmpreendimento.html', context)
-    else:
-        return redirect('login')
+
+    return render(request, 'appteste/Empreendimento/listaEmpreendimento.html', context)
 
 
 # Cadastro de Empreendimento
+@login_required
 def cadEmpreendimento(request):
     obj = Empreendimento.objects.filter(Ativo=True)
     context = {"obj": obj, "uf": ufbr.list_uf}
-    
-    if request.user.is_authenticated:
-        return render(request, 'appteste/Empreendimento/manutencaoEmpreendimento.html', context) 
-    else:
-        return redirect('login')
+
+    return render(request, 'appteste/Empreendimento/manutencaoEmpreendimento.html', context) 
+ 
 
 # Cadastro de Gastos
+@login_required
 def cadGastos(request, f_id):
     emp = Empreendimento.objects.get(id=f_id)
     cat = Categoria_Financeira.objects.filter(Ativa=True)
     context = {'empreendimentos': emp, 'categoria': cat}
     
-    if request.user.is_authenticated:
-        return render(request, 'appteste/Gastos/cadGastos.html', context)
-    else:
-        return redirect('login')
+
+    return render(request, 'appteste/Gastos/cadGastos.html', context)
 
 #============================================================================
 
 #========================== USUÁRIO ================================
+@login_required
 def register(request):  
-    if request.POST == 'POST':  
-        form = RegisterUserForm()  
-        if form.is_valid():  
-            form.save()  
-    else:  
-        form = RegisterUserForm()  
-    context = {  
-        'form':form  
-    }  
-    return render(request, 'register.html', context)  
-def cadUsuario(request):
-    if request.method == 'POST':
-        group = Group.objects.get(user = request.user)
-        if group.name == 'ADMIN':
-            form = RegisterUserForm(request.POST)
-            if form.is_valid():
-                form.save()
-                print(form)
-                messages.success(request, "Usuario criado com sucesso!")
+    if request.method == 'POST':  
+        form = RegisterUserForm(request.POST)  
+        if form.is_valid(): 
+            tst = User.objects.filter(username
+                                      =form.data.get('username'))
+            if (form.data.get('password1') == form.data.get('password2') and tst.exists() == False):
+                User.objects.create_user(username=form.data.get('username'),email=form.data.get('email') ,
+                                     password=form.data.get('password1'), is_staff=True)
+                user = User.objects.get(username=form.data.get('username'))
+                grupo = Group.objects.get(name = 'PADRAO')
+                user.groups.add(grupo)
+                return redirect('home') 
+            else:
+                return render(request, 'register.html', {'form': form}) 
         else:
-            messages.error(request, "Seu usuário não tem permissão para criar um novo usuário")
-
-        usr = get_user_model()
-        obj = usr.objects.all().filter(is_active=True)
-        template_name = "appteste/Usuario/listaUsuario.html"
-        context = {"usr": obj}
-        return render(request, template_name, context)
+            return render(request, 'register.html', {'form': form})    
     else:
         form = RegisterUserForm()
-        context = {'form': form}
-        return render(request, 'register.html', context)
+        return render(request, 'register.html', {'form': form})
 
 # Exibe a lista de usuários ativos
 def mostrarUsuarios(request):
@@ -153,9 +140,9 @@ def mostrarUsuarios(request):
 
 # Deleta usuário
 def deleteUsuario(request, f_id):
-    usuario = Usuario.objects.get(id=f_id)
+    usuario = User.objects.get(id=f_id)
     if request.method == "POST":
-        usuario.Ativo = False
+        usuario.is_active = False
         usuario.save()
         return redirect('listaUsuario')
     
@@ -167,13 +154,14 @@ def deleteUsuario(request, f_id):
 def updateUsuario(request, f_id):
     usuario = User.objects.get(id=f_id)
     if request.method == "POST":
-       form = UserChangeForm(request.POST)
+       form = UpdateUserForm(request.POST)
        if form.is_valid():
-          form.save()
-          messages.success(request, "Usuario atualizado com sucesso!")
+          usuario.username = form.data.get('username')
+          usuario.email = form.data.get('email')
+          usuario.save()
           return redirect("listaUsuario")
     template_name = "appteste/Usuario/updateUser.html"
-    form = UserChangeForm()
+    form = UpdateUserForm()
     return render(request, template_name, {"usuario": usuario, "form": form})
 
 #============================================================================
