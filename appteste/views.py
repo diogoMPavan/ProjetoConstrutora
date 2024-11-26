@@ -297,13 +297,16 @@ def listaGastos(request):
     if (request.method == 'POST'):
         categoria = request.POST.get('categoria')
         data1 = request.POST.get('data1')
+        data1 = datetime.strptime(data1, '%Y-%m-%d')
         data2 = request.POST.get('data2')
+        data2 = datetime.strptime(data2, '%Y-%m-%d')
+        print(data1, data2)
         empreendimento = request.POST.get('empreendimento')
         gastos = Mov_Financeira.objects.filter(A_pagar = True)
         if (categoria != ""):
             gastos = gastos.filter(Categoria_Financeira = categoria)
         if (data1 != "" or data2 != ""):
-            gastos = gastos.filter(Data__date__range = (data1, data2))
+            gastos = gastos.filter(Data__gte=data1, Data__lte=data2)
         if (empreendimento != ""):
             gastos = gastos.filter(Empreendimento_id = empreendimento)
     else:
