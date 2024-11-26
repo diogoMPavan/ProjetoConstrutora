@@ -25,6 +25,7 @@ from .models import Empreendimento, Mov_Financeira, Categoria_Financeira, Usuari
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from .forms import RegisterUserForm, UpdateUserForm
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import user_passes_test
 
 #aqui 'aponta' para determinada tela nos templates
 #============================== Abre telas ==================================
@@ -38,7 +39,7 @@ def login(request):
     return render(request=request,
                   template_name='registration/login.html')
     
-@login_required    
+@login_required   
 def listaUsuario(request):
     usr = get_user_model()
     obj = usr.objects.filter(is_active=True)
@@ -83,6 +84,7 @@ def listaEmpreendimento(request):
 
 # Cadastro de Empreendimento
 @login_required
+@user_passes_test(lambda u: u.is_superuser, login_url='/listaEmpreendimento/')
 def cadEmpreendimento(request):
     obj = Empreendimento.objects.filter(Ativo=True)
     context = {"obj": obj, "uf": ufbr.list_uf}
@@ -137,6 +139,7 @@ def mostrarUsuarios(request):
         return redirect('login')
 
 # Deleta usuário
+@user_passes_test(lambda u: u.is_superuser, login_url='/mostrarUsuarios/')
 def deleteUsuario(request, f_id):
     usuario = User.objects.get(id=f_id)
     if request.method == "POST":
@@ -149,6 +152,7 @@ def deleteUsuario(request, f_id):
     return render(request, template_name, context)
     
 # Atualiza os dados do usuário
+@user_passes_test(lambda u: u.is_superuser, login_url='/mostrarUsuarios/')
 def updateUsuario(request, f_id):
     usuario = User.objects.get(id=f_id)
     if request.method == "POST":
@@ -167,6 +171,7 @@ def updateUsuario(request, f_id):
 #===================================== EMPREENDIMENTO =======================================
 
 # Salva um novo empreendimento
+@user_passes_test(lambda u: u.is_superuser, login_url='/listaEmpreendimento/')
 def salvaEmpreendimento(request):
     if request.method == "POST":
         nome = request.POST.get('nome')
@@ -198,6 +203,7 @@ def salvaEmpreendimento(request):
         return redirect('listaEmpreendimento')
 
 # Deleta empreendimento
+@user_passes_test(lambda u: u.is_superuser, login_url='/listaEmpreendimento/')
 def deleteEmpreendimento(request, f_id):
     emp = Empreendimento.objects.get(id=f_id)
     if request.method == "POST":
@@ -210,6 +216,7 @@ def deleteEmpreendimento(request, f_id):
     return render(request, template_name, context)
 
 # Atualiza empreendimento
+@user_passes_test(lambda u: u.is_superuser, login_url='/listaEmpreendimento/')
 def updateEmpreendimento(request, f_id):
     emp = Empreendimento.objects.get(id=f_id)
     if request.method == "POST":
@@ -297,10 +304,11 @@ def listaGastos(request):
     if (request.method == 'POST'):
         categoria = request.POST.get('categoria')
         data1 = request.POST.get('data1')
-        data1 = datetime.strptime(data1, '%Y-%m-%d')
+        if data1:
+            data1 = datetime.strptime(data1, '%Y-%m-%d')
         data2 = request.POST.get('data2')
-        data2 = datetime.strptime(data2, '%Y-%m-%d')
-        print(data1, data2)
+        if data2:
+            data2 = datetime.strptime(data2, '%Y-%m-%d')
         empreendimento = request.POST.get('empreendimento')
         gastos = Mov_Financeira.objects.filter(A_pagar = True)
         if (categoria != ""):
