@@ -50,46 +50,36 @@ def listaUsuario(request):
 # Lista de Empreendimentos com busca
 @login_required
 def listaEmpreendimento(request):
-    # Pega os parâmetros de pesquisa
-    nome = request.GET.get('nome', '')
-    descricao = request.GET.get('descricao', '')
-    uf = request.GET.get('uf', '')
-    cidade = request.GET.get('cidade', '')
 
-    # Filtragem de empreendimentos com base nos parâmetros
     empreendimentos = Empreendimento.objects.filter(Ativo=True)
 
-    # Aplicando os filtros, se os campos de pesquisa estiverem preenchidos
-    if nome:
-        empreendimentos = empreendimentos.filter(Nome__icontains=nome)
-    if descricao:
-        empreendimentos = empreendimentos.filter(Descricao__icontains=descricao)
-    if uf:
-        empreendimentos = empreendimentos.filter(UF__icontains=uf)
-    if cidade:
-        empreendimentos = empreendimentos.filter(Cidade__icontains=cidade)
+    if request.method == 'POST':
+        nome = request.POST.get('nome')
+        descricao = request.POST.get('descricao')
+        uf = request.POST.get('uf')
+        cidade = request.POST.get('cidade')
 
-    # Paginação
-    paginator = Paginator(empreendimentos, 5)  # 5 por página
+        if nome:
+            empreendimentos = empreendimentos.filter(Nome=nome)
+        if descricao:
+            empreendimentos = empreendimentos.filter(Descricao__icontains=descricao)
+        if uf:
+            empreendimentos = empreendimentos.filter(UF__icontains=uf)
+        if cidade:
+            empreendimentos = empreendimentos.filter(Cidade__icontains=cidade)
+
+    paginator = Paginator(empreendimentos, 5)
     page_number = request.GET.get('page')
-    page_obj = paginator.get_page(page_number)
+    empreendimentos = paginator.get_page(page_number)
 
-    # Movimentos financeiros pendentes
     mov_fin = Mov_Financeira.objects.filter(A_pagar=True)
 
-    # Contexto para passar para o template
     context = {
-        "emp": page_obj,
+        "emp": empreendimentos,
         "mov_fin": mov_fin,
-        "nome": nome,
-        "descricao": descricao,
-        "uf": uf,
-        "cidade": cidade,
     }
-
-
+    
     return render(request, 'appteste/Empreendimento/listaEmpreendimento.html', context)
-
 
 # Cadastro de Empreendimento
 @login_required
@@ -99,7 +89,6 @@ def cadEmpreendimento(request):
 
     return render(request, 'appteste/Empreendimento/manutencaoEmpreendimento.html', context) 
  
-
 # Cadastro de Gastos
 @login_required
 def cadGastos(request, f_id):

@@ -5,7 +5,8 @@
 <head>
     {% load static %}
     <link href="{% static 'css/listas.css' %}" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.5/font/bootstrap-icons.min.css">
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.5/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <style>
@@ -23,12 +24,17 @@
         </div>
 
         <!-- Formulário de filtro -->
-        <form method="get" action="{% url 'listaEmpreendimento' %}">
+        <form method="post" action="{% url 'listaEmpreendimento' %}">
+            {% csrf_token %}
             <div class="input-group mb-3">
-                <input type="text" class="form-control" name="nome" value="{{ nome }}" placeholder="Buscar por nome..." aria-label="Buscar por nome">
-                <input type="text" class="form-control" name="descricao" value="{{ descricao }}" placeholder="Buscar por descrição..." aria-label="Buscar por descrição">
-                <input type="text" class="form-control" name="uf" value="{{ uf }}" placeholder="Buscar por UF..." aria-label="Buscar por UF">
-                <input type="text" class="form-control" name="cidade" value="{{ cidade }}" placeholder="Buscar por cidade..." aria-label="Buscar por cidade">
+                <input type="text" class="form-control" name="nome" value="{{ nome }}" placeholder="Buscar por nome..."
+                    aria-label="Buscar por nome">
+                <input type="text" class="form-control" name="descricao" value="{{ descricao }}"
+                    placeholder="Buscar por descrição..." aria-label="Buscar por descrição">
+                <input type="text" class="form-control" name="uf" value="{{ uf }}" placeholder="Buscar por UF..."
+                    aria-label="Buscar por UF">
+                <input type="text" class="form-control" name="cidade" value="{{ cidade }}"
+                    placeholder="Buscar por cidade..." aria-label="Buscar por cidade">
                 <button class="btn btn-outline-secondary" type="submit"><i class="bi bi-search"></i></button>
             </div>
         </form>
@@ -37,7 +43,6 @@
             <thead class="table-dark">
                 <tr>
                     <th style="background-color: #28A394;"></th>
-                    <th style="background-color: #28A394;">Id</th>
                     <th style="background-color: #28A394;">Nome</th>
                     <th style="background-color: #28A394;">Descrição</th>
                     <th style="background-color: #28A394;">Data de Início</th>
@@ -53,7 +58,6 @@
                 {% for e in emp %}
                 <tr>
                     <td><button class="btn btn-light btn-sm" onclick="esconderLinha(this)">+</button></td>
-                    <td>{{ e.id }}</td>
                     <td>{{ e.Nome }}</td>
                     <td>{{ e.Descricao }}</td>
                     <td>{{ e.Data_inicio }}</td>
@@ -69,8 +73,10 @@
                         {% endif %}
                     </td>
                     <td>
-                        <a href="{% url 'updateEmp' e.id %}" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i></a>
-                        <a href="{% url 'deleteEmp' e.id %}" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
+                        <a href="{% url 'updateEmp' e.id %}" class="btn btn-warning btn-sm"><i
+                                class="fas fa-edit"></i></a>
+                        <a href="{% url 'deleteEmp' e.id %}" class="btn btn-danger btn-sm"><i
+                                class="fas fa-trash"></i></a>
                     </td>
                 </tr>
                 <tr class="nested-table hidden">
@@ -105,8 +111,10 @@
                                         <td>{{ m.Categoria_Financeira }}</td>
                                         <td>{{ m.Usuario }}</td>
                                         <td>
-                                            <a href="{% url 'updateGasto' m.id %}" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i></a>
-                                            <a href="{% url 'deleteGasto' m.id %}" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
+                                            <a href="{% url 'updateGasto' m.id %}" class="btn btn-warning btn-sm"><i
+                                                    class="fas fa-edit"></i></a>
+                                            <a href="{% url 'deleteGasto' m.id %}" class="btn btn-danger btn-sm"><i
+                                                    class="fas fa-trash"></i></a>
                                         </td>
                                         {% endif %}
                                     </tr>
@@ -117,10 +125,12 @@
                         <div style="text-align: center;">
                             <table style="display: inline-table;">
                                 <tr>
-                                    <td><a href="{% url 'cadGastos' e.id %}" style="color: black;"><u><i>Novo Gasto</i></u></a></td>
+                                    <td><a href="{% url 'cadGastos' e.id %}" style="color: black;"><u><i>Novo
+                                                    Gasto</i></u></a></td>
                                 </tr>
                                 <tr>
-                                    <td><a href="{% url 'listaGastos' %}" style="color: black;"><u><i>Todos os Gastos</i></u></a></td>
+                                    <td><a href="{% url 'listaGastos' %}" style="color: black;"><u><i>Todos os
+                                                    Gastos</i></u></a></td>
                                 </tr>
                             </table>
                         </div>
@@ -135,19 +145,29 @@
             <nav aria-label="Navegação de página">
                 <ul class="pagination">
                     {% if emp.has_previous %}
-                    <li class="page-item"><a class="page-link" href="?page=1&nome={{ nome }}&descricao={{ descricao }}&uf={{ uf }}&cidade={{ cidade }}">Primeira</a></li>
-                    <li class="page-item"><a class="page-link" href="?page={{ emp.previous_page_number }}&nome={{ nome }}&descricao={{ descricao }}&uf={{ uf }}&cidade={{ cidade }}">Anterior</a></li>
+                    <li class="page-item"><a class="page-link"
+                            href="?page=1&nome={{ nome }}&descricao={{ descricao }}&uf={{ uf }}&cidade={{ cidade }}">Primeira</a>
+                    </li>
+                    <li class="page-item"><a class="page-link"
+                            href="?page={{ emp.previous_page_number }}&nome={{ nome }}&descricao={{ descricao }}&uf={{ uf }}&cidade={{ cidade }}">Anterior</a>
+                    </li>
                     {% endif %}
 
                     {% for i in emp.paginator.page_range %}
                     <li class="page-item {% if emp.number == i %}active{% endif %}">
-                        <a class="page-link" href="?page={{ i }}&nome={{ nome }}&descricao={{ descricao }}&uf={{ uf }}&cidade={{ cidade }}">{{ i }}</a>
+                        <a class="page-link"
+                            href="?page={{ i }}&nome={{ nome }}&descricao={{ descricao }}&uf={{ uf }}&cidade={{ cidade }}">{{
+                            i }}</a>
                     </li>
                     {% endfor %}
 
                     {% if emp.has_next %}
-                    <li class="page-item"><a class="page-link" href="?page={{ emp.next_page_number }}&nome={{ nome }}&descricao={{ descricao }}&uf={{ uf }}&cidade={{ cidade }}">Próxima</a></li>
-                    <li class="page-item"><a class="page-link" href="?page={{ emp.paginator.num_pages }}&nome={{ nome }}&descricao={{ descricao }}&uf={{ uf }}&cidade={{ cidade }}">Última</a></li>
+                    <li class="page-item"><a class="page-link"
+                            href="?page={{ emp.next_page_number }}&nome={{ nome }}&descricao={{ descricao }}&uf={{ uf }}&cidade={{ cidade }}">Próxima</a>
+                    </li>
+                    <li class="page-item"><a class="page-link"
+                            href="?page={{ emp.paginator.num_pages }}&nome={{ nome }}&descricao={{ descricao }}&uf={{ uf }}&cidade={{ cidade }}">Última</a>
+                    </li>
                     {% endif %}
                 </ul>
             </nav>
@@ -166,7 +186,7 @@
         }
     </script>
 
-{% endblock %}
+    {% endblock %}
 </body>
 
 </html>
