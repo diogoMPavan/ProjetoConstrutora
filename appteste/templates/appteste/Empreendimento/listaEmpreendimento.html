@@ -144,32 +144,48 @@
         <div class="d-flex justify-content-center">
             <nav aria-label="Navegação de página">
                 <ul class="pagination">
+                    <!-- Botão "Primeira Página" -->
                     {% if emp.has_previous %}
-                    <li class="page-item"><a class="page-link"
-                            href="?page=1&nome={{ nome }}&descricao={{ descricao }}&uf={{ uf }}&cidade={{ cidade }}">Primeira</a>
-                    </li>
-                    <li class="page-item"><a class="page-link"
-                            href="?page={{ emp.previous_page_number }}&nome={{ nome }}&descricao={{ descricao }}&uf={{ uf }}&cidade={{ cidade }}">Anterior</a>
-                    </li>
+                        <li class="page-item">
+                            <a class="page-link"
+                                href="?page=1&nome={{ nome|default:'' }}&descricao={{ descricao|default:'' }}&uf={{ uf|default:'' }}&cidade={{ cidade|default:'' }}">
+                                Primeira
+                            </a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link"
+                                href="?page={{ emp.previous_page_number }}&nome={{ nome|default:'' }}&descricao={{ descricao|default:'' }}&uf={{ uf|default:'' }}&cidade={{ cidade|default:'' }}">
+                                Anterior
+                            </a>
+                        </li>
                     {% endif %}
-
+                
+                    <!-- Botões de Número da Página -->
                     {% for i in emp.paginator.page_range %}
-                    <li class="page-item {% if emp.number == i %}active{% endif %}">
-                        <a class="page-link"
-                            href="?page={{ i }}&nome={{ nome }}&descricao={{ descricao }}&uf={{ uf }}&cidade={{ cidade }}">{{
-                            i }}</a>
-                    </li>
+                        <li class="page-item {% if emp.number == i %}active{% endif %}">
+                            <a class="page-link"
+                                href="?page={{ i }}&nome={{ nome|default:'' }}&descricao={{ descricao|default:'' }}&uf={{ uf|default:'' }}&cidade={{ cidade|default:'' }}">
+                                {{ i }}
+                            </a>
+                        </li>
                     {% endfor %}
-
+                
+                    <!-- Botão "Próxima Página" -->
                     {% if emp.has_next %}
-                    <li class="page-item"><a class="page-link"
-                            href="?page={{ emp.next_page_number }}&nome={{ nome }}&descricao={{ descricao }}&uf={{ uf }}&cidade={{ cidade }}">Próxima</a>
-                    </li>
-                    <li class="page-item"><a class="page-link"
-                            href="?page={{ emp.paginator.num_pages }}&nome={{ nome }}&descricao={{ descricao }}&uf={{ uf }}&cidade={{ cidade }}">Última</a>
-                    </li>
+                        <li class="page-item">
+                            <a class="page-link"
+                                href="?page={{ emp.next_page_number }}&nome={{ nome|default:'' }}&descricao={{ descricao|default:'' }}&uf={{ uf|default:'' }}&cidade={{ cidade|default:'' }}">
+                                Próxima
+                            </a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link"
+                                href="?page={{ emp.paginator.num_pages }}&nome={{ nome|default:'' }}&descricao={{ descricao|default:'' }}&uf={{ uf|default:'' }}&cidade={{ cidade|default:'' }}">
+                                Última
+                            </a>
+                        </li>
                     {% endif %}
-                </ul>
+                </ul>                
             </nav>
         </div>
 
