@@ -52,7 +52,6 @@
             </div>
             <div class="mb-3">
                 <label for="custo" class="form-label"><strong>Custo</strong></label>
-                <p>Valor decimal: {{emp.Valor_total|floatformat:2}}</p>
                 <input type="number" class="form-control" id="custo" name="custo" placeholder="Custo" required="True"
                     step="0.01" value="{{emp.Valor_total|stringformat:'s'}}">
             </div>
